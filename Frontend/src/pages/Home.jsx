@@ -205,13 +205,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Single-Line Desktop Heading & 1fr 520px Grid) */}
+      {/* 5. Smart Product Matching Section (Tailored Marketing Copy + 3 Compact Benefit Points) */}
       <section className="smart-product-section">
         <div className="smart-product-container">
           <div className="smart-product-grid">
-            {/* Left Column */}
+            {/* Left Column: Marketing Content & Benefit List */}
             <div>
-              <span className="eyebrow" style={{ marginBottom: '28px' }}>
+              <span className="eyebrow" style={{ marginBottom: '24px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
@@ -221,29 +221,86 @@ const Home = () => {
               </h2>
 
               <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '580px' }}>
-                Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
+                Find skincare products tailored to your skin type, concerns, and ingredient preferences. Select your profile and let Radiant match relevant formulations from the product catalog.
               </p>
 
-              <Link
-                to="/products"
-                className="btn btn-primary"
-                style={{
-                  height: '56px',
-                  padding: '0 2rem',
-                  borderRadius: '14px',
-                  fontSize: '0.975rem',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.65rem'
-                }}
-              >
-                Explore Product Catalog <ArrowRightIcon size={18} style={{ color: '#FFFFFF' }} />
-              </Link>
+              {/* 3 Compact Benefit Points */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '580px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(124, 58, 237, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }}>
+                    <CheckIcon size={14} style={{ color: '#7C3AED' }} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
+                      Skin-aware matching
+                    </strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
+                      Recommendations based on your selected skin profile.
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(236, 72, 153, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }}>
+                    <CheckIcon size={14} style={{ color: '#EC4899' }} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
+                      Ingredient-focused
+                    </strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
+                      Connect skin concerns with relevant active ingredients.
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(124, 58, 237, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }}>
+                    <CheckIcon size={14} style={{ color: '#7C3AED' }} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
+                      Personalized picks
+                    </strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
+                      Discover products that fit your skincare routine.
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right Column: Quick Product Matcher Card (520px width on desktop) */}
+            {/* Right Column: Quick Product Matcher Card */}
             <div
               className="card"
               style={{

@@ -526,7 +526,7 @@ label {
   background-color: #F8F7FF;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  padding: 56px 0;
+  padding: 64px 0;
 }
 
 .smart-product-container {
@@ -539,7 +539,7 @@ label {
   display: grid;
   grid-template-columns: 1fr 520px;
   align-items: center;
-  gap: 56px;
+  gap: 64px;
 }
 
 @media (max-width: 1099px) and (min-width: 768px) {
