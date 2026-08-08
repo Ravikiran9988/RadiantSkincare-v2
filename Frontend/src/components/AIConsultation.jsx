@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 function AIConsultation() {
   const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const [input, setInput] = useState('');
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -221,10 +222,52 @@ function AIConsultation() {
                 <button className="btn btn-primary" onClick={() => navigate('/products')} style={{ flex: 1 }}>
                   <SparklesIcon size={16} /> View Products
                 </button>
-                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')} style={{ flex: 1 }}>
-                  <SparklesIcon size={16} /> View Routine
-                </button>
+                {isLoggedIn ? (
+                  <button className="btn btn-secondary" onClick={() => navigate('/dashboard')} style={{ flex: 1 }}>
+                    <SparklesIcon size={16} /> View Routine
+                  </button>
+                ) : null}
               </div>
+
+              {/* Auth prompt for guests — shown after screening result */}
+              {!isLoggedIn && (
+                <div style={{
+                  backgroundColor: 'var(--soft-lavender)',
+                  border: '1px solid #EDE9FE',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  marginBottom: '1.5rem'
+                }}>
+                  <strong style={{ fontSize: '0.975rem', fontWeight: 700, color: '#171329', display: 'block', marginBottom: '6px' }}>
+                    Save your screening results
+                  </strong>
+                  <p style={{ fontSize: '0.875rem', color: '#625B71', marginBottom: '16px', lineHeight: 1.5 }}>
+                    Create a free account to save your screening results, build your personalized skincare routine, and track your AI screening history.
+                  </p>
+                  <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => navigate('/register')}
+                      style={{ height: '44px', padding: '0 1.25rem', borderRadius: '12px', fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+                    >
+                      Create Free Account →
+                    </button>
+                    <button
+                      onClick={() => navigate('/login')}
+                      style={{
+                        height: '44px', padding: '0 1.25rem', borderRadius: '12px', fontSize: '0.9rem', fontWeight: 600,
+                        color: '#7C3AED', background: 'transparent', border: '1.5px solid #7C3AED',
+                        cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.06)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                    >
+                      Sign In →
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <div className="medical-disclaimer-box">
                 <ShieldIcon size={18} />

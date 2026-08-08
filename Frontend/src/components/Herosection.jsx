@@ -6,13 +6,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleStartAnalysis = () => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/ai-consultation');
-    } else {
-      localStorage.setItem('redirectAfterLogin', '/ai-consultation');
-      navigate('/login');
-    }
+    navigate('/ai-consultation');
   };
 
   const handleExploreProducts = () => {
