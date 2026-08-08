@@ -7,11 +7,11 @@ function About() {
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <span className="eyebrow">
           <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
-          Platform & Architecture
+          AI-POWERED PERSONALIZED SKINCARE
         </span>
         <h1>Why RadiantSkincare?</h1>
         <p className="subheading" style={{ margin: '0.75rem auto 0' }}>
-          RadiantSkincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant skincare products, build routines, and track their skincare journey over time.
+          RadiantSkincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant products, build routines, and review their AI screening history over time.
         </p>
       </div>
 
@@ -25,7 +25,7 @@ function About() {
             <h3 style={{ margin: 0 }}>ResNet50 Vision Screening</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
-            Our deep learning computer vision model analyzes input facial images, evaluating visual features across 23 dermatological categories. The system outputs confidence evaluations to assist preliminary screening.
+            Our deep learning computer vision model evaluates visual features across supported skin screening categories, providing prediction confidence metrics for automated pattern evaluation.
           </p>
         </div>
 
@@ -37,7 +37,7 @@ function About() {
             <h3 style={{ margin: 0 }}>Ingredient Recommendation Engine</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
-            Our machine learning recommendation algorithm pairs user skin types and specific concerns with optimal active ingredients (e.g. Salicylic Acid, Niacinamide, Ceramides, Vitamin C) and application protocols.
+            Our machine learning recommendation algorithm pairs user skin types and specific concerns with commonly used active ingredients (e.g. Salicylic Acid, Niacinamide, Ceramides, Vitamin C) and routine guidance.
           </p>
         </div>
 
@@ -46,10 +46,10 @@ function About() {
             <div style={{ width: '42px', height: '42px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)' }}>
               <CalendarIcon size={22} />
             </div>
-            <h3 style={{ margin: 0 }}>Personalized Routine & Tracking</h3>
+            <h3 style={{ margin: 0 }}>Personalized Routine & History</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
-            Users can build morning and evening skincare routines, log daily step completion, and track screening progress trends across recurring AI analysis check-ins.
+            Users can build morning and evening skincare routines, log daily step completion, and review historical AI screening results and model confidence trends over time.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ function About() {
           <ShieldIcon size={20} style={{ color: 'var(--secondary-pink)' }} /> Medical Safety Notice
         </h3>
         <p style={{ fontSize: '0.9rem', color: 'var(--dark-text)', margin: 0 }}>
-          AI-generated screening information is for informational purposes only and is not a medical diagnosis. If you have a persistent, severe, or concerning skin issue, consult a qualified healthcare professional.
+          AI-generated screening information is for informational purposes only and is not a medical diagnosis. For persistent, severe, or concerning skin issues, consult a qualified healthcare professional.
         </p>
       </div>
     </div>

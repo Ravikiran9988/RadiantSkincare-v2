@@ -59,11 +59,11 @@ const Home = () => {
   };
 
   const ingredientsList = [
-    { name: 'Niacinamide (Vitamin B3)', concern: 'Redness & Pores', description: 'Supports skin barrier function, regulates sebum production, and calms surface redness.' },
-    { name: 'Salicylic Acid (BHA)', concern: 'Acne & Congestion', description: 'Lipid-soluble beta hydroxy acid that exfoliates inside pore linings to clear breakouts.' },
-    { name: 'Hyaluronic Acid', concern: 'Dehydration', description: 'Powerful humectant capable of holding up to 1000x its weight in moisture for plumpness.' },
-    { name: 'Ceramides NP/AP', concern: 'Barrier Repair', description: 'Essential lipids that replenish inter-cellular cement and seal in long-lasting moisture.' },
-    { name: 'L-Ascorbic Acid (Vitamin C)', concern: 'Hyperpigmentation', description: 'Potent antioxidant that neutralizes free radicals and brightens uneven skin tone.' },
+    { name: 'Niacinamide (Vitamin B3)', concern: 'Redness & Pores', description: 'Commonly used in skincare formulations to support the skin barrier and help manage the appearance of oiliness and redness.' },
+    { name: 'Salicylic Acid (BHA)', concern: 'Acne & Congestion', description: 'Commonly used as an exfoliating ingredient to support pore care and skin texture.' },
+    { name: 'Hyaluronic Acid', concern: 'Dehydration', description: 'A humectant commonly used to help attract and retain moisture in the skin.' },
+    { name: 'Ceramides NP/AP', concern: 'Barrier Repair', description: 'Lipids commonly used to support the skin barrier and help maintain moisture.' },
+    { name: 'L-Ascorbic Acid (Vitamin C)', concern: 'Hyperpigmentation', description: 'An antioxidant commonly used in skincare formulations to support brighter, more even-looking skin.' },
   ];
 
   return (
@@ -112,7 +112,7 @@ const Home = () => {
 
           <div className="medical-disclaimer-box" style={{ marginTop: '1.25rem' }}>
             <ShieldIcon size={18} />
-            <span>AI-generated screening information is for informational purposes only and is not a medical diagnosis. Consult a healthcare professional for clinical evaluation.</span>
+            <span>AI-generated screening information is for informational purposes only and is not a medical diagnosis. For persistent, severe, or concerning skin issues, consult a qualified healthcare professional.</span>
           </div>
         </div>
       </section>
@@ -120,10 +120,10 @@ const Home = () => {
       {/* 3. Feature Section: Everything you need for better skincare */}
       <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span className="eyebrow">Personalized AI Skincare MVP</span>
+          <span className="eyebrow">AI-POWERED PERSONALIZED SKINCARE</span>
           <h2>Everything you need for better skincare.</h2>
           <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-            From AI-assisted screening to personalized recommendations, routine building, and screening history tracking over time.
+            From AI-assisted screening to personalized recommendations, routine building, and AI screening history.
           </p>
         </div>
 
@@ -142,7 +142,7 @@ const Home = () => {
             <span className="step-number step-2">02</span>
             <h3>Personalized Recommendations</h3>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-              Discover products and active formulations matched directly to your skin type and specific concerns.
+              Discover products and active ingredients matched to your selected skin type and skincare concerns.
             </p>
           </div>
 
@@ -151,7 +151,7 @@ const Home = () => {
             <span className="step-number step-1">03</span>
             <h3>Personalized Routine</h3>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-              Build a simple morning and evening skincare routine tailored around your skin profile.
+              Build a simple morning and evening skincare routine based on your skin profile, preferences, and recommended products.
             </p>
           </div>
 
@@ -160,7 +160,7 @@ const Home = () => {
             <span className="step-number step-3">04</span>
             <h3>AI Screening History</h3>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-              Save previous AI screening results and track your screening trends and model confidence history over time.
+              Save previous AI screening results and review your screening classifications and model confidence over time.
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ const Home = () => {
               <span className="step-number step-1">01</span>
               <h3>Analyze</h3>
               <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                Upload a clear image of your skin and describe any noticeable symptoms or areas of concern.
+                Upload a clear image of your skin and describe any noticeable areas of concern.
               </p>
             </div>
 
@@ -196,9 +196,9 @@ const Home = () => {
 
             <div className="step-card">
               <span className="step-number step-3">03</span>
-              <h3>Improve</h3>
+              <h3>Personalize</h3>
               <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                Explore personalized products, build your daily routine, and track your screening history over time.
+                Explore relevant products, build your skincare routine, and review your AI screening history over time.
               </p>
             </div>
           </div>
@@ -215,7 +215,7 @@ const Home = () => {
               </span>
               <h2 style={{ marginBottom: '1.15rem', color: '#ffffff' }}>AI that helps you understand your skin.</h2>
               <p style={{ color: '#C4B5FD', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: 1.65 }}>
-                RadiantSkincare uses a ResNet50 convolutional neural network to evaluate visual features across 23 dermatological categories. Machine learning algorithms pair detected concerns with optimal active formulation recommendations.
+                RadiantSkincare uses a ResNet50 convolutional neural network to evaluate visual features across supported skin screening categories. Machine-learning recommendations help connect screening results with relevant skincare ingredients and products.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
@@ -224,11 +224,11 @@ const Home = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Metrics:</strong> Calculates prediction confidence distributions without absolute claims.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Metrics:</strong> Displays the model's prediction confidence for each AI screening result.</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Ingredient Intelligence:</strong> Pairs concerns with evidence-based active ingredients.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Ingredient Intelligence:</strong> Connects supported skincare concerns with commonly used active ingredients.</span>
                 </div>
               </div>
             </div>
@@ -261,10 +261,10 @@ const Home = () => {
       {/* 6. Personalized Skincare Routine Showcase */}
       <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span className="eyebrow">Structured Protocol</span>
+          <span className="eyebrow">Routine Guidance</span>
           <h2>Your Personalized Skincare Routine</h2>
           <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-            Build and maintain a daily morning and evening skincare routine tailored to your skin profile.
+            Build and maintain a daily morning and evening skincare routine based on your skin profile, preferences, and recommended products.
           </p>
         </div>
 
@@ -273,14 +273,14 @@ const Home = () => {
           <div className="card" style={{ borderTop: '4px solid var(--primary-purple)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ margin: 0 }}>Morning Routine</h3>
-              <span className="status-badge">AM Protocol</span>
+              <span className="status-badge">Suggested AM Routine</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-lavender)', borderRadius: 'var(--radius-md)' }}>
                 <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>01</span>
                 <div>
                   <strong style={{ color: 'var(--dark-text)' }}>Gentle Hydrating Cleanser</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Removes overnight oil without stripping moisture</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Removes overnight surface oil without stripping moisture</span>
                 </div>
               </div>
 
@@ -288,7 +288,7 @@ const Home = () => {
                 <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>02</span>
                 <div>
                   <strong style={{ color: 'var(--dark-text)' }}>Antioxidant Serum (Vitamin C / Niacinamide)</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Neutralizes environmental stressors and brightens tone</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Commonly used in skincare routines to support antioxidant care and skin appearance</span>
                 </div>
               </div>
 
@@ -296,7 +296,7 @@ const Home = () => {
                 <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>03</span>
                 <div>
                   <strong style={{ color: 'var(--dark-text)' }}>Lightweight Barrier Moisturizer</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Seals in hydration and strengthens skin barrier</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Helps support the skin barrier and maintain moisture</span>
                 </div>
               </div>
 
@@ -304,7 +304,7 @@ const Home = () => {
                 <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>04</span>
                 <div>
                   <strong style={{ color: 'var(--dark-text)' }}>Broad-Spectrum SPF 50+ Sunscreen</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Essential UV protection against sun damage</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Essential UV protection against daily sun exposure</span>
                 </div>
               </div>
             </div>
@@ -314,30 +314,30 @@ const Home = () => {
           <div className="card" style={{ borderTop: '4px solid var(--secondary-pink)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ margin: 0 }}>Evening Routine</h3>
-              <span className="status-badge pink">PM Protocol</span>
+              <span className="status-badge pink">Suggested PM Routine</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
                 <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>01</span>
                 <div>
-                  <strong style={{ color: 'var(--dark-text)' }}>Double Cleanser / Salicylic Cleanser</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Clears sunscreen, makeup, and daily environmental debris</span>
+                  <strong style={{ color: 'var(--dark-text)' }}>Salicylic Cleanser</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Commonly used to help cleanse excess oil and support pore care</span>
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
                 <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>02</span>
                 <div>
-                  <strong style={{ color: 'var(--dark-text)' }}>Targeted Treatment (BHA / Retinoid / Centella)</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Addresses specific concerns like acne congestion or texture</span>
+                  <strong style={{ color: 'var(--dark-text)' }}>Targeted Treatment Serum (BHA / Centella)</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Formulated for specific skin concerns like oiliness or texture</span>
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
                 <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>03</span>
                 <div>
-                  <strong style={{ color: 'var(--dark-text)' }}>Rich Ceramide Barrier Cream</strong>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Deep overnight nourishment and hydration lock</span>
+                  <strong style={{ color: 'var(--dark-text)' }}>Ceramide Barrier Cream</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Helps support the skin barrier and maintain moisture overnight</span>
                 </div>
               </div>
             </div>
@@ -353,7 +353,7 @@ const Home = () => {
               <span className="eyebrow">Smart Product Engine</span>
               <h2 style={{ marginBottom: '1rem' }}>Smart Product Matching</h2>
               <p className="subheading" style={{ fontSize: '0.95rem', marginBottom: '1.5rem' }}>
-                Find products based on your skin type and specific concerns using our scikit-learn machine learning engine.
+                Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
               </p>
               <Link to="/products" className="btn btn-primary">
                 Explore Product Catalog <ArrowRightIcon size={16} />
@@ -390,7 +390,7 @@ const Home = () => {
 
               {recommendation && (
                 <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                  <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)' }}>Recommended: {recommendation.product_name}</strong>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)' }}>Recommended Match: {recommendation.product_name}</strong>
                   <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
                     <strong>Ingredients:</strong> {recommendation.ingredients}
                   </p>
@@ -471,7 +471,7 @@ const Home = () => {
             <span className="eyebrow">Formulation Science</span>
             <h2>Ingredient Insights</h2>
             <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-              Common active ingredients used in modern personalized skincare formulations.
+              Common active ingredients used in modern skincare formulations.
             </p>
           </div>
 
