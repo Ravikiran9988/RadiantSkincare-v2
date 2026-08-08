@@ -205,22 +205,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (45% / 55% Composition, 72px Gap, 52px Headline, 40px Card Padding) */}
-      <section style={{ backgroundColor: '#F8F7FF', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '48px 0 56px' }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '72px', alignItems: 'center', justifyContent: 'space-between' }}>
-            {/* Left Column (45% Width) */}
-            <div style={{ flex: '1 1 45%', minWidth: '320px', maxWidth: '520px' }}>
+      {/* 5. Smart Product Matching Section (Strict 2-Column CSS Grid) */}
+      <section className="smart-product-section">
+        <div className="smart-product-container">
+          <div className="smart-product-grid">
+            {/* Left Column (Flush left inside 1280px container) */}
+            <div>
               <span className="eyebrow" style={{ marginBottom: '24px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
 
-              <h2 style={{ fontSize: 'clamp(2.25rem, 3.8vw, 3.15rem)', fontWeight: 750, color: '#171329', marginBottom: '18px', lineHeight: 1.08, letterSpacing: '-0.02em' }}>
+              <h2 style={{ fontSize: 'clamp(2.25rem, 3.8vw, 3.25rem)', fontWeight: 700, color: '#171329', marginBottom: '18px', lineHeight: 1.08 }}>
                 Smart Product Matching
               </h2>
 
-              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '480px' }}>
+              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '600px' }}>
                 Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
               </p>
 
@@ -243,17 +243,14 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Right Column: Quick Product Matcher Card (55% Width, Max-width 580px) */}
+            {/* Right Column: Quick Product Matcher Card (Fixed width 560px on desktop) */}
             <div
               className="card"
               style={{
-                flex: '1 1 50%',
-                minWidth: '320px',
-                maxWidth: '580px',
                 backgroundColor: '#FFFFFF',
                 border: '1px solid #EDE9FE',
                 borderRadius: '24px',
-                padding: '40px',
+                padding: '36px 40px',
                 boxShadow: '0 12px 40px rgba(124, 58, 237, 0.08)'
               }}
             >

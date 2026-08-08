@@ -520,3 +520,39 @@ label {
     grid-template-columns: 1fr;
   }
 }
+
+/* Smart Product Matching Section Layout (Strict 2-Column Desktop Grid) */
+.smart-product-section {
+  background-color: #F8F7FF;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 56px 0;
+}
+
+.smart-product-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.smart-product-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 560px;
+  align-items: center;
+  gap: 64px;
+}
+
+@media (max-width: 1023px) {
+  .smart-product-section {
+    padding: 40px 0;
+  }
+
+  .smart-product-container {
+    padding: 0 20px;
+  }
+
+  .smart-product-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
