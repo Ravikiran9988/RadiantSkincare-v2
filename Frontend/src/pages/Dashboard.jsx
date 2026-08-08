@@ -15,11 +15,8 @@ import {
   SparklesIcon,
   UploadIcon,
   CheckIcon,
-  CalendarIcon,
   StethoscopeIcon,
-  SunIcon,
-  DropletIcon,
-  InfoIcon
+  SunIcon
 } from '../components/Icons';
 import './Dashboard.css';
 
@@ -112,13 +109,13 @@ function Dashboard() {
       tip = 'High humidity detected. Use lightweight oil-free gel moisturizers and non-comedogenic sunscreen.';
       products = ['Niacinamide Mattifying Gel', 'SPF 50 Mineral Light Fluid'];
     } else if (condition.includes('clear') || condition.includes('sunny') || temp > 30) {
-      tip = 'Sunny & warm weather. Reapply broad-spectrum sunscreen every 2 hours and maintain hydration.';
+      tip = 'Sunny & warm climate. Reapply broad-spectrum sunscreen every 2 hours and maintain skin hydration.';
       products = ['Broad-Spectrum SPF 50+ Sunscreen', 'Hydrating Botanical Facial Mist'];
     } else if (condition.includes('cold') || temp < 15) {
       tip = 'Cold climate alert. Protect skin barrier with ceramide rich creams and lip oils.';
       products = ['Ceramide Barrier Repair Cream', 'Nourishing Hydrating Lip Serum'];
     } else {
-      tip = 'Balanced weather today. Maintain gentle daily cleansing, antioxidant serum, and SPF.';
+      tip = 'Balanced climate today. Maintain gentle daily cleansing, antioxidant serum, and SPF.';
       products = ['Gentle Hydrating Cleanser', 'Daily Barrier Protection Lotion'];
     }
 
@@ -239,62 +236,62 @@ function Dashboard() {
 
   return (
     <div className="page-container">
-      {/* 1. SaaS Dashboard Header */}
+      {/* 1. Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <span className="eyebrow">User Dashboard</span>
+        <span className="eyebrow">Personal Dashboard</span>
         <h1>Good morning, {userInfo?.username || 'User'}</h1>
-        <p style={{ color: 'var(--slate-600)' }}>Track your AI skin screening history, daily routines, and doctor consultations</p>
+        <p style={{ color: 'var(--secondary-text)' }}>Track your AI skin screening history, daily routines, and doctor consultations</p>
       </div>
 
       {/* 2. Overview Metric Cards */}
       <div className="grid-4" style={{ marginBottom: '2.5rem' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Recent Screening</span>
-            <ScanIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Latest Skin Analysis</span>
+            <ScanIcon size={18} style={{ color: 'var(--primary-purple)' }} />
           </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
-            {analysisHistory[0]?.result ? analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result : 'No recent evaluation'}
-          </div>
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Active Routine</span>
-            <CheckIcon size={18} style={{ color: 'var(--primary-teal)' }} />
-          </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
-            {routineChecklist.filter(i => i.done).length} / {routineChecklist.length} Steps Completed
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+            {analysisHistory[0]?.result ? analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result : 'No recent screening'}
           </div>
         </div>
 
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Recommended Match</span>
-            <SparklesIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Recommended Products</span>
+            <SparklesIcon size={18} style={{ color: 'var(--secondary-pink)' }} />
           </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
             {productRecommendation?.product_name || 'Select concern below'}
           </div>
         </div>
 
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Doctor Consult</span>
-            <StethoscopeIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Upcoming Consultation</span>
+            <StethoscopeIcon size={18} style={{ color: 'var(--primary-purple)' }} />
           </div>
           <button className="btn btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', width: '100%' }} onClick={() => navigate('/consultation')}>
             Book Appointment
           </button>
         </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Skin Routine</span>
+            <CheckIcon size={18} style={{ color: 'var(--secondary-pink)' }} />
+          </div>
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+            {routineChecklist.filter(i => i.done).length} / {routineChecklist.length} Steps Active
+          </div>
+        </div>
       </div>
 
-      {/* 3. Main Dashboard 2-Column Sections */}
+      {/* 3. Main Dashboard Columns */}
       <div className="grid-2" style={{ gap: '2rem', alignItems: 'start' }}>
         {/* Left: AI Screening Form & Results */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-            <ScanIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+            <ScanIcon size={20} style={{ color: 'var(--primary-purple)' }} />
             <h3 style={{ margin: 0 }}>AI Skin Image Screening</h3>
           </div>
 
@@ -306,17 +303,17 @@ function Dashboard() {
                 name="skinIssues"
                 value={form.skinIssues}
                 onChange={handleInputChange}
-                placeholder="e.g. redness, dryness on cheeks, acne flare-up"
+                placeholder="e.g. redness on cheeks, acne flare-up, dry patches"
                 required
               />
             </div>
 
             <div>
-              <label>Skin Photo Upload:</label>
+              <label>Upload Skin Photo:</label>
               <div
                 style={{
-                  border: isDragging ? '2px dashed var(--primary-teal)' : '2px dashed var(--slate-300)',
-                  backgroundColor: isDragging ? 'var(--primary-teal-wash)' : 'var(--slate-100)',
+                  border: isDragging ? '2px dashed var(--primary-purple)' : '2px dashed var(--primary-purple)',
+                  backgroundColor: isDragging ? 'var(--soft-lavender)' : 'var(--soft-lavender)',
                   borderRadius: 'var(--radius-md)',
                   padding: '1.75rem',
                   textAlign: 'center',
@@ -336,17 +333,17 @@ function Dashboard() {
                   required={!form.image}
                 />
                 <label htmlFor="dashboard-file" style={{ cursor: 'pointer', margin: 0 }}>
-                  <UploadIcon size={28} style={{ color: 'var(--slate-500)', marginBottom: '0.5rem' }} />
-                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--slate-800)' }}>
-                    {form.image ? form.image.name : 'Click to select image or drag & drop file'}
+                  <UploadIcon size={28} style={{ color: 'var(--primary-purple)', marginBottom: '0.5rem' }} />
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--dark-text)' }}>
+                    {form.image ? form.image.name : 'Click to upload skin image or drag & drop'}
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)' }}>Supports JPEG, PNG, WebP (Max 5MB)</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Supports JPEG, PNG, WebP (Max 5MB)</span>
                 </label>
               </div>
             </div>
 
             {preview && (
-              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--slate-200)' }}>
+              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
                 <img src={preview} alt="Upload Preview" style={{ maxHeight: '200px', objectFit: 'contain', display: 'block', margin: '0 auto' }} />
               </div>
             )}
@@ -357,20 +354,20 @@ function Dashboard() {
           </form>
 
           {responseMsg && (
-            <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--slate-200)' }}>
+            <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                 <strong style={{ fontSize: '0.95rem' }}>Screening Result:</strong>
                 {confidence && <span className="status-badge">Confidence: {confidence}</span>}
               </div>
-              <p style={{ fontSize: '0.9rem', color: 'var(--slate-800)', marginBottom: '0.75rem' }}>{responseMsg}</p>
+              <p style={{ fontSize: '0.9rem', color: 'var(--dark-text)', marginBottom: '0.75rem' }}>{responseMsg}</p>
               {disease && (
-                <div style={{ backgroundColor: 'var(--slate-100)', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--slate-200)' }}>
-                  <strong style={{ fontSize: '0.85rem', color: 'var(--slate-900)' }}>Category Features: {disease}</strong>
+                <div style={{ backgroundColor: 'var(--soft-lavender)', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                  <strong style={{ fontSize: '0.85rem', color: 'var(--dark-text)' }}>Category Features: {disease}</strong>
                   <div style={{ marginTop: '0.5rem' }}>
                     <button className="btn btn-secondary" style={{ padding: '0.3rem 0.75rem', fontSize: '0.75rem' }} onClick={copyToClipboard}>
                       Copy Result
                     </button>
-                    {copySuccess && <span style={{ fontSize: '0.75rem', color: 'var(--primary-teal)', marginLeft: '0.5rem' }}>{copySuccess}</span>}
+                    {copySuccess && <span style={{ fontSize: '0.75rem', color: 'var(--primary-purple)', marginLeft: '0.5rem' }}>{copySuccess}</span>}
                   </div>
                 </div>
               )}
@@ -382,12 +379,12 @@ function Dashboard() {
           )}
         </div>
 
-        {/* Right: Product Engine & Routine Widgets */}
+        {/* Right: Product Generator & Routine Widgets */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {/* Product Recommender Widget */}
+          {/* Product Matcher Widget */}
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-              <SparklesIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
               <h3 style={{ margin: 0 }}>Product Recommendation Engine</h3>
             </div>
 
@@ -424,24 +421,24 @@ function Dashboard() {
             </form>
 
             {productRecommendation && (
-              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--slate-200)' }}>
-                <strong style={{ fontSize: '0.95rem', color: 'var(--slate-900)', display: 'block', marginBottom: '0.35rem' }}>
+              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+                <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)', display: 'block', marginBottom: '0.35rem' }}>
                   Product Match: {productRecommendation.product_name}
                 </strong>
-                <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>
                   <strong>Ingredients:</strong> {productRecommendation.ingredients}
                 </p>
-                <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)', marginTop: '0.25rem' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
                   <strong>Usage:</strong> {productRecommendation.how_to_use}
                 </p>
               </div>
             )}
           </div>
 
-          {/* Daily Routine Checklist Widget */}
+          {/* Daily Routine Checklist */}
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <CheckIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <CheckIcon size={20} style={{ color: 'var(--primary-purple)' }} />
               <h3 style={{ margin: 0 }}>Daily Routine Checklist</h3>
             </div>
 
@@ -452,9 +449,9 @@ function Dashboard() {
                     type="checkbox"
                     checked={item.done}
                     onChange={() => toggleChecklist(index)}
-                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary-teal)' }}
+                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary-purple)' }}
                   />
-                  <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? 'var(--slate-400)' : 'var(--slate-800)' }}>
+                  <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? 'var(--muted-text)' : 'var(--dark-text)' }}>
                     {item.step}
                   </span>
                 </label>
@@ -462,15 +459,15 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Weather Guidance Widget */}
+          {/* Climate Guidance */}
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-              <SunIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <SunIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
               <h3 style={{ margin: 0 }}>Climate Guidance</h3>
             </div>
-            <p style={{ fontSize: '0.875rem', color: 'var(--slate-600)', marginBottom: '1rem' }}>{weatherTip}</p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--secondary-text)', marginBottom: '1rem' }}>{weatherTip}</p>
             {weatherProducts.length > 0 && (
-              <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--slate-700)', marginBottom: '1rem' }}>
+              <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--dark-text)', marginBottom: '1rem' }}>
                 {weatherProducts.map((p, i) => (
                   <li key={i}>{p}</li>
                 ))}

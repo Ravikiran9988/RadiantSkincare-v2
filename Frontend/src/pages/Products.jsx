@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getRecommendationOptions, getProductRecommendation } from '../services/api';
 import { toast } from 'react-toastify';
-import { SearchIcon, FilterIcon, SparklesIcon, CheckIcon } from '../components/Icons';
+import { SearchIcon, FilterIcon, SparklesIcon, ArrowRightIcon } from '../components/Icons';
 
 function Products() {
   const [concerns, setConcerns] = useState([]);
@@ -70,18 +70,21 @@ function Products() {
     <div className="page-container">
       {/* Header */}
       <div style={{ marginBottom: '2.5rem' }}>
-        <span className="eyebrow">Formulation Engine</span>
-        <h1>Skincare Products & Recommendation Catalog</h1>
-        <p style={{ color: 'var(--slate-600)', maxWidth: '720px', margin: '0.5rem 0 0' }}>
-          Explore curated formulations aligned with targeted active ingredients, or use our machine learning engine to recommend specific products.
+        <span className="eyebrow">
+          <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
+          Formulation Catalog
+        </span>
+        <h1>Discover skincare for your skin.</h1>
+        <p className="subheading" style={{ margin: '0.5rem 0 0' }}>
+          Explore curated formulations matched with active ingredients, or use our machine learning engine to recommend specific products.
         </p>
       </div>
 
-      {/* Interactive Recommendation Generator Card */}
-      <div className="card" style={{ marginBottom: '3rem', borderLeft: '4px solid var(--primary-teal)' }}>
+      {/* Recommendation Generator Card */}
+      <div className="card" style={{ marginBottom: '3rem', borderLeft: '4px solid var(--primary-purple)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <SparklesIcon size={20} style={{ color: 'var(--primary-teal)' }} />
-          <h3 style={{ margin: 0 }}>ML Product Recommendation Engine</h3>
+          <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
+          <h3 style={{ margin: 0 }}>Get Personalized Recommendations</h3>
         </div>
 
         <form onSubmit={handleRecommend} className="grid-3" style={{ alignItems: 'end', gap: '1.25rem' }}>
@@ -106,20 +109,20 @@ function Products() {
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading} style={{ height: '44px' }}>
-            {loading ? 'Finding Match...' : 'Generate Match'}
+            {loading ? 'Finding Match...' : 'View Recommendations'}
           </button>
         </form>
 
         {recommendation && (
-          <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid var(--slate-200)' }}>
+          <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <h4 style={{ color: 'var(--slate-900)' }}>Match: {recommendation.product_name}</h4>
-              <span className="status-badge">AI Recommendation Result</span>
+              <h4 style={{ color: 'var(--dark-text)' }}>Match: {recommendation.product_name}</h4>
+              <span className="status-badge pink">AI Recommendation Match</span>
             </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--slate-700)', marginBottom: '0.35rem' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '0.35rem' }}>
               <strong>Key Active Ingredients:</strong> {recommendation.ingredients}
             </p>
-            <p style={{ fontSize: '0.875rem', color: 'var(--slate-600)' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--secondary-text)' }}>
               <strong>Application Protocol:</strong> {recommendation.how_to_use}
             </p>
           </div>
@@ -130,10 +133,10 @@ function Products() {
       <div className="card" style={{ padding: '1.25rem 1.5rem', marginBottom: '2rem' }}>
         <div className="grid-3" style={{ alignItems: 'center', gap: '1rem' }}>
           <div style={{ position: 'relative' }}>
-            <SearchIcon size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--slate-400)' }} />
+            <SearchIcon size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-text)' }} />
             <input
               type="text"
-              placeholder="Search by product or ingredient..."
+              placeholder="Search by product name or ingredient..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ paddingLeft: '2.5rem' }}
@@ -141,8 +144,8 @@ function Products() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <FilterIcon size={18} style={{ color: 'var(--slate-500)' }} />
-            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--slate-700)' }}>
+            <FilterIcon size={18} style={{ color: 'var(--primary-purple)' }} />
+            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--dark-text)' }}>
               Catalog Matches: {filteredProducts.length}
             </span>
           </div>
@@ -170,14 +173,14 @@ function Products() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
                 <span className="status-badge">{prod.concern}</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)', fontWeight: 600 }}>{prod.skinType} Skin</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--secondary-text)', fontWeight: 600 }}>{prod.skinType} Skin</span>
               </div>
               <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{prod.name}</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)', marginBottom: '0.75rem' }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginBottom: '0.75rem' }}>
                 <strong>Ingredients:</strong> {prod.ingredients}
               </p>
             </div>
-            <div style={{ paddingTop: '0.75rem', borderTop: '1px solid var(--slate-200)', fontSize: '0.8rem', color: 'var(--slate-500)' }}>
+            <div style={{ paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--muted-text)' }}>
               <strong>Usage:</strong> {prod.usage}
             </div>
           </div>

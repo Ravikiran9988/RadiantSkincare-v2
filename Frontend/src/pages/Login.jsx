@@ -116,16 +116,16 @@ const Login = () => {
           </button>
         </form>
 
-        <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--slate-200)', textAlign: 'center', fontSize: '0.875rem' }}>
+        <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)', textAlign: 'center', fontSize: '0.875rem' }}>
           <p>
             New to RadiantSkincare?{' '}
-            <Link to="/register" style={{ color: 'var(--primary-teal)', fontWeight: 600, textDecoration: 'none' }}>
+            <Link to="/register" style={{ color: 'var(--primary-purple)', fontWeight: 600, textDecoration: 'none' }}>
               Register Here
             </Link>
           </p>
           <p style={{ marginTop: '0.5rem' }}>
             Are you a doctor?{' '}
-            <Link to="/doctor-login" style={{ color: 'var(--slate-800)', fontWeight: 600, textDecoration: 'none' }}>
+            <Link to="/doctor-login" style={{ color: 'var(--dark-text)', fontWeight: 600, textDecoration: 'none' }}>
               Doctor Portal Login
             </Link>
           </p>

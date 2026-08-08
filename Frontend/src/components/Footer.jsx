@@ -6,17 +6,28 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Brand & Description */}
+        {/* Brand Column */}
         <div className="footer-col" style={{ paddingRight: '2rem' }}>
-          <Link to="/" className="logo brand-name" style={{ marginBottom: '1rem', display: 'inline-flex' }}>
-            <SparklesIcon size={20} className="logo-icon" />
-            Radiant<span>Skincare</span>
+          <Link to="/" className="logo brand-name" style={{ marginBottom: '1rem', display: 'inline-flex', color: '#ffffff' }}>
+            <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
+            Radiant<span style={{ color: 'var(--secondary-pink)' }}>Skincare</span>
           </Link>
-          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
-            RadiantSkincare is an AI-powered personalized skincare platform combining deep learning vision models, ingredient recommendation algorithms, and real-time telehealth consultations.
+          <p style={{ fontSize: '0.9rem', color: '#C4B5FD', marginBottom: '1.25rem', lineHeight: 1.6 }}>
+            RadiantSkincare is an AI-powered personalized skincare platform combining computer vision screening, ingredient recommendation algorithms, and real-time telehealth consultations.
           </p>
-          <div className="medical-disclaimer-box" style={{ fontSize: '0.8rem', padding: '0.65rem 0.85rem' }}>
-            <ShieldIcon size={16} />
+          <div style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderLeft: '3px solid var(--secondary-pink)',
+            padding: '0.65rem 0.85rem',
+            borderRadius: '8px',
+            fontSize: '0.8rem',
+            color: '#E9E4F0',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '0.5rem'
+          }}>
+            <ShieldIcon size={16} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
             <span>AI results are for informational screening purposes and are not a medical diagnosis.</span>
           </div>
         </div>
@@ -46,9 +57,9 @@ const Footer = () => {
         <div className="footer-col">
           <h4>Legal & Safety</h4>
           <ul>
-            <li><span style={{ fontSize: '0.9rem', color: 'var(--slate-600)' }}>Medical Disclaimer</span></li>
-            <li><span style={{ fontSize: '0.9rem', color: 'var(--slate-600)' }}>Privacy Policy</span></li>
-            <li><span style={{ fontSize: '0.9rem', color: 'var(--slate-600)' }}>Terms of Service</span></li>
+            <li><span style={{ fontSize: '0.9rem', color: '#C4B5FD' }}>Medical Disclaimer</span></li>
+            <li><span style={{ fontSize: '0.9rem', color: '#C4B5FD' }}>Privacy Policy</span></li>
+            <li><span style={{ fontSize: '0.9rem', color: '#C4B5FD' }}>Terms of Service</span></li>
           </ul>
         </div>
       </div>

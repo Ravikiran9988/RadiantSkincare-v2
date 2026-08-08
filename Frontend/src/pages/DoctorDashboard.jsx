@@ -51,7 +51,7 @@ const DoctorDashboard = () => {
       {/* Doctor Info Card */}
       {doctor && (
         <div className="card" style={{ marginBottom: '2.5rem', display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-teal-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)', flexShrink: 0 }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)', flexShrink: 0 }}>
             <StethoscopeIcon size={40} />
           </div>
           <div>

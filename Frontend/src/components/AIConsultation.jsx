@@ -5,7 +5,6 @@ import {
   ScanIcon,
   ShieldIcon,
   UploadIcon,
-  CheckIcon,
   InfoIcon,
   SparklesIcon,
   StethoscopeIcon
@@ -87,7 +86,7 @@ function AIConsultation() {
     <div className="page-container">
       <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
         <span className="eyebrow">
-          <ScanIcon size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }} />
+          <ScanIcon size={14} style={{ color: 'var(--primary-purple)' }} />
           Computer Vision Screening
         </span>
         <h1>AI Skin Image Analysis</h1>
@@ -97,9 +96,9 @@ function AIConsultation() {
       </div>
 
       <div className="grid-2" style={{ gap: '2.5rem', alignItems: 'start' }}>
-        {/* Left Column: Upload & Form */}
+        {/* Left Column: Upload Area */}
         <div className="card">
-          <h3 style={{ marginBottom: '1.25rem' }}>Upload & Symptom Input</h3>
+          <h3 style={{ marginBottom: '1.25rem' }}>Upload Skin Image</h3>
           <form onSubmit={getAIAdvice} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div>
               <label>Describe Skin Concerns / Symptoms:</label>
@@ -112,11 +111,11 @@ function AIConsultation() {
             </div>
 
             <div>
-              <label>Upload Clear Skin Photo:</label>
+              <label>Upload Skin Photo:</label>
               <div
                 style={{
-                  border: isDragging ? '2px dashed var(--primary-teal)' : '2px dashed var(--slate-300)',
-                  backgroundColor: isDragging ? 'var(--primary-teal-wash)' : 'var(--slate-100)',
+                  border: isDragging ? '2px dashed var(--secondary-pink)' : '2px dashed var(--primary-purple)',
+                  backgroundColor: isDragging ? 'var(--light-purple)' : 'var(--soft-lavender)',
                   borderRadius: 'var(--radius-md)',
                   padding: '2rem 1.5rem',
                   textAlign: 'center',
@@ -135,23 +134,23 @@ function AIConsultation() {
                   style={{ display: 'none' }}
                 />
                 <label htmlFor="ai-page-upload" style={{ cursor: 'pointer', margin: 0 }}>
-                  <UploadIcon size={32} style={{ color: 'var(--slate-500)', marginBottom: '0.5rem' }} />
-                  <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--slate-800)' }}>
+                  <UploadIcon size={32} style={{ color: 'var(--primary-purple)', marginBottom: '0.5rem' }} />
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--dark-text)' }}>
                     {image ? image.name : 'Upload a clear photo of your skin'}
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)' }}>Drag & drop file or click to browse</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Drag & drop file or click to browse</span>
                 </label>
               </div>
             </div>
 
             {preview && (
-              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--slate-200)' }}>
+              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
                 <img src={preview} alt="Skin Preview" style={{ maxHeight: '240px', objectFit: 'contain', display: 'block', margin: '0 auto' }} />
               </div>
             )}
 
             <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%' }}>
-              {loading ? 'Processing Image with AI...' : 'Analyze Skin Image'}
+              {loading ? 'Analyzing your skin...' : 'Analyze Skin Image'}
             </button>
           </form>
         </div>
@@ -161,59 +160,59 @@ function AIConsultation() {
           {!result ? (
             <div className="card">
               <h3 style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <InfoIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+                <InfoIcon size={20} style={{ color: 'var(--primary-purple)' }} />
                 What happens next?
               </h3>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                  <span className="step-number" style={{ margin: 0 }}>1</span>
+                  <span className="step-number step-1" style={{ margin: 0 }}>1</span>
                   <div>
-                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Image Preprocessing</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>The image is resized to 150x150 pixels and normalized for feature extraction.</span>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>Image Preprocessing</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>The image is normalized to 150x150 pixels for neural network feature evaluation.</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                  <span className="step-number" style={{ margin: 0 }}>2</span>
+                  <span className="step-number step-2" style={{ margin: 0 }}>2</span>
                   <div>
-                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>AI Screening</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Our ResNet50 vision architecture screens patterns across 23 condition categories.</span>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>AI Screening</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>ResNet50 computer vision model evaluates features across 23 dermatological categories.</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                  <span className="step-number" style={{ margin: 0 }}>3</span>
+                  <span className="step-number step-3" style={{ margin: 0 }}>3</span>
                   <div>
-                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Confidence Evaluation</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Softmax probability distribution outputs confidence scores without false certainty.</span>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>Confidence Evaluation</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Softmax probability distributions calculate confidence percentage metrics.</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                  <span className="step-number" style={{ margin: 0 }}>4</span>
+                  <span className="step-number step-1" style={{ margin: 0 }}>4</span>
                   <div>
-                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Personalized Guidance</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Matched ingredient guidance and dermatologist appointment booking options.</span>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>Personalized Guidance</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Ingredient recommendations and doctor consultation booking links.</span>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="card" style={{ borderLeft: '4px solid var(--primary-teal)' }}>
+            <div className="card" style={{ borderLeft: '4px solid var(--primary-purple)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3>Screening Output</h3>
+                <h3>Screening Result</h3>
                 {result.confidence && <span className="status-badge">Confidence: {result.confidence}</span>}
               </div>
 
-              <div style={{ backgroundColor: 'var(--slate-100)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--slate-200)', marginBottom: '1.5rem' }}>
-                <h4 style={{ color: 'var(--slate-900)', marginBottom: '0.5rem' }}>Screening Classification</h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--slate-800)', margin: 0 }}>{result.disease}</p>
+              <div style={{ backgroundColor: 'var(--soft-lavender)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+                <h4 style={{ color: 'var(--dark-text)', marginBottom: '0.5rem' }}>Possible Concern Category</h4>
+                <p style={{ fontSize: '0.95rem', color: 'var(--dark-text)', margin: 0 }}>{result.disease}</p>
               </div>
 
               <div style={{ marginBottom: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Recommended Next Steps</h4>
-                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.875rem', color: 'var(--slate-700)' }}>
+                <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Recommended Next Step</h4>
+                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.875rem', color: 'var(--secondary-text)' }}>
                   <li>Explore matched product recommendations based on active ingredients.</li>
                   <li>Schedule a consultation with an assigned dermatologist if symptoms persist.</li>
                 </ul>
@@ -221,7 +220,7 @@ function AIConsultation() {
 
               <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
                 <button className="btn btn-primary" onClick={() => navigate('/products')} style={{ flex: 1 }}>
-                  <SparklesIcon size={16} /> View Recommended Products
+                  <SparklesIcon size={16} /> View Products
                 </button>
                 <button className="btn btn-secondary" onClick={() => navigate('/consultation')} style={{ flex: 1 }}>
                   <StethoscopeIcon size={16} /> Talk to a Doctor

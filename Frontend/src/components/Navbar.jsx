@@ -73,8 +73,8 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Brand Logo */}
         <Link to="/" className="logo brand-name">
-          <SparklesIcon size={22} className="logo-icon" />
-          Radiant<span>Skincare</span>
+          <SparklesIcon size={22} style={{ color: 'var(--primary-purple)' }} />
+          Radiant<span style={{ color: 'var(--primary-purple)' }}>Skincare</span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -85,7 +85,7 @@ const Navbar = () => {
           <Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>Products</Link>
           <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>
 
-          {/* Action Buttons for Mobile Inside Menu */}
+          {/* Mobile Actions */}
           {mobileOpen && (
             <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {user ? (
@@ -116,7 +116,7 @@ const Navbar = () => {
           )}
         </nav>
 
-        {/* Desktop Header Buttons */}
+        {/* Right Action Buttons */}
         <div className="nav-buttons">
           {user ? (
             <>
@@ -124,7 +124,7 @@ const Navbar = () => {
                 <UserIcon size={16} /> {user.username}
               </button>
               <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
-                <LogoutIcon size={16} />
+                <LogoutIcon size={16} stroke="var(--primary-purple)" />
               </button>
             </>
           ) : doctor ? (

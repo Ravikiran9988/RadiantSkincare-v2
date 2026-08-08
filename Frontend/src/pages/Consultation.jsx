@@ -136,8 +136,8 @@ const Consultation = () => {
                   key={doc._id}
                   style={{
                     padding: '1rem',
-                    border: selectedDoctorId === doc._id ? '2px solid var(--primary-teal)' : '1px solid var(--slate-200)',
-                    backgroundColor: selectedDoctorId === doc._id ? 'var(--primary-teal-wash)' : '#ffffff',
+                    border: selectedDoctorId === doc._id ? '2px solid var(--primary-purple)' : '1px solid var(--border-color)',
+                    backgroundColor: selectedDoctorId === doc._id ? 'var(--soft-lavender)' : '#ffffff',
                     borderRadius: 'var(--radius-md)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
