@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/Herosection.jsx';
 import {
   ScanIcon,
@@ -10,53 +10,9 @@ import {
   CalendarIcon,
   InfoIcon
 } from '../components/Icons.jsx';
-import { getRecommendationOptions, getProductRecommendation } from '../services/api';
-import { toast } from 'react-toastify';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [concerns, setConcerns] = useState([]);
-  const [skinTypes, setSkinTypes] = useState([]);
-  const [selectedConcern, setSelectedConcern] = useState('');
-  const [selectedSkinType, setSelectedSkinType] = useState('');
-  const [recommendation, setRecommendation] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const loadOptions = async () => {
-      try {
-        const data = await getRecommendationOptions();
-        setConcerns(data.concerns || []);
-        setSkinTypes(data.skin_types || []);
-      } catch (err) {
-        console.error('Error fetching options:', err);
-      }
-    };
-    loadOptions();
-  }, []);
-
-  const handleRecommendPreview = async (e) => {
-    e.preventDefault();
-    if (!selectedConcern || !selectedSkinType) {
-      toast.warn('Please select both a skin concern and skin type.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await getProductRecommendation({
-        concern: selectedConcern,
-        skin_type: selectedSkinType,
-      });
-      setRecommendation(res.data || res);
-      toast.success('Recommendation calculated!');
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to get recommendation.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const ingredientsList = [
     { name: 'Niacinamide (Vitamin B3)', concern: 'Redness & Pores', description: 'Commonly used in skincare formulations to support the skin barrier and help manage the appearance of oiliness and redness.' },
@@ -205,11 +161,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Tailored Marketing Copy + 3 Compact Benefit Points) */}
+      {/* 5. Smart Product Matching — Static Marketing Section */}
       <section className="smart-product-section">
         <div className="smart-product-container">
-          <div className="smart-product-grid">
-            {/* Left Column: Marketing Content & Benefit List */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+
+            {/* Left Column: Marketing Copy */}
             <div>
               <span className="eyebrow" style={{ marginBottom: '24px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
@@ -220,184 +177,103 @@ const Home = () => {
                 Smart Product Matching
               </h2>
 
-              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '580px' }}>
-                Find skincare products tailored to your skin type, concerns, and ingredient preferences. Select your profile and let Radiant match relevant formulations from the product catalog.
+              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '520px' }}>
+                Find skincare products that fit your skin profile, concerns, and ingredient preferences.
               </p>
 
               {/* 3 Compact Benefit Points */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '580px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '520px', marginBottom: '36px' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(124, 58, 237, 0.12)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginTop: '2px'
-                  }}>
+                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(124, 58, 237, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                     <CheckIcon size={14} style={{ color: '#7C3AED' }} />
                   </div>
                   <div>
-                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
-                      Skin-aware matching
-                    </strong>
-                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
-                      Recommendations based on your selected skin profile.
-                    </span>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>Skin-aware recommendations</strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>Matched to your skin profile and active concerns.</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(236, 72, 153, 0.12)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginTop: '2px'
-                  }}>
+                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(236, 72, 153, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                     <CheckIcon size={14} style={{ color: '#EC4899' }} />
                   </div>
                   <div>
-                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
-                      Ingredient-focused
-                    </strong>
-                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
-                      Connect skin concerns with relevant active ingredients.
-                    </span>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>Ingredient-focused product discovery</strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>Connect concerns with relevant active ingredients.</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(124, 58, 237, 0.12)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginTop: '2px'
-                  }}>
+                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(124, 58, 237, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                     <CheckIcon size={14} style={{ color: '#7C3AED' }} />
                   </div>
                   <div>
-                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>
-                      Personalized picks
-                    </strong>
-                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>
-                      Discover products that fit your skincare routine.
-                    </span>
+                    <strong style={{ fontSize: '0.975rem', fontWeight: 600, color: '#171329', display: 'block', marginBottom: '2px' }}>Products you can add to your routine</strong>
+                    <span style={{ fontSize: '0.9rem', color: '#625B71', lineHeight: 1.45, display: 'block' }}>Discover picks that fit your daily skincare routine.</span>
                   </div>
                 </div>
               </div>
+
+              {/* Two CTA Buttons */}
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => navigate('/ai-consultation')}
+                  className="btn btn-primary"
+                  style={{ height: '52px', padding: '0 1.75rem', borderRadius: '14px', fontSize: '1rem', fontWeight: 700, color: '#FFFFFF', display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}
+                >
+                  Analyze My Skin <ArrowRightIcon size={17} style={{ color: '#FFFFFF' }} />
+                </button>
+                <button
+                  onClick={() => navigate('/products')}
+                  style={{
+                    height: '52px', padding: '0 1.75rem', borderRadius: '14px', fontSize: '1rem', fontWeight: 600,
+                    color: '#7C3AED', background: 'transparent',
+                    border: '2px solid #7C3AED', cursor: 'pointer',
+                    display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.06)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                >
+                  Explore Products <ArrowRightIcon size={17} style={{ color: '#7C3AED' }} />
+                </button>
+              </div>
             </div>
 
-            {/* Right Column: Quick Product Matcher Card */}
-            <div
-              className="card"
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #EDE9FE',
-                borderRadius: '24px',
-                padding: '36px 40px',
-                boxShadow: '0 12px 40px rgba(124, 58, 237, 0.08)'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '28px' }}>
-                <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#171329', margin: 0 }}>
-                  Quick Product Matcher
-                </h3>
+            {/* Right Column: Visual Feature Preview Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Flow Step 1 */}
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #EDE9FE', borderRadius: '16px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '1rem', boxShadow: '0 4px 16px rgba(124, 58, 237, 0.06)' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #7C3AED, #9D5CFF)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <ScanIcon size={22} style={{ color: '#FFFFFF' }} />
+                </div>
+                <div>
+                  <strong style={{ fontSize: '0.95rem', fontWeight: 700, color: '#171329', display: 'block' }}>AI Skin Screening</strong>
+                  <span style={{ fontSize: '0.85rem', color: '#625B71' }}>Upload a photo → get pattern analysis</span>
+                </div>
               </div>
 
-              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginBottom: '26px' }}>
-                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
-                    Skin Concern:
-                  </label>
-                  <select
-                    value={selectedConcern}
-                    onChange={(e) => setSelectedConcern(e.target.value)}
-                    style={{
-                      height: '56px',
-                      borderRadius: '14px',
-                      border: '1px solid #E7E0F5',
-                      color: '#171329',
-                      padding: '0 16px',
-                      fontSize: '0.95rem'
-                    }}
-                    required
-                  >
-                    <option value="">-- Select Skin Concern --</option>
-                    {concerns.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
+              {/* Flow Step 2 */}
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #EDE9FE', borderRadius: '16px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '1rem', boxShadow: '0 4px 16px rgba(236, 72, 153, 0.06)' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #EC4899, #F472B6)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <SparklesIcon size={22} style={{ color: '#FFFFFF' }} />
                 </div>
-
-                <div style={{ marginBottom: '30px' }}>
-                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
-                    Skin Type:
-                  </label>
-                  <select
-                    value={selectedSkinType}
-                    onChange={(e) => setSelectedSkinType(e.target.value)}
-                    style={{
-                      height: '56px',
-                      borderRadius: '14px',
-                      border: '1px solid #E7E0F5',
-                      color: '#171329',
-                      padding: '0 16px',
-                      fontSize: '0.95rem'
-                    }}
-                    required
-                  >
-                    <option value="">-- Select Skin Type --</option>
-                    {skinTypes.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
+                <div>
+                  <strong style={{ fontSize: '0.95rem', fontWeight: 700, color: '#171329', display: 'block' }}>Personalized Recommendations</strong>
+                  <span style={{ fontSize: '0.85rem', color: '#625B71' }}>ML engine matches your skin to products</span>
                 </div>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  style={{
-                    width: '100%',
-                    height: '56px',
-                    borderRadius: '14px',
-                    background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
-                    color: '#FFFFFF',
-                    fontWeight: 700,
-                    fontSize: '1rem',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 8px 24px rgba(124, 58, 237, 0.22)'
-                  }}
-                >
-                  {loading ? 'Processing...' : 'Generate Match'}
-                </button>
-              </form>
-
-              {recommendation && (
-                <div style={{ marginTop: '1.5rem', paddingTop: '1.15rem', borderTop: '1px solid #EDE9FE' }}>
-                  <strong style={{ fontSize: '0.95rem', color: '#171329', display: 'block', fontWeight: 700 }}>
-                    Recommended Match: {recommendation.product_name}
-                  </strong>
-                  <p style={{ fontSize: '0.85rem', color: '#625B71', marginTop: '0.35rem', margin: 0, lineHeight: 1.5 }}>
-                    <strong>Key Ingredients:</strong> {recommendation.ingredients}
-                  </p>
+              {/* Flow Step 3 */}
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #EDE9FE', borderRadius: '16px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '1rem', boxShadow: '0 4px 16px rgba(124, 58, 237, 0.06)' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #7C3AED, #EC4899)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <CalendarIcon size={22} style={{ color: '#FFFFFF' }} />
                 </div>
-              )}
+                <div>
+                  <strong style={{ fontSize: '0.95rem', fontWeight: 700, color: '#171329', display: 'block' }}>Add to Routine</strong>
+                  <span style={{ fontSize: '0.85rem', color: '#625B71' }}>Save matched products to your daily routine</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
