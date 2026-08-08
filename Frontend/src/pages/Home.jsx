@@ -205,8 +205,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Exact Pixel Spacing: 64px padding, 20px / 18px / 28px left, 28px / 10px / 28px / 10px / 32px right) */}
-      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '64px 0' }}>
+      {/* 5. Smart Product Matching Section (Compact Padding: 48px top, 56px bottom) */}
+      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '48px 0 56px' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
             {/* Left Column */}
@@ -215,7 +215,7 @@ const Home = () => {
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
-              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '18px', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '16px', lineHeight: 1.25 }}>
                 Smart Product Matching
               </h2>
               <p style={{ fontSize: '1rem', color: '#625B71', lineHeight: 1.6, maxWidth: '520px', marginBottom: '28px' }}>
