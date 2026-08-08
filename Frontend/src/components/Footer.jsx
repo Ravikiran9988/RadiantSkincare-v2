@@ -10,10 +10,11 @@ const Footer = () => {
         <div className="footer-col" style={{ paddingRight: '1.5rem' }}>
           <Link to="/" className="logo brand-name" style={{ marginBottom: '0.85rem', display: 'inline-flex', color: '#ffffff' }}>
             <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
-            Radiant<span style={{ color: 'var(--secondary-pink)' }}>Skincare</span>
+            <span>Radiant</span>
+            <span style={{ color: 'var(--secondary-pink)', marginLeft: '6px' }}>Skincare</span>
           </Link>
           <p style={{ fontSize: '0.875rem', color: '#C4B5FD', marginBottom: '1rem', lineHeight: 1.55 }}>
-            RadiantSkincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant products, build routines, and track their skincare journey over time.
+            Radiant Skincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant products, build routines, and track their skincare journey over time.
           </p>
           <div style={{
             backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -66,7 +67,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="footer-bottom-bar">
-        <div>&copy; {new Date().getFullYear()} RadiantSkincare. All rights reserved.</div>
+        <div>&copy; {new Date().getFullYear()} Radiant Skincare. All rights reserved.</div>
         <div>Personalized AI Skincare Platform</div>
       </div>
     </footer>

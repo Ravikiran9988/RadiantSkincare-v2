@@ -54,10 +54,11 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="navbar-container">
-        {/* Brand Logo */}
+        {/* Brand Logo with Natural Word Spacing */}
         <Link to="/" className="logo brand-name">
           <SparklesIcon size={20} style={{ color: 'var(--primary-purple)' }} />
-          Radiant<span style={{ color: 'var(--primary-purple)' }}>Skincare</span>
+          <span>Radiant</span>
+          <span style={{ color: 'var(--primary-purple)', marginLeft: '6px' }}>Skincare</span>
         </Link>
 
         {/* Public Navigation Links */}
