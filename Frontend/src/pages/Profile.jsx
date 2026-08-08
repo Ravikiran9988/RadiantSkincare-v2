@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getCurrentUser, updateProfile as apiUpdateProfile, changePassword as apiChangePassword } from '../services/api';
 import './Profile.css';
 
 function Profile() {
@@ -9,28 +10,21 @@ function Profile() {
 
   const [profile, setProfile] = useState({ username: '', email: '' });
   const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '' });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/user/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-        if (res.ok) {
+        const res = await getCurrentUser();
+        if (res.data) {
           setProfile({
-            username: data.username || '',
-            email: data.email || '',
+            username: res.data.username || '',
+            email: res.data.email || '',
           });
-        } else {
-          toast.error(data.message || 'Failed to fetch profile');
         }
       } catch (err) {
-        console.error('Fetch error:', err.message);
-        toast.error('Error fetching profile');
+        console.error('Fetch profile error:', err);
+        toast.error('Error loading profile information');
       }
     };
 
@@ -45,106 +39,106 @@ function Profile() {
     setPasswords({ ...passwords, [e.target.name]: e.target.value });
   };
 
-  const updateProfile = async () => {
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/user/update-profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(profile),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        toast.success(data.message || 'Profile updated successfully');
-        window.dispatchEvent(new Event('profileUpdated')); // Refresh navbar
-      } else {
-        toast.error(data.message || 'Profile update failed');
-      }
+      const res = await apiUpdateProfile(profile);
+      toast.success(res.data?.message || 'Profile updated successfully!');
+      window.dispatchEvent(new Event('profileUpdated'));
     } catch (err) {
-      console.error('Update error:', err.message);
-      toast.error('Error updating profile');
+      console.error('Update profile error:', err);
+      toast.error(err.response?.data?.message || 'Profile update failed');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const changePassword = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/api/user/change-password', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(passwords),
-      });
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (!passwords.currentPassword || !passwords.newPassword) {
+      toast.warn('Please fill out both current and new password fields.');
+      return;
+    }
 
-      const data = await res.json();
-      if (res.ok) {
-        toast.success(data.message || 'Password changed successfully');
-        setPasswords({ currentPassword: '', newPassword: '' });
-      } else {
-        toast.error(data.message || 'Password change failed');
-      }
+    setLoading(true);
+    try {
+      const res = await apiChangePassword(passwords);
+      toast.success(res.data?.message || 'Password changed successfully!');
+      setPasswords({ currentPassword: '', newPassword: '' });
     } catch (err) {
-      console.error('Password error:', err.message);
-      toast.error('Error changing password');
+      console.error('Password error:', err);
+      toast.error(err.response?.data?.message || 'Failed to change password.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="profile-container">
-      <h2>My Profile</h2>
+    <div className="page-container">
+      <div className="glass-card" style={{ maxWidth: '650px', margin: '0 auto' }}>
+        <h2>👤 Account Settings & Profile</h2>
+        <p style={{ color: '#64748b', marginBottom: '2rem' }}>Manage your personal details and account credentials</p>
 
-      <div className="profile-section">
-        <h3>Update Information</h3>
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={profile.username}
-            onChange={handleProfileChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={profile.email}
-            onChange={handleProfileChange}
-          />
-        </label>
-        <button onClick={updateProfile}>Update Profile</button>
-      </div>
+        <form onSubmit={handleUpdateProfile} className="dashboard-form" style={{ marginBottom: '2rem' }}>
+          <h3>Personal Details</h3>
+          <label>
+            <strong>Username:</strong>
+            <input
+              type="text"
+              name="username"
+              value={profile.username}
+              onChange={handleProfileChange}
+              required
+            />
+          </label>
+          <label>
+            <strong>Email Address:</strong>
+            <input
+              type="email"
+              name="email"
+              value={profile.email}
+              onChange={handleProfileChange}
+              required
+            />
+          </label>
+          <button type="submit" className="btn" disabled={loading}>
+            Update Information
+          </button>
+        </form>
 
-      <div className="password-section">
-        <h3>Change Password</h3>
-        <label>
-          Current Password:
-          <input
-            type="password"
-            name="currentPassword"
-            value={passwords.currentPassword}
-            onChange={handlePasswordChange}
-          />
-        </label>
-        <label>
-          New Password:
-          <input
-            type="password"
-            name="newPassword"
-            value={passwords.newPassword}
-            onChange={handlePasswordChange}
-          />
-        </label>
-        <button onClick={changePassword}>Change Password</button>
-      </div>
+        <form onSubmit={handleChangePassword} className="dashboard-form">
+          <h3>Security & Password</h3>
+          <label>
+            <strong>Current Password:</strong>
+            <input
+              type="password"
+              name="currentPassword"
+              value={passwords.currentPassword}
+              onChange={handlePasswordChange}
+              required
+            />
+          </label>
+          <label>
+            <strong>New Password:</strong>
+            <input
+              type="password"
+              name="newPassword"
+              value={passwords.newPassword}
+              onChange={handlePasswordChange}
+              required
+            />
+          </label>
+          <button type="submit" className="btn btn-secondary" disabled={loading}>
+            Change Password
+          </button>
+        </form>
 
-      <div className="back-button">
-        <button onClick={() => navigate('/dashboard')}>← Back to Dashboard</button>
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <button onClick={() => navigate('/dashboard')} className="btn btn-secondary">
+            ← Back to Dashboard
+          </button>
+        </div>
       </div>
     </div>
   );

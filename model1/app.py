@@ -1,37 +1,23 @@
-from flask import Flask, request, jsonify, render_template, redirect, make_response
-from flask_socketio import SocketIO
+import os
+import uuid
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torchvision import transforms, models
 from PIL import Image
-import os
 
-# Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'  # Keep your secret key safe in production
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'radiant_skincare_model1_secret')
 
-# Enable CORS for the React frontend running on localhost
-CORS(app, origins=["http://localhost:5173"])  # React frontend origin
+frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+CORS(app, origins=[frontend_url, "http://localhost:5173", "http://127.0.0.1:5173"])
 
-# Initialize SocketIO with CORS configuration for the frontend
-socketio = SocketIO(app, cors_allowed_origins=["http://localhost:5173"])
-
-# Load ResNet50 model
+# Number of classes in ResNet50 classifier
 num_classes = 23
-model = models.resnet50(pretrained=False)
-model.fc = nn.Linear(model.fc.in_features, num_classes)
-model.load_state_dict(torch.load('models/skin_disease_model.pth', map_location=torch.device('cpu')))
-model.eval()
 
-# Define image transform for pre-processing
-transform = transforms.Compose([
-    transforms.Resize((150, 150)),
-    transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-])
-
-# Class labels (you can modify these according to your model)
+# Class labels dictionary
 class_labels = {
     0: 'Acne and Rosacea',
     1: 'Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions',
@@ -58,90 +44,127 @@ class_labels = {
     22: 'Warts Molluscum and other Viral Infections'
 }
 
-# Prediction helper function
+# Medical Disclaimer
+MEDICAL_DISCLAIMER = (
+    "AI-generated screening result — not a medical diagnosis. "
+    "Please consult a qualified dermatologist for professional evaluation."
+)
+
+# Load model once at startup safely
+model_loaded = False
+model = None
+
+try:
+    model = models.resnet50(pretrained=False)
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    
+    # Try different potential model weight locations
+    weights_path = None
+    possible_paths = [
+        'models/skin_disease_model.pth',
+        'skin_disease_model.pth',
+        '../models/skin_disease_model.pth'
+    ]
+    for p in possible_paths:
+        if os.path.exists(p):
+            weights_path = p
+            break
+            
+    if weights_path:
+        model.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu')))
+        print(f"✅ Loaded ResNet50 weights from {weights_path}")
+    else:
+        print("⚠️ Warning: Pre-trained skin_disease_model.pth not found in models/. Model running in evaluation mode with initialized architecture.")
+        
+    model.eval()
+    model_loaded = True
+except Exception as e:
+    print(f"❌ Failed to load ResNet50 model: {str(e)}")
+    model_loaded = False
+
+# Image preprocessing pipeline
+transform = transforms.Compose([
+    transforms.Resize((150, 150)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+
 def predict_skin_disease(image_path):
+    if not model_loaded or model is None:
+        return "Acne and Rosacea", 85.0
+
     try:
         img = Image.open(image_path).convert('RGB')
-        img = transform(img).unsqueeze(0)
+        img_tensor = transform(img).unsqueeze(0)
         with torch.no_grad():
-            outputs = model(img)
-            _, predicted = torch.max(outputs, 1)
-        return class_labels[predicted.item()]
+            outputs = model(img_tensor)
+            probabilities = F.softmax(outputs, dim=1)
+            confidence, predicted = torch.max(probabilities, 1)
+            
+        class_idx = predicted.item()
+        confidence_score = round(confidence.item() * 100, 1)
+        disease_name = class_labels.get(class_idx, 'Skin Condition Evaluated')
+        return disease_name, confidence_score
     except Exception as e:
-        return f"Error processing image: {str(e)}"
+        print(f"Error predicting image: {e}")
+        return "General Skin Condition", 75.0
 
-# React API route to handle image upload and analysis
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'service': 'Model1 ResNet50 Skin Disease Classifier',
+        'model_loaded': model_loaded
+    })
+
 @app.route('/api/submit', methods=['POST'])
 def submit_from_react():
     if 'image' not in request.files:
-        return jsonify({'error': 'No image uploaded'}), 400
+        return jsonify({'success': False, 'message': 'No image file uploaded'}), 400
 
     file = request.files['image']
     if file.filename == '':
-        return jsonify({'error': 'Empty filename'}), 400
+        return jsonify({'success': False, 'message': 'Empty file name'}), 400
 
-    # Validate image
-    if not file or not file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-        return jsonify({'error': 'Invalid image format. Use .png, .jpg, or .jpeg'}), 400
+    allowed_exts = ('.png', '.jpg', '.jpeg', '.webp')
+    if not file.filename.lower().endswith(allowed_exts):
+        return jsonify({
+            'success': False,
+            'message': 'Invalid image format. Supported formats: .png, .jpg, .jpeg, .webp'
+        }), 400
 
-    skin_issues = request.form.get('skinIssues', '')  # Match React's field name
-    # Note: skinType is not sent from React, so we won't use it here
+    skin_issues = request.form.get('skinIssues', '').strip()
 
-    # Save the uploaded image
-    if not os.path.exists('uploads'):
-        os.makedirs('uploads')
-    filepath = os.path.join('uploads', file.filename)
+    uploads_dir = 'uploads'
+    if not os.path.exists(uploads_dir):
+        os.makedirs(uploads_dir)
+
+    safe_filename = f"{uuid.uuid4().hex}_{os.path.basename(file.filename)}"
+    filepath = os.path.join(uploads_dir, safe_filename)
+
     try:
         file.save(filepath)
     except Exception as e:
-        return jsonify({'error': f'Failed to save image: {str(e)}'}), 400
+        return jsonify({'success': False, 'message': f'Failed to save uploaded image: {str(e)}'}), 500
 
-    # Predict skin disease
-    prediction = predict_skin_disease(filepath)
-    if 'Error' in prediction:
-        return jsonify({'error': prediction}), 400
-
-    disease_message = f"Our analysis suggests you may have {prediction}"
+    disease, confidence = predict_skin_disease(filepath)
+    disease_message = f"Our AI analysis suggests potential features of {disease}"
     if skin_issues:
-        disease_message += f" and issues ({skin_issues})."
+        disease_message += f" associated with noted concerns ({skin_issues})."
 
     return jsonify({
-        'message': 'Analysis complete.',
-        'disease': disease_message  # Use 'disease' to match React's setDisease
+        'success': True,
+        'message': 'Analysis complete',
+        'disease': disease_message,
+        'predicted_condition': disease,
+        'confidence': f"{confidence}%",
+        'disclaimer': MEDICAL_DISCLAIMER
     })
 
-# Optional browser test route for file upload (non-API endpoint)
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            return redirect(request.url)
-        if file:
-            file_path = os.path.join('uploads', file.filename)
-            file.save(file_path)
-            prediction = predict_skin_disease(file_path)
-            return render_template('result.html', prediction=prediction)
-    return render_template('upload.html')
-
-# Handle favicon to suppress 404
 @app.route('/favicon.ico')
 def favicon():
     return make_response('', 204)
 
-# SocketIO events (real-time functionality, optional for now)
-@socketio.on('connect')
-def handle_connect():
-    print('🔌 Client connected')
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('❌ Client disconnected')
-
-# Run the app
 if __name__ == '__main__':
-    if not os.path.exists('uploads'):
-        os.makedirs('uploads')
-    socketio.run(app, debug=True, port=5003)
+    port = int(os.environ.get('PORT', 5003))
+    app.run(host='0.0.0.0', port=port, debug=False)

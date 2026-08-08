@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getDoctorProfile, getDoctorConsultations } from '../services/api';
+import { toast } from 'react-toastify';
 import './DoctorDashboard.css';
 
 const DoctorDashboard = () => {
@@ -15,83 +17,83 @@ const DoctorDashboard = () => {
       return;
     }
 
-    const fetchDoctorData = async () => {
+    const loadData = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/doctor/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setDoctor(data);
-      } catch (error) {
-        console.error('Error fetching doctor profile:', error);
-        navigate('/doctor-login');
-      }
-    };
+        const profileRes = await getDoctorProfile();
+        setDoctor(profileRes.data);
 
-    const fetchConsultations = async () => {
-      try {
-        const res = await fetch('http://localhost:5000/api/doctor/consultations', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setConsultations(data);
+        const consultRes = await getDoctorConsultations();
+        setConsultations(consultRes.data || []);
       } catch (error) {
-        console.error('Error fetching consultations:', error);
+        console.error('Error fetching doctor data:', error);
+        toast.error('Session expired or invalid doctor token.');
+        navigate('/doctor-login');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDoctorData();
-    fetchConsultations();
+    loadData();
   }, [navigate]);
 
-  if (loading) return <div className="loading">Loading your dashboard...</div>;
+  if (loading) return <div className="page-container glass-card" style={{ textAlign: 'center' }}>Loading doctor portal...</div>;
 
   return (
-    <div className="doctor-dashboard-container">
-      <header className="dashboard-header">
-        <h1>Welcome to Your Dashboard, Dr. {doctor?.name}</h1>
-      </header>
+    <div className="page-container">
+      <div className="glass-card" style={{ marginBottom: '2rem' }}>
+        <h1>Welcome to Your Portal, Dr. {doctor?.name} 🩺</h1>
+        <p>Manage your upcoming dermatological patient consultations</p>
+      </div>
 
       {doctor && (
-        <div className="doctor-profile">
-          <div className="doctor-avatar-container">
-            <img src={doctor.avatar} alt={doctor.name} className="doctor-avatar" />
-          </div>
-          <div className="doctor-details">
-            <h2>{doctor.name}</h2>
+        <div className="glass-card" style={{ display: 'flex', gap: '2rem', alignItems: 'center', marginBottom: '2rem' }}>
+          <img
+            src={doctor.avatar || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=300&q=80'}
+            alt={doctor.name}
+            style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--primary-teal)' }}
+          />
+          <div>
+            <h2>Dr. {doctor.name}</h2>
             <p><strong>Specialization:</strong> {doctor.specialization}</p>
-            <p><strong>Experience:</strong> {doctor.experience} years</p>
-            <p><strong>Languages:</strong> {doctor.languages.join(', ')}</p>
+            <p><strong>Experience:</strong> {doctor.experience}</p>
+            <p><strong>Languages:</strong> {Array.isArray(doctor.languages) ? doctor.languages.join(', ') : doctor.languages}</p>
+            <p><strong>Email:</strong> {doctor.email}</p>
           </div>
         </div>
       )}
 
-      <section className="consultations-section">
-        <h3>Upcoming Consultations</h3>
+      <div className="glass-card">
+        <h3>📋 Assigned Patient Consultations ({consultations.length})</h3>
         {consultations.length === 0 ? (
-          <p>No consultations scheduled at the moment.</p>
+          <p style={{ marginTop: '1rem', color: '#64748b' }}>No consultations scheduled at the moment.</p>
         ) : (
-          <ul className="consultation-list">
+          <div className="product-grid" style={{ marginTop: '1.5rem' }}>
             {consultations.map((c) => (
-              <li key={c._id} className="consultation-item">
-                <div className="consultation-info">
-                  <p><strong>Patient:</strong> {c.userName}</p>
-                  <p><strong>Concern:</strong> {c.concern}</p>
-                  <p><strong>Date:</strong> {new Date(c.date).toLocaleString()}</p>
-                </div>
+              <div key={c._id} className="glass-card">
+                <h4>Patient: {c.userName}</h4>
+                <p style={{ margin: '0.5rem 0' }}><strong>Concern:</strong> {c.concern}</p>
+                <p style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                  <strong>Scheduled Date:</strong> {new Date(c.date).toLocaleString()}
+                </p>
+                <span className="confidence-badge" style={{ margin: '0.75rem 0' }}>
+                  Status: {c.status || 'scheduled'}
+                </span>
+                <br />
                 <button
-                  onClick={() => navigate(`/chat/${c._id}`)}
-                  className="chat-btn"
+                  onClick={() => {
+                    localStorage.setItem('doctorName', doctor?.name || 'Doctor');
+                    navigate(`/chat/${c._id}`);
+                  }}
+                  className="btn"
+                  style={{ marginTop: '0.75rem', width: '100%' }}
                 >
-                  Start Chat
+                  💬 Start Patient Chat
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
-      </section>
+      </div>
     </div>
   );
 };

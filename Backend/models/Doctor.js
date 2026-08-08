@@ -30,10 +30,13 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
+    select: false,
   },
 }, { timestamps: true });
 
@@ -50,6 +53,4 @@ doctorSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const Doctor = mongoose.model('Doctor', doctorSchema);
-
-module.exports = Doctor;
+module.exports = mongoose.models.Doctor || mongoose.model('Doctor', doctorSchema);

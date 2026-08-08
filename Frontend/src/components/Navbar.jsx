@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles.css';
+import { getCurrentUser, getDoctorProfile } from '../services/api';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,24 +16,18 @@ const Navbar = () => {
 
     try {
       if (token) {
-        const res = await fetch('http://localhost:5000/api/user/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (data.username) {
-          setUser(data);
+        const res = await getCurrentUser();
+        if (res.data && res.data.username) {
+          setUser(res.data);
           setDoctor(null);
           return;
         }
       }
 
       if (doctorToken) {
-        const res = await fetch('http://localhost:5000/api/doctor/me', {
-          headers: { Authorization: `Bearer ${doctorToken}` },
-        });
-        const data = await res.json();
-        if (data.name) {
-          setDoctor(data);
+        const res = await getDoctorProfile();
+        if (res.data && res.data.name) {
+          setDoctor(res.data);
           setUser(null);
           return;
         }
@@ -42,7 +36,6 @@ const Navbar = () => {
       setUser(null);
       setDoctor(null);
     } catch (err) {
-      console.error('Profile fetch error:', err);
       setUser(null);
       setDoctor(null);
     }
@@ -69,67 +62,51 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const renderUserGreeting = () => {
-    if (user) {
-      return (
-        <span
-          className="welcome-text cursor-pointer font-medium hover:underline"
-          onClick={() => navigate('/dashboard')}
-        >
-          Welcome, {user.username}
-        </span>
-      );
-    } else if (doctor) {
-      return (
-        <span
-          className="welcome-text cursor-pointer font-medium hover:underline"
-          onClick={() => navigate('/doctor/dashboard')}
-        >
-          Dr. {doctor.name}
-        </span>
-      );
-    }
-    return null;
-  };
-
-  // Add this function to force an update when the user logs in
-  const handleLoginSuccess = () => {
-    fetchProfile(); // Ensure this is called after login
-  };
-
   return (
-    <nav className="navbar shadow-md">
+    <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="logo brand-name">
           Radiant<span>Skincare</span>
         </Link>
 
-        <div className="menu-icon" onClick={toggleMenu}>
-          <div className={isOpen ? 'bar rotate' : 'bar'} />
-          <div className={isOpen ? 'bar hide' : 'bar'} />
-          <div className={isOpen ? 'bar rotate-reverse' : 'bar'} />
-        </div>
-
         <div className={`nav-links ${isOpen ? 'active' : ''}`}>
           <Link to="/">Home</Link>
-          <Link to="/Consultation">Chat With Doctor</Link>
+          <Link to="/ai-consultation">AI Screening</Link>
+          <Link to="/consultation">Doctor Chat</Link>
           <Link to="/products">Products</Link>
           <Link to="/about">About</Link>
 
-          <div className="nav-buttons">
-            {(user || doctor) ? (
+          <div className="nav-buttons" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {user ? (
               <>
-                {renderUserGreeting()}
-                <button className="btn logout-btn" onClick={handleLogout}>
+                <span
+                  style={{ cursor: 'pointer', fontWeight: 600, color: 'var(--primary-teal-dark)' }}
+                  onClick={() => navigate('/dashboard')}
+                >
+                  Welcome, {user.username}
+                </span>
+                <button className="btn btn-secondary" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : doctor ? (
+              <>
+                <span
+                  style={{ cursor: 'pointer', fontWeight: 600, color: 'var(--accent-indigo)' }}
+                  onClick={() => navigate('/doctor/dashboard')}
+                >
+                  Dr. {doctor.name}
+                </span>
+                <button className="btn btn-secondary" onClick={handleLogout}>
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="btn login-btn">
+                <Link to="/login" className="btn btn-secondary">
                   Login
                 </Link>
-                <Link to="/register" className="btn register-btn">
+                <Link to="/register" className="btn">
                   Register
                 </Link>
               </>

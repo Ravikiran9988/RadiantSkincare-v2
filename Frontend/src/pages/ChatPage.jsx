@@ -1,90 +1,164 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import socket from '../services/socket';
+import { getConsultationMessages, fetchChatHistory } from '../services/api';
+import { toast } from 'react-toastify';
 import './ChatPage.css';
 
-// Socket connection
-const socket = io('http://localhost:5000');
-
 const ChatPage = () => {
-  const { consultationId } = useParams(); // Get the consultation ID from URL params
+  const { consultationId } = useParams();
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
-  const [patientName, setPatientName] = useState('');
-  const [doctorName, setDoctorName] = useState('Dr. Test'); // Replace with actual doctor data
+  const [partnerName, setPartnerName] = useState('Doctor');
+  const [isConnected, setIsConnected] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const currentUserType = localStorage.getItem('doctorToken') ? 'doctor' : 'user';
+  const currentUsername =
+    localStorage.getItem('doctorName') ||
+    localStorage.getItem('username') ||
+    (currentUserType === 'doctor' ? 'Doctor' : 'User');
 
   useEffect(() => {
-    const fetchMessages = async () => {
+    const loadChatHistory = async () => {
       try {
-        const token = localStorage.getItem('doctorToken');
-        const res = await fetch(`http://localhost:5000/api/consultation/${consultationId}/messages`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setMessages(data.messages);
-        setPatientName(data.patientName); // Assuming this is returned from API
-        setLoading(false);
+        let historyData = [];
+        try {
+          const res = await getConsultationMessages(consultationId);
+          if (res.data?.messages) {
+            historyData = res.data.messages;
+            if (res.data.patientName) setPartnerName(res.data.patientName);
+          }
+        } catch (e) {
+          const fallbackRes = await fetchChatHistory(consultationId);
+          historyData = fallbackRes.data?.data || [];
+        }
+        setMessages(historyData);
       } catch (err) {
-        console.error("Error fetching messages:", err);
+        console.error('Error loading chat history:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchMessages();
+    loadChatHistory();
 
-    socket.emit('join-room', consultationId);
+    if (!socket.connected) {
+      socket.connect();
+    }
 
-    socket.on('new-message', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
+    setIsConnected(socket.connected);
+
+    const onConnect = () => {
+      setIsConnected(true);
+      socket.emit('joinRoom', consultationId);
+    };
+
+    const onDisconnect = () => {
+      setIsConnected(false);
+    };
+
+    const handleReceiveMessage = (msg) => {
+      setMessages((prev) => [...prev, msg]);
+    };
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('receiveMessage', handleReceiveMessage);
+    socket.on('new-message', handleReceiveMessage);
+
+    if (socket.connected) {
+      socket.emit('joinRoom', consultationId);
+    }
 
     return () => {
-      socket.off('new-message');
-      socket.emit('leave-room', consultationId);
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('receiveMessage', handleReceiveMessage);
+      socket.off('new-message', handleReceiveMessage);
+      socket.emit('leaveRoom', consultationId);
     };
   }, [consultationId]);
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      const message = {
-        sender: 'doctor',
-        content: newMessage,
-        time: new Date().toLocaleString(),
-      };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-      socket.emit('send-message', { consultationId, message });
+  const handleSendMessage = (e) => {
+    if (e) e.preventDefault();
+    if (!newMessage.trim()) return;
 
-      setMessages((prevMessages) => [...prevMessages, message]);
-      setNewMessage('');
-    }
+    const msgPayload = {
+      consultationId,
+      sender: currentUsername,
+      content: newMessage.trim(),
+      text: newMessage.trim(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    socket.emit('sendMessage', msgPayload);
+    setNewMessage('');
   };
 
-  if (loading) return <div className="loading">Loading chat...</div>;
+  if (loading) {
+    return <div className="page-container glass-card" style={{ textAlign: 'center' }}>Loading consultation chat...</div>;
+  }
 
   return (
-    <div className="chat-container">
-      <header className="chat-header">
-        <h1>Chat with {patientName}</h1>
-      </header>
-
-      <div className="chat-messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}`}>
-            <p>{msg.content}</p>
-            <span>{msg.time}</span>
+    <div className="page-container">
+      <div className="chat-container">
+        <header className="chat-header">
+          <div>
+            <h2>💬 Consultation Chat</h2>
+            <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
+              Room ID: {consultationId} • Logged in as: <strong>{currentUsername}</strong>
+            </p>
           </div>
-        ))}
-      </div>
+          <span className={`confidence-badge ${isConnected ? '' : 'btn-secondary'}`}>
+            {isConnected ? '🟢 Live Connected' : '🟡 Reconnecting...'}
+          </span>
+        </header>
 
-      <div className="chat-input">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button onClick={handleSendMessage}>Send</button>
+        <div className="chat-messages">
+          {messages.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#94a3b8', marginTop: '2rem' }}>
+              No messages yet. Send a greeting to start the consultation!
+            </div>
+          ) : (
+            messages.map((msg, index) => {
+              const isMine =
+                msg.sender === currentUsername ||
+                (currentUserType === 'user' && msg.sender === 'user') ||
+                (currentUserType === 'doctor' && msg.sender === 'doctor');
+              return (
+                <div key={index} className={`message ${isMine ? 'user' : 'doctor'}`}>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.85, marginBottom: '2px' }}>
+                    {msg.sender || (isMine ? 'You' : partnerName)}
+                  </div>
+                  <p>{msg.content || msg.text}</p>
+                  <div style={{ fontSize: '0.7rem', opacity: 0.75, textAlign: 'right', marginTop: '4px' }}>
+                    {msg.time || new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
+              );
+            })
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        <form onSubmit={handleSendMessage} className="chat-input">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type your clinical message or question..."
+          />
+          <button type="submit" className="btn">
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );

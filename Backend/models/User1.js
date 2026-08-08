@@ -19,6 +19,11 @@ const chatMessageSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now }
 });
 
+const userConsultationRefSchema = new mongoose.Schema({
+  doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' },
+  scheduledAt: { type: Date, default: Date.now }
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -37,6 +42,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false, // Don't return password by default in queries
   },
 
   otp: {
@@ -53,9 +59,12 @@ const userSchema = new mongoose.Schema({
   analysisHistory: [analysisEntrySchema],
   routineChecklist: [routineStepSchema],
 
-  // 🟢 Chat history with doctors
+  // Chat history with doctors
   chatHistory: [chatMessageSchema],
+
+  // User consultations
+  consultations: [userConsultationRefSchema],
 },
 { timestamps: true });
 
-module.exports = mongoose.model('User1', userSchema);
+module.exports = mongoose.models.User1 || mongoose.model('User1', userSchema);

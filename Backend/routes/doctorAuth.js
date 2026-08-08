@@ -7,22 +7,29 @@ const router = express.Router();
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
+  }
+
   try {
-    const doctor = await Doctor.findOne({ email });
+    const doctor = await Doctor.findOne({ email: email.trim().toLowerCase() }).select('+password');
     if (!doctor) {
-      return res.status(400).json({ message: 'Doctor not found' });
+      return res.status(400).json({ success: false, message: 'Doctor account not found' });
     }
 
     const isMatch = await bcrypt.compare(password, doctor.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid password' });
+      return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
-    });
+    const token = jwt.sign(
+      { id: doctor._id, role: 'doctor' },
+      process.env.JWT_SECRET || 'dev_jwt_secret_key_radiant_skincare_2026',
+      { expiresIn: '7d' }
+    );
 
     res.json({
+      success: true,
       token,
       doctor: {
         id: doctor._id,
@@ -35,8 +42,8 @@ router.post('/login', async (req, res) => {
       },
     });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Doctor Login error:', err);
+    res.status(500).json({ success: false, message: 'Server error during login' });
   }
 });
 

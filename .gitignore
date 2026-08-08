@@ -1,0 +1,33 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+env/
+
+# Python Cache & Artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Storage & Uploads
+uploads/*
+!uploads/.gitkeep
+logs/
+*.log
+
+# OS Metadata & IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build Output
+dist/
+build/

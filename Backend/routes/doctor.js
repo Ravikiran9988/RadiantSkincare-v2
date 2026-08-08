@@ -4,33 +4,40 @@ const Doctor = require('../models/Doctor');
 const Consultation = require('../models/Consultation');
 const authenticateDoctor = require('../middleware/authenticateDoctor');
 
-// @route   GET /api/doctor/me
-// @desc    Get logged-in doctor profile
-// @access  Private
+// GET /api/doctor/me - Get logged-in doctor profile
 router.get('/me', authenticateDoctor, async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.doctorId).select('-password');
-    if (!doctor) return res.status(404).json({ message: 'Doctor not found' });
+    const doctor = await Doctor.findById(req.doctorId);
+    if (!doctor) return res.status(404).json({ success: false, message: 'Doctor not found' });
     res.json(doctor);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Doctor Profile Error:', err.message);
+    res.status(500).json({ success: false, message: 'Server error fetching doctor profile' });
   }
 });
 
-// @route   GET /api/doctor/consultations
-// @desc    Get all consultations for the logged-in doctor
-// @access  Private
+// GET /api/doctor/consultations - Get all consultations assigned to logged-in doctor
 router.get('/consultations', authenticateDoctor, async (req, res) => {
   try {
     const consultations = await Consultation.find({ doctorId: req.doctorId })
-      .populate('userId', 'name email')
+      .populate('userId', 'username email')
       .sort({ date: -1 });
 
-    res.json(consultations);
+    const formatted = consultations.map(c => ({
+      _id: c._id,
+      userId: c.userId?._id,
+      userName: c.userId?.username || 'Patient',
+      userEmail: c.userId?.email || '',
+      doctorId: c.doctorId,
+      date: c.date,
+      concern: c.concern || 'General Consultation',
+      status: c.status
+    }));
+
+    res.json(formatted);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Doctor Consultations Error:', err.message);
+    res.status(500).json({ success: false, message: 'Server error fetching consultations' });
   }
 });
 

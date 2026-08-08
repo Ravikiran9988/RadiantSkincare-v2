@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const consultationSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User1',
+    required: true,
   },
   doctorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor',
+    required: true,
   },
   date: {
     type: Date,
@@ -15,10 +17,16 @@ const consultationSchema = new mongoose.Schema({
   },
   concern: {
     type: String,
+    default: 'General Skin Consultation',
+    trim: true,
+  },
+  status: {
+    type: String,
+    enum: ['scheduled', 'completed', 'cancelled'],
+    default: 'scheduled',
   },
 }, {
   timestamps: true,
 });
 
-// ✅ This line prevents OverwriteModelError:
 module.exports = mongoose.models.Consultation || mongoose.model('Consultation', consultationSchema);

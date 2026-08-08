@@ -5,17 +5,17 @@ const otpSchema = new mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
-    trim: true
+    trim: true,
   },
   otp: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 300 // Automatically deletes the OTP document after 5 minutes
-  }
+    expires: 300, // Automatically deletes document after 5 minutes
+  },
 });
 
-module.exports = mongoose.model('Otp', otpSchema);
+module.exports = mongoose.models.Otp || mongoose.model('Otp', otpSchema);

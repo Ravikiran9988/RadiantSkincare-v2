@@ -1,43 +1,54 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { verifyOtp } from "../services/api";
+import { toast } from "react-toastify";
 
 const OTPVerification = ({ email }) => {
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleVerify = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/verify-otp", {
-        email,
-        otp,
-      });
+    if (!otp || otp.length < 6) {
+      toast.warn("Please enter a valid 6-digit OTP.");
+      return;
+    }
 
-      alert(res.data.message || "Email verified!");
+    setLoading(true);
+    try {
+      const res = await verifyOtp({ email, otp });
+      toast.success(res.data?.message || "Email verified successfully!");
       navigate("/login");
     } catch (err) {
       console.error("OTP verification error:", err);
-      alert(err.response?.data?.message || "Invalid OTP. Please try again.");
+      toast.error(err.response?.data?.message || "Invalid or expired OTP.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="verify-container">
-      <div className="verify-box">
-        <h2>Verify Your Email</h2>
-        <p className="subtitle">Enter the OTP sent to <strong>{email}</strong></p>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '75vh' }}>
+      <div className="glass-card" style={{ maxWidth: '450px', width: '100%', padding: '2.5rem', textAlign: 'center' }}>
+        <h2>Verify Email OTP 🔑</h2>
+        <p style={{ color: '#64748b', margin: '0.5rem 0 1.5rem 0' }}>
+          Enter the 6-digit verification code sent to<br />
+          <strong>{email}</strong>
+        </p>
+
         <form onSubmit={handleVerify}>
           <input
             type="text"
-            placeholder="Enter 6-digit OTP"
+            placeholder="e.g. 123456"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             maxLength="6"
+            style={{ textAlign: 'center', letterSpacing: '4px', fontSize: '1.25rem', fontWeight: 'bold' }}
             required
           />
-          <button className="verify-button" type="submit">
-            Verify OTP
+          <button type="submit" className="btn" disabled={loading} style={{ width: '100%', marginTop: '1.5rem' }}>
+            {loading ? 'Verifying OTP...' : 'Verify Email & Activate'}
           </button>
         </form>
       </div>

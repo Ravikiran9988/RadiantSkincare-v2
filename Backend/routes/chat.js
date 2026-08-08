@@ -2,21 +2,28 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const User = require('../models/User1');
+const Chat = require('../models/Chat');
+const Message = require('../models/Message');
 
-// GET /api/chat/history/:doctorName
-router.get('/history/:doctorName', auth, async (req, res) => {
-  const { doctorName } = req.params;
+// GET /api/chat/history/:consultationId
+router.get('/history/:consultationId', auth, async (req, res) => {
+  const { consultationId } = req.params;
 
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const messages = await Message.find({ consultation: consultationId }).sort({ timestamp: 1 });
+    if (messages && messages.length > 0) {
+      return res.json({ success: true, data: messages });
+    }
 
-    const history = user.chatHistory?.filter(chat => chat.doctorName === doctorName) || [];
+    // Fallback: Query Chat collection by room/ID
+    const chatLogs = await Chat.find({
+      $or: [{ from: consultationId }, { to: consultationId }]
+    }).sort({ timestamp: 1 });
 
-    res.json({ chatHistory: history });
+    res.json({ success: true, data: chatLogs });
   } catch (err) {
-    console.error('❌ Chat History Error:', err);
-    res.status(500).json({ message: 'Server error', error: err.message });
+    console.error('Chat History Error:', err);
+    res.status(500).json({ success: false, message: 'Server error loading chat history' });
   }
 });
 
