@@ -521,7 +521,7 @@ label {
   }
 }
 
-/* Smart Product Matching Section Layout (Strict 2-Column Desktop Grid) */
+/* Smart Product Matching Section Layout (Production-Quality 2-Column Grid) */
 .smart-product-section {
   background-color: #F8F7FF;
   border-top: 1px solid var(--border-color);
@@ -537,12 +537,19 @@ label {
 
 .smart-product-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 560px;
+  grid-template-columns: 1fr 520px;
   align-items: center;
-  gap: 64px;
+  gap: 56px;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1099px) and (min-width: 768px) {
+  .smart-product-grid {
+    grid-template-columns: 1fr 460px;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 767px) {
   .smart-product-section {
     padding: 40px 0;
   }
@@ -553,6 +560,6 @@ label {
 
   .smart-product-grid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 32px;
   }
 }

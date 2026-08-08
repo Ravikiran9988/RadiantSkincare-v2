@@ -205,22 +205,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Strict 2-Column CSS Grid) */}
+      {/* 5. Smart Product Matching Section (Single-Line Desktop Heading & 1fr 520px Grid) */}
       <section className="smart-product-section">
         <div className="smart-product-container">
           <div className="smart-product-grid">
-            {/* Left Column (Flush left inside 1280px container) */}
+            {/* Left Column */}
             <div>
-              <span className="eyebrow" style={{ marginBottom: '24px' }}>
+              <span className="eyebrow" style={{ marginBottom: '28px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
 
-              <h2 style={{ fontSize: 'clamp(2.25rem, 3.8vw, 3.25rem)', fontWeight: 700, color: '#171329', marginBottom: '18px', lineHeight: 1.08 }}>
+              <h2 style={{ fontSize: 'clamp(2.25rem, 3.4vw, 3rem)', fontWeight: 700, color: '#171329', marginBottom: '18px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
                 Smart Product Matching
               </h2>
 
-              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '600px' }}>
+              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '580px' }}>
                 Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
               </p>
 
@@ -243,7 +243,7 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Right Column: Quick Product Matcher Card (Fixed width 560px on desktop) */}
+            {/* Right Column: Quick Product Matcher Card (520px width on desktop) */}
             <div
               className="card"
               style={{
