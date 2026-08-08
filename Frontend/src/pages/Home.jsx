@@ -205,28 +205,31 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Left content shifted left via gap 4rem) */}
-      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '48px 0 56px' }}>
-        <div className="page-container" style={{ padding: '0 1.5rem' }}>
-          <div className="grid-2" style={{ gap: '4rem', alignItems: 'center' }}>
-            {/* Left Column (Flush left inside container) */}
-            <div>
-              <span className="eyebrow" style={{ marginBottom: '20px' }}>
+      {/* 5. Smart Product Matching Section (45% / 55% Composition, 72px Gap, 52px Headline, 40px Card Padding) */}
+      <section style={{ backgroundColor: '#F8F7FF', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '48px 0 56px' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '72px', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* Left Column (45% Width) */}
+            <div style={{ flex: '1 1 45%', minWidth: '320px', maxWidth: '520px' }}>
+              <span className="eyebrow" style={{ marginBottom: '24px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
-              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '16px', lineHeight: 1.25 }}>
+
+              <h2 style={{ fontSize: 'clamp(2.25rem, 3.8vw, 3.15rem)', fontWeight: 750, color: '#171329', marginBottom: '18px', lineHeight: 1.08, letterSpacing: '-0.02em' }}>
                 Smart Product Matching
               </h2>
-              <p style={{ fontSize: '1rem', color: '#625B71', lineHeight: 1.6, maxWidth: '520px', marginBottom: '28px' }}>
+
+              <p style={{ fontSize: '1.05rem', color: '#625B71', lineHeight: 1.6, marginBottom: '28px', maxWidth: '480px' }}>
                 Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
               </p>
+
               <Link
                 to="/products"
                 className="btn btn-primary"
                 style={{
                   height: '56px',
-                  padding: '0 1.85rem',
+                  padding: '0 2rem',
                   borderRadius: '14px',
                   fontSize: '0.975rem',
                   fontWeight: 700,
@@ -240,26 +243,29 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Right Column: Quick Product Matcher Card */}
+            {/* Right Column: Quick Product Matcher Card (55% Width, Max-width 580px) */}
             <div
               className="card"
               style={{
+                flex: '1 1 50%',
+                minWidth: '320px',
+                maxWidth: '580px',
                 backgroundColor: '#FFFFFF',
                 border: '1px solid #EDE9FE',
                 borderRadius: '24px',
-                padding: '32px 36px',
+                padding: '40px',
                 boxShadow: '0 12px 40px rgba(124, 58, 237, 0.08)'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '28px' }}>
                 <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
-                <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#171329', margin: 0 }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#171329', margin: 0 }}>
                   Quick Product Matcher
                 </h3>
               </div>
 
               <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ marginBottom: '28px' }}>
+                <div style={{ marginBottom: '26px' }}>
                   <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
                     Skin Concern:
                   </label>
@@ -283,7 +289,7 @@ const Home = () => {
                   </select>
                 </div>
 
-                <div style={{ marginBottom: '32px' }}>
+                <div style={{ marginBottom: '30px' }}>
                   <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
                     Skin Type:
                   </label>
