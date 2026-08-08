@@ -205,11 +205,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Compact Padding: 48px top, 56px bottom) */}
+      {/* 5. Smart Product Matching Section (Left content shifted left via gap 4rem) */}
       <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '48px 0 56px' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
-          <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
-            {/* Left Column */}
+          <div className="grid-2" style={{ gap: '4rem', alignItems: 'center' }}>
+            {/* Left Column (Flush left inside container) */}
             <div>
               <span className="eyebrow" style={{ marginBottom: '20px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
