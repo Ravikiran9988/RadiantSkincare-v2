@@ -118,7 +118,7 @@ const Home = () => {
       </section>
 
       {/* 3. Feature Section: Everything you need for better skincare */}
-      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+      <section className="page-container" style={{ padding: '3.5rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="eyebrow">AI-POWERED PERSONALIZED SKINCARE</span>
           <h2>Everything you need for better skincare.</h2>
@@ -167,7 +167,7 @@ const Home = () => {
       </section>
 
       {/* 4. How Radiant Works (3-Step Timeline) */}
-      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
+      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '3.5rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="eyebrow">Product Workflow</span>
@@ -205,7 +205,146 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Dark AI Technology Section (#1E1633) */}
+      {/* 5. Smart Product Matching Section (Compact 2-Column Section) */}
+      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '3.25rem 0' }}>
+        <div className="page-container" style={{ padding: '0 1.5rem' }}>
+          <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
+            {/* Left Column */}
+            <div>
+              <span className="eyebrow" style={{ marginBottom: '0.85rem' }}>
+                <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
+                SMART PRODUCT ENGINE
+              </span>
+              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '1rem', lineHeight: 1.25 }}>
+                Smart Product Matching
+              </h2>
+              <p style={{ fontSize: '1rem', color: '#625B71', lineHeight: 1.6, maxWidth: '520px', marginBottom: '1.75rem' }}>
+                Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
+              </p>
+              <Link
+                to="/products"
+                className="btn btn-primary"
+                style={{
+                  height: '56px',
+                  padding: '0 1.85rem',
+                  borderRadius: '14px',
+                  fontSize: '0.975rem',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.65rem'
+                }}
+              >
+                Explore Product Catalog <ArrowRightIcon size={18} style={{ color: '#FFFFFF' }} />
+              </Link>
+            </div>
+
+            {/* Right Column: Quick Product Matcher Card */}
+            <div
+              className="card"
+              style={{
+                backgroundColor: '#FFFFFF',
+                border: '1px solid #EDE9FE',
+                borderRadius: '24px',
+                padding: '32px 36px',
+                boxShadow: '0 12px 40px rgba(124, 58, 237, 0.08)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
+                <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#171329', margin: 0 }}>
+                  Quick Product Matcher
+                </h3>
+              </div>
+
+              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
+                    Skin Concern:
+                  </label>
+                  <select
+                    value={selectedConcern}
+                    onChange={(e) => setSelectedConcern(e.target.value)}
+                    style={{
+                      height: '56px',
+                      borderRadius: '14px',
+                      border: '1px solid #E7E0F5',
+                      color: '#171329',
+                      padding: '0 16px',
+                      fontSize: '0.95rem'
+                    }}
+                    required
+                  >
+                    <option value="">-- Select Skin Concern --</option>
+                    {concerns.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
+                    Skin Type:
+                  </label>
+                  <select
+                    value={selectedSkinType}
+                    onChange={(e) => setSelectedSkinType(e.target.value)}
+                    style={{
+                      height: '56px',
+                      borderRadius: '14px',
+                      border: '1px solid #E7E0F5',
+                      color: '#171329',
+                      padding: '0 16px',
+                      fontSize: '0.95rem'
+                    }}
+                    required
+                  >
+                    <option value="">-- Select Skin Type --</option>
+                    {skinTypes.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    height: '56px',
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+                    color: '#FFFFFF',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    marginTop: '0.35rem',
+                    boxShadow: '0 8px 24px rgba(124, 58, 237, 0.22)'
+                  }}
+                >
+                  {loading ? 'Processing...' : 'Generate Match'}
+                </button>
+              </form>
+
+              {recommendation && (
+                <div style={{ marginTop: '1.5rem', paddingTop: '1.15rem', borderTop: '1px solid #EDE9FE' }}>
+                  <strong style={{ fontSize: '0.95rem', color: '#171329', display: 'block', fontWeight: 700 }}>
+                    Recommended Match: {recommendation.product_name}
+                  </strong>
+                  <p style={{ fontSize: '0.85rem', color: '#625B71', marginTop: '0.35rem', margin: 0, lineHeight: 1.5 }}>
+                    <strong>Key Ingredients:</strong> {recommendation.ingredients}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Dark AI Technology Section (#1E1633) */}
       <section className="dark-section" style={{ padding: '4.5rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div className="grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
@@ -258,8 +397,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. Personalized Skincare Routine Showcase */}
-      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+      {/* 7. Personalized Skincare Routine Showcase */}
+      <section className="page-container" style={{ padding: '3.5rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="eyebrow">Routine Guidance</span>
           <h2>Your Personalized Skincare Routine</h2>
@@ -345,64 +484,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 7. Smart Product Matching Section */}
-      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
-        <div className="page-container" style={{ padding: '0 1.5rem' }}>
-          <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
-            <div>
-              <span className="eyebrow">Smart Product Engine</span>
-              <h2 style={{ marginBottom: '1rem' }}>Smart Product Matching</h2>
-              <p className="subheading" style={{ fontSize: '0.95rem', marginBottom: '1.5rem' }}>
-                Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
-              </p>
-              <Link to="/products" className="btn btn-primary">
-                Explore Product Catalog <ArrowRightIcon size={16} />
-              </Link>
-            </div>
-
-            <div className="card">
-              <h3 style={{ marginBottom: '1.15rem' }}>Quick Product Matcher</h3>
-              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div>
-                  <label>Skin Concern:</label>
-                  <select value={selectedConcern} onChange={(e) => setSelectedConcern(e.target.value)} required>
-                    <option value="">-- Select Skin Concern --</option>
-                    {concerns.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label>Skin Type:</label>
-                  <select value={selectedSkinType} onChange={(e) => setSelectedSkinType(e.target.value)} required>
-                    <option value="">-- Select Skin Type --</option>
-                    {skinTypes.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <button type="submit" className="btn btn-secondary" disabled={loading}>
-                  {loading ? 'Processing...' : 'Generate Match'}
-                </button>
-              </form>
-
-              {recommendation && (
-                <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                  <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)' }}>Recommended Match: {recommendation.product_name}</strong>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
-                    <strong>Ingredients:</strong> {recommendation.ingredients}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 8. AI Screening History & Confidence Trend */}
-      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+      <section className="page-container" style={{ padding: '3.5rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="eyebrow">Confidence Trend</span>
           <h2>AI Screening History</h2>
@@ -465,7 +548,7 @@ const Home = () => {
       </section>
 
       {/* 9. Ingredient Insights Section */}
-      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
+      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '3.5rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="eyebrow">Formulation Science</span>
