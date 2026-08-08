@@ -8,8 +8,7 @@ import {
   CheckIcon,
   ArrowRightIcon,
   CalendarIcon,
-  InfoIcon,
-  DropletIcon
+  InfoIcon
 } from '../components/Icons.jsx';
 import { getRecommendationOptions, getProductRecommendation } from '../services/api';
 import { toast } from 'react-toastify';
@@ -106,7 +105,7 @@ const Home = () => {
               <CalendarIcon size={22} style={{ color: 'var(--secondary-pink)' }} />
               <div>
                 <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>Skin Insights</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Routine & trend tracking</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Routine & screening history</span>
               </div>
             </div>
           </div>
@@ -124,7 +123,7 @@ const Home = () => {
           <span className="eyebrow">Personalized AI Skincare MVP</span>
           <h2>Everything you need for better skincare.</h2>
           <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-            From AI-assisted screening to personalized recommendations, routine building, and progress tracking over time.
+            From AI-assisted screening to personalized recommendations, routine building, and screening history tracking over time.
           </p>
         </div>
 
@@ -159,9 +158,9 @@ const Home = () => {
           {/* 04 */}
           <div className="card card-hover">
             <span className="step-number step-3">04</span>
-            <h3>Skin Progress Tracking</h3>
+            <h3>AI Screening History</h3>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-              Save previous AI screening results and track your screening trends and skincare journey over time.
+              Save previous AI screening results and track your screening trends and model confidence history over time.
             </p>
           </div>
         </div>
@@ -174,7 +173,7 @@ const Home = () => {
             <span className="eyebrow">Product Workflow</span>
             <h2>How Radiant Works</h2>
             <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-              Three simple steps to understand your skin, build a routine, and track progress.
+              Three simple steps to understand your skin, build a routine, and track your screening history.
             </p>
           </div>
 
@@ -199,7 +198,7 @@ const Home = () => {
               <span className="step-number step-3">03</span>
               <h3>Improve</h3>
               <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                Explore personalized products, build your daily routine, and track your skin insights over time.
+                Explore personalized products, build your daily routine, and track your screening history over time.
               </p>
             </div>
           </div>
@@ -225,7 +224,7 @@ const Home = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Metrics:</strong> Calculates probability distributions without absolute claims.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Metrics:</strong> Calculates prediction confidence distributions without absolute claims.</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
@@ -402,44 +401,62 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 8. Track Your Skin Journey Section */}
+      {/* 8. AI Screening History & Confidence Trend */}
       <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span className="eyebrow">Screening Trends</span>
-          <h2>Track Your Skin Journey</h2>
+          <span className="eyebrow">Confidence Trend</span>
+          <h2>AI Screening History</h2>
           <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-            Save previous AI screening results, monitor confidence trends, and re-analyze over time.
+            Review historical screening classifications and model prediction confidence over time.
           </p>
         </div>
 
-        <div className="grid-3">
+        <div className="grid-3" style={{ marginBottom: '1.25rem' }}>
           <div className="card">
-            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>July 10</span>
-            <h4>Initial Analysis</h4>
+            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>JUL 10</span>
+            <h4>Initial Screening</h4>
             <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Skin Screening Features</p>
-            <strong style={{ fontSize: '1rem', color: 'var(--primary-purple)' }}>Confidence: 79.6%</strong>
+            <strong style={{ fontSize: '0.95rem', color: 'var(--primary-purple)' }}>Model Confidence: 79.6%</strong>
           </div>
 
           <div className="card">
-            <span className="status-badge pink" style={{ marginBottom: '0.75rem' }}>July 25</span>
-            <h4>Second Analysis</h4>
+            <span className="status-badge pink" style={{ marginBottom: '0.75rem' }}>JUL 25</span>
+            <h4>Second Screening</h4>
             <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Acne Features</p>
-            <strong style={{ fontSize: '1rem', color: 'var(--secondary-pink)' }}>Confidence: 82.1%</strong>
+            <strong style={{ fontSize: '0.95rem', color: 'var(--secondary-pink)' }}>Model Confidence: 82.1%</strong>
           </div>
 
           <div className="card" style={{ border: '2px solid var(--primary-purple)' }}>
-            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>August 08</span>
-            <h4>Latest Analysis</h4>
+            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>AUG 08</span>
+            <h4>Latest Screening</h4>
             <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Acne & Rosacea Features</p>
-            <strong style={{ fontSize: '1rem', color: 'var(--primary-purple)' }}>Confidence: 88.4%</strong>
+            <strong style={{ fontSize: '0.95rem', color: 'var(--primary-purple)' }}>Model Confidence: 88.4%</strong>
           </div>
         </div>
 
+        {/* Mandatory Explanatory Note Callout Box */}
+        <div style={{
+          backgroundColor: 'var(--soft-lavender)',
+          border: '1px solid var(--border-color)',
+          borderLeft: '4px solid var(--primary-purple)',
+          padding: '0.85rem 1.15rem',
+          borderRadius: 'var(--radius-md)',
+          fontSize: '0.875rem',
+          color: 'var(--dark-text)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.65rem',
+          marginBottom: '2rem'
+        }}>
+          <InfoIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0 }} />
+          <span>Note: Confidence reflects the model's prediction confidence and does not indicate medical improvement.</span>
+        </div>
+
         {/* Re-analysis CTA Box */}
-        <div className="card" style={{ marginTop: '2rem', textAlign: 'center', padding: '2.5rem 2rem', background: 'var(--soft-lavender)' }}>
-          <h3 style={{ marginBottom: '0.5rem' }}>Ready for another check?</h3>
+        <div className="card" style={{ textAlign: 'center', padding: '2.5rem 2rem', background: 'var(--soft-rose)' }}>
+          <h3 style={{ marginBottom: '0.5rem' }}>Ready for another screening?</h3>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '1.25rem' }}>
-            Upload a new skin photo to add another screening entry to your progress history.
+            Upload a new image to add another AI screening to your history.
           </p>
           <button className="btn btn-primary" onClick={() => navigate('/ai-consultation')}>
             <ScanIcon size={18} /> Analyze My Skin

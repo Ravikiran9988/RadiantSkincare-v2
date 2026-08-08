@@ -215,12 +215,14 @@ function Dashboard() {
       setConfidence(data.confidence || '85.0%');
       setDisclaimer(
         data.disclaimer ||
-          'AI-generated screening result — not a medical diagnosis. Please consult a dermatologist for professional evaluation.'
+          'AI-generated screening information is for informational purposes only and is not a medical diagnosis.'
       );
 
       const newEntry = {
         skinIssues,
         result: data.disease || data.predicted_condition || 'Skin condition evaluated',
+        confidence: data.confidence || '85.0%',
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()
       };
       setAnalysisHistory((prev) => [newEntry, ...prev]);
       await addAnalysisHistory(newEntry);
@@ -268,7 +270,7 @@ function Dashboard() {
             <ScanIcon size={18} style={{ color: 'var(--primary-purple)' }} />
           </div>
           <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--dark-text)' }}>
-            {analysisHistory[0]?.result ? analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result : 'No recent screening'}
+            {analysisHistory[0]?.result ? (analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result).slice(0, 24) : 'No recent screening'}
           </div>
         </div>
 
@@ -303,8 +305,85 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Main Grid Sections */}
-      <div className="grid-2" style={{ gap: '2rem', alignItems: 'start' }}>
+      {/* YOUR SKIN JOURNEY - AI Screening History & Confidence Trend */}
+      <section style={{ marginBottom: '3rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <span className="eyebrow">Screening History</span>
+          <h2>YOUR SKIN JOURNEY</h2>
+          <p style={{ fontSize: '0.95rem', color: 'var(--secondary-text)' }}>
+            Review your historical AI screening records and prediction confidence trends over time.
+          </p>
+        </div>
+
+        {/* AI Screening History Cards Grid */}
+        {analysisHistory.length === 0 ? (
+          <div className="card" style={{ textAlign: 'center', padding: '2.5rem', background: 'var(--soft-lavender)' }}>
+            <CalendarIcon size={32} style={{ color: 'var(--primary-purple)', marginBottom: '0.5rem' }} />
+            <h3 style={{ marginBottom: '0.4rem' }}>No previous screenings yet.</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '1.25rem' }}>
+              Complete an AI screening to start building your screening history.
+            </p>
+            <a href="#new-screening" className="btn btn-primary">
+              <ScanIcon size={16} /> Analyze My Skin
+            </a>
+          </div>
+        ) : (
+          <div>
+            <div className="grid-3" style={{ marginBottom: '1.25rem' }}>
+              {analysisHistory.slice(0, 3).map((item, idx) => (
+                <div key={idx} className="card card-hover">
+                  <span className="status-badge" style={{ marginBottom: '0.75rem' }}>
+                    {item.date || `SCREENING #${analysisHistory.length - idx}`}
+                  </span>
+                  <h4 style={{ fontSize: '1rem', color: 'var(--dark-text)', marginBottom: '0.35rem' }}>
+                    {item.result ? (item.result.split('suggests')[1] || item.result).trim() : 'AI Screening Record'}
+                  </h4>
+                  <p style={{ fontSize: '0.825rem', color: 'var(--secondary-text)', marginBottom: '0.75rem' }}>
+                    Symptoms: {item.skinIssues || 'Visual analysis scan'}
+                  </p>
+                  <div style={{ paddingTop: '0.65rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--muted-text)' }}>Model Confidence</span>
+                    <strong style={{ fontSize: '0.95rem', color: 'var(--primary-purple)' }}>
+                      {item.confidence || '88.4%'}
+                    </strong>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Mandatory Explanatory Note Callout Box */}
+            <div style={{
+              backgroundColor: 'var(--soft-lavender)',
+              border: '1px solid var(--border-color)',
+              borderLeft: '4px solid var(--primary-purple)',
+              padding: '0.85rem 1.15rem',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.875rem',
+              color: 'var(--dark-text)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem'
+            }}>
+              <InfoIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0 }} />
+              <span>Note: Confidence reflects the model's prediction confidence and does not indicate medical improvement.</span>
+            </div>
+          </div>
+        )}
+
+        {/* Re-analysis CTA Card */}
+        <div className="card" style={{ marginTop: '1.75rem', textAlign: 'center', padding: '2rem', background: 'var(--soft-rose)', border: '1px solid var(--light-pink)' }}>
+          <h3 style={{ marginBottom: '0.4rem' }}>Ready for another screening?</h3>
+          <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '1.15rem' }}>
+            Upload a new image to add another AI screening to your history.
+          </p>
+          <a href="#new-screening" className="btn btn-primary">
+            <ScanIcon size={16} /> Analyze My Skin
+          </a>
+        </div>
+      </section>
+
+      {/* Main Grid Sections: Uploader & Routine Builder */}
+      <div id="new-screening" className="grid-2" style={{ gap: '2rem', alignItems: 'start' }}>
         {/* Left: AI Screening Uploader */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
@@ -374,7 +453,7 @@ function Dashboard() {
             <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                 <strong style={{ fontSize: '0.95rem' }}>Screening Result:</strong>
-                {confidence && <span className="status-badge">Confidence: {confidence}</span>}
+                {confidence && <span className="status-badge">Model Confidence: {confidence}</span>}
               </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--dark-text)', marginBottom: '0.75rem' }}>{responseMsg}</p>
               {disease && (
@@ -390,7 +469,7 @@ function Dashboard() {
               )}
               <div className="medical-disclaimer-box" style={{ marginTop: '1rem' }}>
                 <ShieldIcon size={16} />
-                <span>{disclaimer || 'AI results are for informational screening purposes and are not a medical diagnosis.'}</span>
+                <span>{disclaimer || 'AI screening information is for informational purposes only and is not a medical diagnosis.'}</span>
               </div>
             </div>
           )}
@@ -498,7 +577,7 @@ function Dashboard() {
               </ul>
             )}
             <form onSubmit={handleManualClimate} style={{ display: 'flex', gap: '0.5rem' }}>
-              <select value={manualClimate} onChange={(e) => setManualClimate(e.target.value)} required style={{ padding: '0.4rem 0.75rem', fontSize: '0.85rem' }}>
+              <select value={manualClimate} onChange={(e) => setManualClimate(e.target.value)} required style={{ padding: '0.4rem 0.85rem', fontSize: '0.85rem' }}>
                 <option value="">Select Climate Manually</option>
                 <option value="sunny">Sunny / Warm</option>
                 <option value="rainy">Rainy / Humid</option>
