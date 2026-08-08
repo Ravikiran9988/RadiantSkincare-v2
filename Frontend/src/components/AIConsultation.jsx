@@ -6,8 +6,7 @@ import {
   ShieldIcon,
   UploadIcon,
   InfoIcon,
-  SparklesIcon,
-  StethoscopeIcon
+  SparklesIcon
 } from './Icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +69,7 @@ function AIConsultation() {
         setResult({
           disease: `Preliminary guidance for reported symptoms ("${input}"): Maintain gentle cleansing, daily SPF 50+, and barrier restoration.`,
           confidence: '80.0%',
-          disclaimer: 'AI results are for informational screening purposes and are not a medical diagnosis. Please consult a dermatologist for professional evaluation.'
+          disclaimer: 'AI-generated screening information is for informational purposes only and is not a medical diagnosis.'
         });
         toast.success('Preliminary guidance generated.');
       }
@@ -185,7 +184,7 @@ function AIConsultation() {
                   <span className="step-number step-3" style={{ margin: 0 }}>3</span>
                   <div>
                     <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>Confidence Evaluation</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Softmax probability distributions calculate confidence percentage metrics.</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Softmax probability distributions calculate prediction confidence percentage metrics.</span>
                   </div>
                 </div>
 
@@ -193,7 +192,7 @@ function AIConsultation() {
                   <span className="step-number step-1" style={{ margin: 0 }}>4</span>
                   <div>
                     <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--dark-text)' }}>Personalized Guidance</strong>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Ingredient recommendations and doctor consultation booking links.</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>Ingredient recommendations and routine building protocols.</span>
                   </div>
                 </div>
               </div>
@@ -202,7 +201,7 @@ function AIConsultation() {
             <div className="card" style={{ borderLeft: '4px solid var(--primary-purple)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h3>Screening Result</h3>
-                {result.confidence && <span className="status-badge">Confidence: {result.confidence}</span>}
+                {result.confidence && <span className="status-badge">Model Confidence: {result.confidence}</span>}
               </div>
 
               <div style={{ backgroundColor: 'var(--soft-lavender)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
@@ -211,10 +210,10 @@ function AIConsultation() {
               </div>
 
               <div style={{ marginBottom: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Recommended Next Step</h4>
+                <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Recommended Next Steps</h4>
                 <ul style={{ paddingLeft: '1.25rem', fontSize: '0.875rem', color: 'var(--secondary-text)' }}>
                   <li>Explore matched product recommendations based on active ingredients.</li>
-                  <li>Schedule a consultation with an assigned dermatologist if symptoms persist.</li>
+                  <li>Build a daily morning and evening skincare routine on your dashboard.</li>
                 </ul>
               </div>
 
@@ -222,14 +221,14 @@ function AIConsultation() {
                 <button className="btn btn-primary" onClick={() => navigate('/products')} style={{ flex: 1 }}>
                   <SparklesIcon size={16} /> View Products
                 </button>
-                <button className="btn btn-secondary" onClick={() => navigate('/consultation')} style={{ flex: 1 }}>
-                  <StethoscopeIcon size={16} /> Talk to a Doctor
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')} style={{ flex: 1 }}>
+                  <SparklesIcon size={16} /> View Routine
                 </button>
               </div>
 
               <div className="medical-disclaimer-box">
                 <ShieldIcon size={18} />
-                <span>{result.disclaimer || 'AI results are for informational screening purposes and are not a medical diagnosis.'}</span>
+                <span>{result.disclaimer || 'AI-generated screening information is for informational purposes only and is not a medical diagnosis.'}</span>
               </div>
             </div>
           )}
