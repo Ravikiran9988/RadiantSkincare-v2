@@ -9,6 +9,18 @@ import {
   getRecommendationOptions,
   getProductRecommendation,
 } from '../services/api';
+import {
+  ScanIcon,
+  ShieldIcon,
+  SparklesIcon,
+  UploadIcon,
+  CheckIcon,
+  CalendarIcon,
+  StethoscopeIcon,
+  SunIcon,
+  DropletIcon,
+  InfoIcon
+} from '../components/Icons';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -67,7 +79,7 @@ function Dashboard() {
   const fetchWeather = async () => {
     try {
       if (!navigator.geolocation) {
-        setWeatherTip('Geolocation not supported. Please select climate manually.');
+        setWeatherTip('Geolocation not supported. Select climate manually below.');
         return;
       }
       navigator.geolocation.getCurrentPosition(
@@ -83,12 +95,12 @@ function Dashboard() {
           const condition = data.weather[0].main.toLowerCase();
           generateWeatherTips(condition, temp, humidity);
         },
-        (err) => {
-          setWeatherTip('Unable to access location. Select your climate manually below.');
+        () => {
+          setWeatherTip('Unable to access location. Select climate manually below.');
         }
       );
     } catch (err) {
-      setWeatherTip('Weather data unavailable. Select climate manually.');
+      setWeatherTip('Weather data unavailable. Select climate manually below.');
     }
   };
 
@@ -97,16 +109,16 @@ function Dashboard() {
     let products = [];
 
     if (condition.includes('rain') || condition.includes('humid') || humidity > 75) {
-      tip = 'It’s humid today! Opt for oil-free lightweight gels and non-comedogenic hydration.';
-      products = ['Niacinamide Mattifying Gel', 'Lightweight SPF 50 Mineral Sunscreen'];
+      tip = 'High humidity detected. Use lightweight oil-free gel moisturizers and non-comedogenic sunscreen.';
+      products = ['Niacinamide Mattifying Gel', 'SPF 50 Mineral Light Fluid'];
     } else if (condition.includes('clear') || condition.includes('sunny') || temp > 30) {
-      tip = 'High UV exposure! Reapply broad-spectrum sunscreen every 2 hours and stay hydrated.';
-      products = ['Broad-Spectrum SPF 50+ Sunscreen', 'Hydrating Botanical Mist'];
+      tip = 'Sunny & warm weather. Reapply broad-spectrum sunscreen every 2 hours and maintain hydration.';
+      products = ['Broad-Spectrum SPF 50+ Sunscreen', 'Hydrating Botanical Facial Mist'];
     } else if (condition.includes('cold') || temp < 15) {
-      tip = 'Cold climate alert! Guard your skin barrier with rich moisturizers and ceramide creams.';
-      products = ['Ceramide Barrier Repair Cream', 'Nourishing Hydrating Lip Oil'];
+      tip = 'Cold climate alert. Protect skin barrier with ceramide rich creams and lip oils.';
+      products = ['Ceramide Barrier Repair Cream', 'Nourishing Hydrating Lip Serum'];
     } else {
-      tip = 'Balanced weather today. Maintain your gentle cleanser, vitamin C serum, and daily SPF.';
+      tip = 'Balanced weather today. Maintain gentle daily cleansing, antioxidant serum, and SPF.';
       products = ['Gentle Hydrating Cleanser', 'Daily Barrier Protection Lotion'];
     }
 
@@ -126,7 +138,7 @@ function Dashboard() {
   const handleFile = (file) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      toast.error('Please upload a valid image file');
+      toast.error('Please upload a valid image file (JPEG, PNG, WebP)');
       return;
     }
     setForm({ ...form, image: file });
@@ -164,7 +176,7 @@ function Dashboard() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(disease).then(() => {
-      setCopySuccess('Copied to clipboard!');
+      setCopySuccess('Copied result!');
       setTimeout(() => setCopySuccess(''), 3000);
     });
   };
@@ -173,7 +185,7 @@ function Dashboard() {
     e.preventDefault();
     const { skinIssues, image } = form;
     if (!skinIssues || !image) {
-      toast.warn('Please provide skin issues description and upload an image.');
+      toast.warn('Please describe skin issues and select an image to upload.');
       return;
     }
 
@@ -189,7 +201,7 @@ function Dashboard() {
       setConfidence(data.confidence || '85.0%');
       setDisclaimer(
         data.disclaimer ||
-          'AI-generated screening result — not a medical diagnosis. Please consult a qualified dermatologist for professional evaluation.'
+          'AI-generated screening result — not a medical diagnosis. Please consult a dermatologist for professional evaluation.'
       );
 
       const newEntry = {
@@ -198,10 +210,10 @@ function Dashboard() {
       };
       setAnalysisHistory((prev) => [newEntry, ...prev]);
       await addAnalysisHistory(newEntry);
+      toast.success('Skin screening complete!');
     } catch (err) {
       console.error('Submit error:', err);
       toast.error('Error analyzing skin image. Please try again.');
-      setResponseMsg('An error occurred during submission.');
     } finally {
       setLoading(false);
     }
@@ -211,7 +223,7 @@ function Dashboard() {
     e.preventDefault();
     const { concern, skin_type } = productForm;
     if (!concern || !skin_type) {
-      toast.warn('Please select both a skin concern and skin type.');
+      toast.warn('Please select both a skin concern and a skin type.');
       return;
     }
 
@@ -226,187 +238,255 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header-card glass-card">
-        <h1>Welcome, {userInfo?.username || 'Skincare Enthusiast'}! ✨</h1>
-        <p>Your personalized AI-driven skin health dashboard</p>
+    <div className="page-container">
+      {/* 1. SaaS Dashboard Header */}
+      <div style={{ marginBottom: '2rem' }}>
+        <span className="eyebrow">User Dashboard</span>
+        <h1>Good morning, {userInfo?.username || 'User'}</h1>
+        <p style={{ color: 'var(--slate-600)' }}>Track your AI skin screening history, daily routines, and doctor consultations</p>
       </div>
 
-      {/* Skin Screening AI Form */}
-      <section className="dashboard-section glass-card">
-        <h2>🔬 AI Skin Screening (ResNet50 Classifier)</h2>
-        <form onSubmit={handleSubmit} className="dashboard-form">
-          <label>
-            <strong>Describe Skin Concerns:</strong>
-            <input
-              type="text"
-              name="skinIssues"
-              value={form.skinIssues}
-              onChange={handleInputChange}
-              placeholder="e.g., redness on cheeks, acne breakout, itchy patch"
-              required
-            />
-          </label>
+      {/* 2. Overview Metric Cards */}
+      <div className="grid-4" style={{ marginBottom: '2.5rem' }}>
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Recent Screening</span>
+            <ScanIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+          </div>
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
+            {analysisHistory[0]?.result ? analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result : 'No recent evaluation'}
+          </div>
+        </div>
 
-          <div
-            className={`file-drop-zone ${isDragging ? 'dragging' : ''}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            <input
-              type="file"
-              id="skin-upload"
-              accept="image/*"
-              onChange={(e) => handleFile(e.target.files[0])}
-              required={!form.image}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="skin-upload" className="drop-zone-label">
-              📸 {form.image ? form.image.name : 'Drag & drop image here or click to browse'}
-            </label>
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Active Routine</span>
+            <CheckIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+          </div>
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
+            {routineChecklist.filter(i => i.done).length} / {routineChecklist.length} Steps Completed
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Recommended Match</span>
+            <SparklesIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+          </div>
+          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
+            {productRecommendation?.product_name || 'Select concern below'}
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)', fontWeight: 600 }}>Doctor Consult</span>
+            <StethoscopeIcon size={18} style={{ color: 'var(--primary-teal)' }} />
+          </div>
+          <button className="btn btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', width: '100%' }} onClick={() => navigate('/consultation')}>
+            Book Appointment
+          </button>
+        </div>
+      </div>
+
+      {/* 3. Main Dashboard 2-Column Sections */}
+      <div className="grid-2" style={{ gap: '2rem', alignItems: 'start' }}>
+        {/* Left: AI Screening Form & Results */}
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+            <ScanIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+            <h3 style={{ margin: 0 }}>AI Skin Image Screening</h3>
           </div>
 
-          {preview && (
-            <div className="image-preview-zoom">
-              <img src={preview} alt="Skin Preview" />
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div>
+              <label>Describe Skin Concern / Symptoms:</label>
+              <input
+                type="text"
+                name="skinIssues"
+                value={form.skinIssues}
+                onChange={handleInputChange}
+                placeholder="e.g. redness, dryness on cheeks, acne flare-up"
+                required
+              />
+            </div>
+
+            <div>
+              <label>Skin Photo Upload:</label>
+              <div
+                style={{
+                  border: isDragging ? '2px dashed var(--primary-teal)' : '2px dashed var(--slate-300)',
+                  backgroundColor: isDragging ? 'var(--primary-teal-wash)' : 'var(--slate-100)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '1.75rem',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="file"
+                  id="dashboard-file"
+                  accept="image/*"
+                  onChange={(e) => handleFile(e.target.files[0])}
+                  style={{ display: 'none' }}
+                  required={!form.image}
+                />
+                <label htmlFor="dashboard-file" style={{ cursor: 'pointer', margin: 0 }}>
+                  <UploadIcon size={28} style={{ color: 'var(--slate-500)', marginBottom: '0.5rem' }} />
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--slate-800)' }}>
+                    {form.image ? form.image.name : 'Click to select image or drag & drop file'}
+                  </div>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)' }}>Supports JPEG, PNG, WebP (Max 5MB)</span>
+                </label>
+              </div>
+            </div>
+
+            {preview && (
+              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--slate-200)' }}>
+                <img src={preview} alt="Upload Preview" style={{ maxHeight: '200px', objectFit: 'contain', display: 'block', margin: '0 auto' }} />
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%' }}>
+              {loading ? 'Analyzing Skin Image...' : 'Submit Image for Screening'}
+            </button>
+          </form>
+
+          {responseMsg && (
+            <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--slate-200)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <strong style={{ fontSize: '0.95rem' }}>Screening Result:</strong>
+                {confidence && <span className="status-badge">Confidence: {confidence}</span>}
+              </div>
+              <p style={{ fontSize: '0.9rem', color: 'var(--slate-800)', marginBottom: '0.75rem' }}>{responseMsg}</p>
+              {disease && (
+                <div style={{ backgroundColor: 'var(--slate-100)', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--slate-200)' }}>
+                  <strong style={{ fontSize: '0.85rem', color: 'var(--slate-900)' }}>Category Features: {disease}</strong>
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <button className="btn btn-secondary" style={{ padding: '0.3rem 0.75rem', fontSize: '0.75rem' }} onClick={copyToClipboard}>
+                      Copy Result
+                    </button>
+                    {copySuccess && <span style={{ fontSize: '0.75rem', color: 'var(--primary-teal)', marginLeft: '0.5rem' }}>{copySuccess}</span>}
+                  </div>
+                </div>
+              )}
+              <div className="medical-disclaimer-box" style={{ marginTop: '1rem' }}>
+                <ShieldIcon size={16} />
+                <span>{disclaimer || 'AI results are for informational screening purposes and are not a medical diagnosis.'}</span>
+              </div>
             </div>
           )}
+        </div>
 
-          <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Analyzing Skin Image...' : 'Analyze My Skin'}
-          </button>
-        </form>
+        {/* Right: Product Engine & Routine Widgets */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Product Recommender Widget */}
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <SparklesIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <h3 style={{ margin: 0 }}>Product Recommendation Engine</h3>
+            </div>
 
-        {responseMsg && (
-          <div className="result-section">
-            <h3>Screening Result</h3>
-            <p className="result-msg">{responseMsg}</p>
-            {disease && (
-              <div className="disease-box">
-                <h4>Suggested Issue: {disease}</h4>
-                {confidence && <span className="confidence-badge">Confidence: {confidence}</span>}
-                <br />
-                <button className="btn btn-secondary" onClick={copyToClipboard}>
-                  📋 Copy Result
-                </button>
-                {copySuccess && <span className="copy-success">{copySuccess}</span>}
+            <form onSubmit={handleProductSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div>
+                <label>Skin Concern:</label>
+                <select
+                  value={productForm.concern}
+                  onChange={(e) => setProductForm({ ...productForm, concern: e.target.value })}
+                  required
+                >
+                  <option value="">-- Select Skin Concern --</option>
+                  {concerns.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
 
-                <div className="medical-disclaimer-box">
-                  ⚠️ <span>{disclaimer}</span>
-                </div>
+              <div>
+                <label>Skin Type:</label>
+                <select
+                  value={productForm.skin_type}
+                  onChange={(e) => setProductForm({ ...productForm, skin_type: e.target.value })}
+                  required
+                >
+                  <option value="">-- Select Skin Type --</option>
+                  {skinTypes.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+
+              <button type="submit" className="btn btn-secondary">Get Recommendation</button>
+            </form>
+
+            {productRecommendation && (
+              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--slate-200)' }}>
+                <strong style={{ fontSize: '0.95rem', color: 'var(--slate-900)', display: 'block', marginBottom: '0.35rem' }}>
+                  Product Match: {productRecommendation.product_name}
+                </strong>
+                <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>
+                  <strong>Ingredients:</strong> {productRecommendation.ingredients}
+                </p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)', marginTop: '0.25rem' }}>
+                  <strong>Usage:</strong> {productRecommendation.how_to_use}
+                </p>
               </div>
             )}
           </div>
-        )}
-      </section>
 
-      {/* Product Recommendation Section */}
-      <section className="dashboard-section glass-card">
-        <h2>🧴 AI Skincare Product Recommender</h2>
-        <form onSubmit={handleProductSubmit} className="dashboard-form grid-form">
-          <label>
-            <strong>Skin Concern:</strong>
-            <select
-              name="concern"
-              value={productForm.concern}
-              onChange={(e) => setProductForm({ ...productForm, concern: e.target.value })}
-              required
-            >
-              <option value="">-- Select Concern --</option>
-              {concerns.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </label>
+          {/* Daily Routine Checklist Widget */}
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+              <CheckIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <h3 style={{ margin: 0 }}>Daily Routine Checklist</h3>
+            </div>
 
-          <label>
-            <strong>Skin Type:</strong>
-            <select
-              name="skin_type"
-              value={productForm.skin_type}
-              onChange={(e) => setProductForm({ ...productForm, skin_type: e.target.value })}
-              required
-            >
-              <option value="">-- Select Skin Type --</option>
-              {skinTypes.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <button type="submit" className="btn">
-            Get Recommendation
-          </button>
-        </form>
-
-        {productRecommendation && (
-          <div className="product-recommendation-result glass-card">
-            <h3>Recommended Product: {productRecommendation.product_name}</h3>
-            <p><strong>Key Ingredients:</strong> {productRecommendation.ingredients}</p>
-            <p><strong>How to Use:</strong> {productRecommendation.how_to_use}</p>
-            <p><strong>Dermatologist Tips:</strong> {productRecommendation.tips}</p>
-          </div>
-        )}
-      </section>
-
-      {/* Dashboard Widgets */}
-      <div className="dashboard-widgets-grid">
-        <div className="widget-card glass-card">
-          <h3>☀️ Weather-Based Skincare Tip</h3>
-          <p>{weatherTip}</p>
-          {weatherProducts.length > 0 && (
-            <ul>
-              {weatherProducts.map((p, i) => (
-                <li key={i}>{p}</li>
-              ))}
-            </ul>
-          )}
-          <form onSubmit={handleManualClimate} className="climate-form">
-            <select value={manualClimate} onChange={(e) => setManualClimate(e.target.value)} required>
-              <option value="">Select Climate</option>
-              <option value="sunny">Sunny / Hot</option>
-              <option value="rainy">Rainy / Humid</option>
-              <option value="cold">Cold / Dry</option>
-              <option value="mild">Mild / Balanced</option>
-            </select>
-            <button type="submit" className="btn btn-secondary">
-              Apply
-            </button>
-          </form>
-        </div>
-
-        <div className="widget-card glass-card">
-          <h3>✅ Daily Skincare Routine Checklist</h3>
-          <ul className="checklist">
-            {routineChecklist.map((item, index) => (
-              <li key={index}>
-                <label className="checkbox-label">
-                  <input type="checkbox" checked={item.done} onChange={() => toggleChecklist(index)} />
-                  <span className={item.done ? 'done-text' : ''}>{item.step}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {routineChecklist.map((item, index) => (
+                <label key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', cursor: 'pointer', margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={item.done}
+                    onChange={() => toggleChecklist(index)}
+                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary-teal)' }}
+                  />
+                  <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? 'var(--slate-400)' : 'var(--slate-800)' }}>
+                    {item.step}
+                  </span>
                 </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="widget-card glass-card">
-          <h3>📜 AI Screening History</h3>
-          {analysisHistory.length === 0 ? (
-            <p>No screening history yet.</p>
-          ) : (
-            <ul className="history-list">
-              {analysisHistory.slice(0, 5).map((entry, index) => (
-                <li key={index}>
-                  <strong>{entry.skinIssues}</strong> ➜ {entry.result}
-                </li>
               ))}
-            </ul>
-          )}
+            </div>
+          </div>
+
+          {/* Weather Guidance Widget */}
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+              <SunIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+              <h3 style={{ margin: 0 }}>Climate Guidance</h3>
+            </div>
+            <p style={{ fontSize: '0.875rem', color: 'var(--slate-600)', marginBottom: '1rem' }}>{weatherTip}</p>
+            {weatherProducts.length > 0 && (
+              <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--slate-700)', marginBottom: '1rem' }}>
+                {weatherProducts.map((p, i) => (
+                  <li key={i}>{p}</li>
+                ))}
+              </ul>
+            )}
+            <form onSubmit={handleManualClimate} style={{ display: 'flex', gap: '0.5rem' }}>
+              <select value={manualClimate} onChange={(e) => setManualClimate(e.target.value)} required style={{ padding: '0.4rem 0.75rem', fontSize: '0.85rem' }}>
+                <option value="">Select Climate Manually</option>
+                <option value="sunny">Sunny / Warm</option>
+                <option value="rainy">Rainy / Humid</option>
+                <option value="cold">Cold / Dry</option>
+                <option value="mild">Mild / Balanced</option>
+              </select>
+              <button type="submit" className="btn btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.85rem' }}>Apply</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

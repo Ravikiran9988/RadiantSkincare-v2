@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doctorLogin } from '../services/api';
 import { toast } from 'react-toastify';
+import { StethoscopeIcon, ShieldIcon } from '../components/Icons';
 
 const DoctorLogin = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -43,15 +44,26 @@ const DoctorLogin = () => {
 
   return (
     <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '75vh' }}>
-      <div className="glass-card" style={{ maxWidth: '450px', width: '100%', padding: '2.5rem' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>🩺 Doctor Portal Login</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '1.5rem' }}>Sign in to access patient consultation rooms</p>
+      <div className="card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+          <span className="eyebrow">
+            <StethoscopeIcon size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }} />
+            Healthcare Portal
+          </span>
+          <h2 style={{ fontSize: '1.75rem', margin: 0 }}>Doctor Login</h2>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', marginTop: '0.35rem' }}>Sign in to access patient consultation rooms</p>
+        </div>
 
-        {error && <div className="medical-disclaimer-box" style={{ margin: '0 0 1.5rem 0' }}>{error}</div>}
+        {error && (
+          <div className="medical-disclaimer-box" style={{ marginBottom: '1.25rem' }}>
+            <ShieldIcon size={16} />
+            <span>{error}</span>
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit}>
-          <label style={{ display: 'block', marginBottom: '1rem' }}>
-            <strong>Doctor Email:</strong>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+          <div>
+            <label>Doctor Email Address:</label>
             <input
               type="email"
               name="email"
@@ -60,10 +72,10 @@ const DoctorLogin = () => {
               onChange={handleChange}
               required
             />
-          </label>
+          </div>
 
-          <label style={{ display: 'block', marginBottom: '1rem' }}>
-            <strong>Password:</strong>
+          <div>
+            <label>Password:</label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -83,19 +95,19 @@ const DoctorLogin = () => {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#64748b',
-                  padding: '4px',
-                  boxShadow: 'none',
-                  fontSize: '0.85rem'
+                  color: 'var(--slate-500)',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: 600
                 }}
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
-          </label>
+          </div>
 
-          <button type="submit" className="btn" disabled={loading} style={{ width: '100%', marginTop: '1rem' }}>
-            {loading ? 'Authenticating Doctor...' : 'Login as Doctor'}
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{ marginTop: '0.5rem', width: '100%' }}>
+            {loading ? 'Authenticating...' : 'Login as Doctor'}
           </button>
         </form>
       </div>

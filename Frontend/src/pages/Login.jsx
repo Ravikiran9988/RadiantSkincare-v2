@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../services/api';
 import { toast } from 'react-toastify';
+import { SparklesIcon, ShieldIcon } from '../components/Icons';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -48,27 +49,38 @@ const Login = () => {
 
   return (
     <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '75vh' }}>
-      <div className="glass-card" style={{ maxWidth: '450px', width: '100%', padding: '2.5rem' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Sign In to RadiantSkincare ✨</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '1.5rem' }}>Access your personalized skincare dashboard</p>
+      <div className="card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+          <span className="eyebrow">
+            <SparklesIcon size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }} />
+            User Account
+          </span>
+          <h2 style={{ fontSize: '1.75rem', margin: 0 }}>Sign in to RadiantSkincare</h2>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', marginTop: '0.35rem' }}>Access your personalized skin health dashboard</p>
+        </div>
 
-        {error && <div className="medical-disclaimer-box" style={{ margin: '0 0 1.5rem 0' }}>{error}</div>}
+        {error && (
+          <div className="medical-disclaimer-box" style={{ marginBottom: '1.25rem' }}>
+            <ShieldIcon size={16} />
+            <span>{error}</span>
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit}>
-          <label style={{ display: 'block', marginBottom: '1rem' }}>
-            <strong>Email Address:</strong>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
+          <div>
+            <label>Email Address:</label>
             <input
               type="email"
               name="email"
-              placeholder="user@example.com"
+              placeholder="name@example.com"
               value={form.email}
               onChange={handleChange}
               required
             />
-          </label>
+          </div>
 
-          <label style={{ display: 'block', marginBottom: '1rem' }}>
-            <strong>Password:</strong>
+          <div>
+            <label>Password:</label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -88,32 +100,32 @@ const Login = () => {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#64748b',
-                  padding: '4px',
-                  boxShadow: 'none',
-                  fontSize: '0.85rem'
+                  color: 'var(--slate-500)',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: 600
                 }}
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
-          </label>
+          </div>
 
-          <button type="submit" className="btn" disabled={loading} style={{ width: '100%', marginTop: '1rem' }}>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{ marginTop: '0.5rem', width: '100%' }}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.95rem' }}>
+        <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--slate-200)', textAlign: 'center', fontSize: '0.875rem' }}>
           <p>
             New to RadiantSkincare?{' '}
-            <Link to="/register" style={{ color: 'var(--primary-teal-dark)', fontWeight: 600 }}>
+            <Link to="/register" style={{ color: 'var(--primary-teal)', fontWeight: 600, textDecoration: 'none' }}>
               Register Here
             </Link>
           </p>
           <p style={{ marginTop: '0.5rem' }}>
-            Are you a licensed doctor?{' '}
-            <Link to="/doctor-login" style={{ color: 'var(--accent-indigo)', fontWeight: 600 }}>
+            Are you a doctor?{' '}
+            <Link to="/doctor-login" style={{ color: 'var(--slate-800)', fontWeight: 600, textDecoration: 'none' }}>
               Doctor Portal Login
             </Link>
           </p>

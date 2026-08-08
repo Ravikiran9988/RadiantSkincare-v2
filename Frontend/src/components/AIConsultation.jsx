@@ -1,24 +1,58 @@
 import React, { useState } from 'react';
 import { analyzeSkinWithModel1 } from '../services/api';
 import { toast } from 'react-toastify';
+import {
+  ScanIcon,
+  ShieldIcon,
+  UploadIcon,
+  CheckIcon,
+  InfoIcon,
+  SparklesIcon,
+  StethoscopeIcon
+} from './Icons';
+import { useNavigate } from 'react-router-dom';
 
 function AIConsultation() {
+  const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleImageChange = (file) => {
+  const handleFile = (file) => {
     if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload a valid image file (JPEG, PNG, WebP).');
+      return;
+    }
     setImage(file);
     setPreview(URL.createObjectURL(file));
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
   };
 
   const getAIAdvice = async (e) => {
     e.preventDefault();
     if (!input && !image) {
-      toast.warn('Please describe your skin concerns or upload an image.');
+      toast.warn('Please describe your skin concerns or select a skin photo to upload.');
       return;
     }
 
@@ -28,20 +62,22 @@ function AIConsultation() {
     try {
       if (image) {
         const formData = new FormData();
-        formData.append('skinIssues', input || 'General Consultation');
+        formData.append('skinIssues', input || 'General Skin Screening');
         formData.append('image', image);
         const data = await analyzeSkinWithModel1(formData);
         setResult(data);
+        toast.success('Screening analysis complete!');
       } else {
         setResult({
-          disease: `AI Assessment for concerns: "${input}". Recommended to maintain hydration and protect skin barrier.`,
+          disease: `Preliminary guidance for reported symptoms ("${input}"): Maintain gentle cleansing, daily SPF 50+, and barrier restoration.`,
           confidence: '80.0%',
-          disclaimer: 'AI-generated screening result — not a medical diagnosis. Please consult a qualified dermatologist for professional evaluation.'
+          disclaimer: 'AI results are for informational screening purposes and are not a medical diagnosis. Please consult a dermatologist for professional evaluation.'
         });
+        toast.success('Preliminary guidance generated.');
       }
     } catch (err) {
-      console.error(err);
-      toast.error('Error during AI analysis.');
+      console.error('AI Analysis Error:', err);
+      toast.error('Error during AI analysis. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -49,54 +85,157 @@ function AIConsultation() {
 
   return (
     <div className="page-container">
-      <section id="aiConsultation" className="glass-card">
-        <h2>✨ AI Skin Consultation</h2>
-        <p>Upload a skin photo or enter your concerns for instant AI-assisted screening.</p>
-        
-        <form onSubmit={getAIAdvice} style={{ marginTop: '1.5rem' }}>
-          <textarea
-            placeholder="Describe your skin issues (e.g., redness, dryness, breakouts)..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            rows={4}
-          />
+      <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+        <span className="eyebrow">
+          <ScanIcon size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }} />
+          Computer Vision Screening
+        </span>
+        <h1>AI Skin Image Analysis</h1>
+        <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
+          Upload a clear photo of your skin for automated feature screening across 23 dermatological categories.
+        </p>
+      </div>
 
-          <div style={{ margin: '1rem 0' }}>
-            <label className="btn btn-secondary" style={{ cursor: 'pointer' }}>
-              📷 Upload Skin Photo
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageChange(e.target.files[0])}
-                style={{ display: 'none' }}
+      <div className="grid-2" style={{ gap: '2.5rem', alignItems: 'start' }}>
+        {/* Left Column: Upload & Form */}
+        <div className="card">
+          <h3 style={{ marginBottom: '1.25rem' }}>Upload & Symptom Input</h3>
+          <form onSubmit={getAIAdvice} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div>
+              <label>Describe Skin Concerns / Symptoms:</label>
+              <textarea
+                placeholder="e.g. Red patch on cheek, itchiness, acne flare-up after new product..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                rows={3}
               />
-            </label>
-            {image && <span style={{ marginLeft: '1rem', fontWeight: 600 }}>{image.name}</span>}
-          </div>
+            </div>
 
-          {preview && (
-            <div style={{ marginBottom: '1rem' }}>
-              <img src={preview} alt="Preview" style={{ maxWidth: '200px', borderRadius: '12px' }} />
+            <div>
+              <label>Upload Clear Skin Photo:</label>
+              <div
+                style={{
+                  border: isDragging ? '2px dashed var(--primary-teal)' : '2px dashed var(--slate-300)',
+                  backgroundColor: isDragging ? 'var(--primary-teal-wash)' : 'var(--slate-100)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '2rem 1.5rem',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="file"
+                  id="ai-page-upload"
+                  accept="image/*"
+                  onChange={(e) => handleFile(e.target.files[0])}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="ai-page-upload" style={{ cursor: 'pointer', margin: 0 }}>
+                  <UploadIcon size={32} style={{ color: 'var(--slate-500)', marginBottom: '0.5rem' }} />
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--slate-800)' }}>
+                    {image ? image.name : 'Upload a clear photo of your skin'}
+                  </div>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)' }}>Drag & drop file or click to browse</span>
+                </label>
+              </div>
+            </div>
+
+            {preview && (
+              <div style={{ textAlign: 'center', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--slate-200)' }}>
+                <img src={preview} alt="Skin Preview" style={{ maxHeight: '240px', objectFit: 'contain', display: 'block', margin: '0 auto' }} />
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%' }}>
+              {loading ? 'Processing Image with AI...' : 'Analyze Skin Image'}
+            </button>
+          </form>
+        </div>
+
+        {/* Right Column: Information Panel or Results */}
+        <div>
+          {!result ? (
+            <div className="card">
+              <h3 style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <InfoIcon size={20} style={{ color: 'var(--primary-teal)' }} />
+                What happens next?
+              </h3>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <span className="step-number" style={{ margin: 0 }}>1</span>
+                  <div>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Image Preprocessing</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>The image is resized to 150x150 pixels and normalized for feature extraction.</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <span className="step-number" style={{ margin: 0 }}>2</span>
+                  <div>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>AI Screening</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Our ResNet50 vision architecture screens patterns across 23 condition categories.</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <span className="step-number" style={{ margin: 0 }}>3</span>
+                  <div>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Confidence Evaluation</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Softmax probability distribution outputs confidence scores without false certainty.</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <span className="step-number" style={{ margin: 0 }}>4</span>
+                  <div>
+                    <strong style={{ fontSize: '0.95rem', display: 'block', color: 'var(--slate-900)' }}>Personalized Guidance</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--slate-600)' }}>Matched ingredient guidance and dermatologist appointment booking options.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="card" style={{ borderLeft: '4px solid var(--primary-teal)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <h3>Screening Output</h3>
+                {result.confidence && <span className="status-badge">Confidence: {result.confidence}</span>}
+              </div>
+
+              <div style={{ backgroundColor: 'var(--slate-100)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--slate-200)', marginBottom: '1.5rem' }}>
+                <h4 style={{ color: 'var(--slate-900)', marginBottom: '0.5rem' }}>Screening Classification</h4>
+                <p style={{ fontSize: '0.95rem', color: 'var(--slate-800)', margin: 0 }}>{result.disease}</p>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Recommended Next Steps</h4>
+                <ul style={{ paddingLeft: '1.25rem', fontSize: '0.875rem', color: 'var(--slate-700)' }}>
+                  <li>Explore matched product recommendations based on active ingredients.</li>
+                  <li>Schedule a consultation with an assigned dermatologist if symptoms persist.</li>
+                </ul>
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <button className="btn btn-primary" onClick={() => navigate('/products')} style={{ flex: 1 }}>
+                  <SparklesIcon size={16} /> View Recommended Products
+                </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/consultation')} style={{ flex: 1 }}>
+                  <StethoscopeIcon size={16} /> Talk to a Doctor
+                </button>
+              </div>
+
+              <div className="medical-disclaimer-box">
+                <ShieldIcon size={18} />
+                <span>{result.disclaimer || 'AI results are for informational screening purposes and are not a medical diagnosis.'}</span>
+              </div>
             </div>
           )}
-
-          <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Analyzing with AI...' : 'Get AI Advice'}
-          </button>
-        </form>
-
-        {result && (
-          <div className="result-section" style={{ marginTop: '2rem' }}>
-            <h3>Screening Result</h3>
-            <p><strong>{result.disease}</strong></p>
-            {result.confidence && <span className="confidence-badge">Confidence: {result.confidence}</span>}
-
-            <div className="medical-disclaimer-box" style={{ marginTop: '1rem' }}>
-              ⚠️ {result.disclaimer || 'AI-generated screening result — not a medical diagnosis. Please consult a qualified dermatologist for professional evaluation.'}
-            </div>
-          </div>
-        )}
-      </section>
+        </div>
+      </div>
     </div>
   );
 }

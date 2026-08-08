@@ -1,39 +1,76 @@
 import React from 'react';
+import { ScanIcon, ShieldIcon, SparklesIcon, StethoscopeIcon, CheckIcon, LockIcon } from '../components/Icons';
 
 function About() {
   return (
     <div className="page-container">
-      <div className="glass-card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>About RadiantSkincare ✨</h1>
-        <p style={{ maxWidth: '750px', margin: '0 auto 2rem', fontSize: '1.1rem', color: '#475569' }}>
-          RadiantSkincare combines state-of-the-art computer vision (ResNet50), machine learning product recommendation algorithms, and real-time board-certified dermatologist consultations into a unified, secure platform.
+      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <span className="eyebrow">Platform & Architecture</span>
+        <h1>Why RadiantSkincare?</h1>
+        <p className="subheading" style={{ margin: '0.75rem auto 0' }}>
+          Combining computer vision neural networks, targeted formulation algorithms, and real-time telehealth rooms to make dermatological insights accessible and clear.
         </p>
+      </div>
 
-        <div className="product-grid" style={{ marginTop: '3rem', textAlign: 'left' }}>
-          <div className="glass-card">
-            <h3>🔬 ResNet50 Classifier</h3>
-            <p>Our deep learning vision model classifies 23 distinct dermatological conditions to provide rapid screening assistance.</p>
+      {/* Grid Features */}
+      <div className="grid-2" style={{ gap: '2rem', marginBottom: '3rem' }}>
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--primary-teal-wash)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)' }}>
+              <ScanIcon size={22} />
+            </div>
+            <h3 style={{ margin: 0 }}>ResNet50 Vision Screening</h3>
           </div>
-
-          <div className="glass-card">
-            <h3>🧴 ML Product Recommender</h3>
-            <p>Tailored ingredient matching algorithms recommend optimal serums, moisturizers, and treatments based on your skin type and specific concerns.</p>
-          </div>
-
-          <div className="glass-card">
-            <h3>👨‍⚕️ Verified Dermatologists</h3>
-            <p>Seamless real-time Socket.IO chat connects users with licensed doctors for professional medical evaluation and personalized prescriptions.</p>
-          </div>
-
-          <div className="glass-card">
-            <h3>🛡️ Privacy & Safety</h3>
-            <p>HIPAA-aligned data isolation, encrypted JWT authentication, safe image handling, and strict medical safety disclaimers prioritize user trust.</p>
-          </div>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', lineHeight: 1.6 }}>
+            Our deep learning computer vision model analyzes input facial images, evaluating visual features across 23 dermatological categories. The system outputs confidence evaluations to assist preliminary screening.
+          </p>
         </div>
 
-        <div className="medical-disclaimer-box" style={{ marginTop: '3rem', textAlign: 'center' }}>
-          ⚠️ <strong>Medical Notice:</strong> RadiantSkincare AI tools serve as preliminary screening and educational assistance only. They do not constitute a binding clinical diagnosis. Always consult a licensed healthcare professional for medical conditions.
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--primary-teal-wash)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)' }}>
+              <SparklesIcon size={22} />
+            </div>
+            <h3 style={{ margin: 0 }}>Ingredient Recommendation Engine</h3>
+          </div>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', lineHeight: 1.6 }}>
+            Our machine learning recommendation algorithm pairs user skin types and specific concerns with optimal active ingredients (e.g. Salicylic Acid, Niacinamide, Ceramides, Vitamin C) and application protocols.
+          </p>
         </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--primary-teal-wash)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)' }}>
+              <StethoscopeIcon size={22} />
+            </div>
+            <h3 style={{ margin: 0 }}>Real-Time Telehealth Integration</h3>
+          </div>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', lineHeight: 1.6 }}>
+            When users require professional healthcare advice, our Socket.IO engine connects patients with dermatologists inside confidential, room-isolated chat environments.
+          </p>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--primary-teal-wash)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)' }}>
+              <LockIcon size={22} />
+            </div>
+            <h3 style={{ margin: 0 }}>Privacy & Data Security</h3>
+          </div>
+          <p style={{ fontSize: '0.9rem', color: 'var(--slate-600)', lineHeight: 1.6 }}>
+            All user data, password hashes, and consultation messages are stored in isolated MongoDB structures using encrypted JWT session handling and path-traversal protected uploads.
+          </p>
+        </div>
+      </div>
+
+      {/* Safety Notice Card */}
+      <div id="safety" className="card" style={{ background: 'var(--slate-100)', borderLeft: '4px solid var(--secondary-rose)' }}>
+        <h3 style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ShieldIcon size={20} style={{ color: 'var(--secondary-rose)' }} /> Medical Safety Notice
+        </h3>
+        <p style={{ fontSize: '0.9rem', color: 'var(--slate-700)', margin: 0 }}>
+          RadiantSkincare AI tools serve as preliminary screening and educational assistance only. They do not constitute a binding clinical diagnosis. Users are advised to seek professional medical evaluation from licensed healthcare providers for diagnostic assessment and treatment plans.
+        </p>
       </div>
     </div>
   );

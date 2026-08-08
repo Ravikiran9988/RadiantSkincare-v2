@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socket from '../services/socket';
 import { getConsultationMessages, fetchChatHistory } from '../services/api';
-import { toast } from 'react-toastify';
+import { StethoscopeIcon, ChatIcon, LockIcon, ArrowRightIcon } from '../components/Icons';
 import './ChatPage.css';
 
 const ChatPage = () => {
@@ -103,62 +103,104 @@ const ChatPage = () => {
   };
 
   if (loading) {
-    return <div className="page-container glass-card" style={{ textAlign: 'center' }}>Loading consultation chat...</div>;
+    return (
+      <div className="page-container" style={{ textAlign: 'center', padding: '5rem 0' }}>
+        <p style={{ color: 'var(--slate-600)' }}>Initializing encrypted telehealth room...</p>
+      </div>
+    );
   }
 
   return (
     <div className="page-container">
-      <div className="chat-container">
-        <header className="chat-header">
-          <div>
-            <h2>💬 Consultation Chat</h2>
-            <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
-              Room ID: {consultationId} • Logged in as: <strong>{currentUsername}</strong>
-            </p>
+      <div className="chat-layout">
+        {/* Left Sidebar: Session & Consultation Meta */}
+        <div className="chat-sidebar">
+          <div style={{ paddingBottom: '1rem', marginBottom: '1rem', borderBottom: '1px solid var(--slate-200)' }}>
+            <span className="eyebrow" style={{ fontSize: '0.75rem' }}>Telehealth Consultation</span>
+            <h4 style={{ fontSize: '1rem', margin: '0.25rem 0' }}>Room ID: {consultationId.slice(0, 10)}...</h4>
+            <span className="status-badge" style={{ fontSize: '0.75rem', marginTop: '0.35rem' }}>
+              <LockIcon size={12} /> Encrypted Session
+            </span>
           </div>
-          <span className={`confidence-badge ${isConnected ? '' : 'btn-secondary'}`}>
-            {isConnected ? '🟢 Live Connected' : '🟡 Reconnecting...'}
-          </span>
-        </header>
 
-        <div className="chat-messages">
-          {messages.length === 0 ? (
-            <div style={{ textAlign: 'center', color: '#94a3b8', marginTop: '2rem' }}>
-              No messages yet. Send a greeting to start the consultation!
+          <div style={{ fontSize: '0.85rem', color: 'var(--slate-700)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div>
+              <span style={{ color: 'var(--slate-500)', fontSize: '0.75rem', display: 'block' }}>Logged in as:</span>
+              <strong>{currentUsername}</strong> ({currentUserType})
             </div>
-          ) : (
-            messages.map((msg, index) => {
-              const isMine =
-                msg.sender === currentUsername ||
-                (currentUserType === 'user' && msg.sender === 'user') ||
-                (currentUserType === 'doctor' && msg.sender === 'doctor');
-              return (
-                <div key={index} className={`message ${isMine ? 'user' : 'doctor'}`}>
-                  <div style={{ fontSize: '0.75rem', opacity: 0.85, marginBottom: '2px' }}>
-                    {msg.sender || (isMine ? 'You' : partnerName)}
-                  </div>
-                  <p>{msg.content || msg.text}</p>
-                  <div style={{ fontSize: '0.7rem', opacity: 0.75, textAlign: 'right', marginTop: '4px' }}>
-                    {msg.time || new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                </div>
-              );
-            })
-          )}
-          <div ref={messagesEndRef} />
+            <div>
+              <span style={{ color: 'var(--slate-500)', fontSize: '0.75rem', display: 'block' }}>Consulting Partner:</span>
+              <strong>{partnerName}</strong>
+            </div>
+          </div>
+
+          <div style={{ marginTop: '2rem' }}>
+            <button
+              className="btn btn-secondary"
+              style={{ width: '100%', fontSize: '0.8rem', padding: '0.5rem' }}
+              onClick={() => navigate(currentUserType === 'doctor' ? '/doctor/dashboard' : '/dashboard')}
+            >
+              ← Back to Portal
+            </button>
+          </div>
         </div>
 
-        <form onSubmit={handleSendMessage} className="chat-input">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your clinical message or question..."
-          />
-          <button type="submit" className="btn">
-            Send
-          </button>
-        </form>
+        {/* Right Main: Conversation Window */}
+        <div className="chat-main">
+          <div className="chat-header-bar">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--primary-teal-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-teal)' }}>
+                <StethoscopeIcon size={18} />
+              </div>
+              <div>
+                <h4 style={{ margin: 0, fontSize: '0.95rem' }}>Clinical Consultation Channel</h4>
+                <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>
+                  {isConnected ? '🟢 Connection active' : '🟡 Reconnecting to server...'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="chat-msg-area">
+            {messages.length === 0 ? (
+              <div style={{ textAlign: 'center', color: 'var(--slate-400)', marginTop: '4rem', fontSize: '0.9rem' }}>
+                <ChatIcon size={32} style={{ color: 'var(--slate-300)', marginBottom: '0.5rem' }} />
+                <p>No messages in this session yet.<br />Type a message below to start your consultation.</p>
+              </div>
+            ) : (
+              messages.map((msg, index) => {
+                const isMine =
+                  msg.sender === currentUsername ||
+                  (currentUserType === 'user' && msg.sender === 'user') ||
+                  (currentUserType === 'doctor' && msg.sender === 'doctor');
+                return (
+                  <div key={index} className={`msg-bubble ${isMine ? 'user' : 'doctor'}`}>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 600, opacity: 0.85, marginBottom: '2px' }}>
+                      {msg.sender || (isMine ? 'You' : partnerName)}
+                    </div>
+                    <div>{msg.content || msg.text}</div>
+                    <div style={{ fontSize: '0.65rem', opacity: 0.75, textAlign: 'right', marginTop: '4px' }}>
+                      {msg.time || new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <form onSubmit={handleSendMessage} className="chat-footer-bar">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type message to doctor/patient..."
+            />
+            <button type="submit" className="btn btn-primary" style={{ padding: '0.6rem 1.25rem' }}>
+              Send <ArrowRightIcon size={16} />
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getCurrentUser, getDoctorProfile } from '../services/api';
+import { SparklesIcon, MenuIcon, CloseIcon, UserIcon, LogoutIcon } from './Icons';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [doctor, setDoctor] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleMobileMenu = () => setMobileOpen(!mobileOpen);
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
@@ -54,6 +56,10 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   const handleLogout = () => {
     localStorage.clear();
     setUser(null);
@@ -63,58 +69,91 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+    <header className="navbar">
       <div className="navbar-container">
+        {/* Brand Logo */}
         <Link to="/" className="logo brand-name">
+          <SparklesIcon size={22} className="logo-icon" />
           Radiant<span>Skincare</span>
         </Link>
 
-        <div className={`nav-links ${isOpen ? 'active' : ''}`}>
-          <Link to="/">Home</Link>
-          <Link to="/ai-consultation">AI Screening</Link>
-          <Link to="/consultation">Doctor Chat</Link>
-          <Link to="/products">Products</Link>
-          <Link to="/about">About</Link>
+        {/* Desktop Navigation Links */}
+        <nav className={`nav-links ${mobileOpen ? 'mobile-open' : ''}`}>
+          <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+          <Link to="/ai-consultation" className={location.pathname === '/ai-consultation' ? 'active' : ''}>AI Analysis</Link>
+          <Link to="/consultation" className={location.pathname === '/consultation' ? 'active' : ''}>Doctors</Link>
+          <Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>Products</Link>
+          <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>
 
-          <div className="nav-buttons" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            {user ? (
-              <>
-                <span
-                  style={{ cursor: 'pointer', fontWeight: 600, color: 'var(--primary-teal-dark)' }}
-                  onClick={() => navigate('/dashboard')}
-                >
-                  Welcome, {user.username}
-                </span>
-                <button className="btn btn-secondary" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            ) : doctor ? (
-              <>
-                <span
-                  style={{ cursor: 'pointer', fontWeight: 600, color: 'var(--accent-indigo)' }}
-                  onClick={() => navigate('/doctor/dashboard')}
-                >
-                  Dr. {doctor.name}
-                </span>
-                <button className="btn btn-secondary" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="btn btn-secondary">
-                  Login
-                </Link>
-                <Link to="/register" className="btn">
-                  Register
-                </Link>
-              </>
-            )}
-          </div>
+          {/* Action Buttons for Mobile Inside Menu */}
+          {mobileOpen && (
+            <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {user ? (
+                <>
+                  <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    <UserIcon size={16} /> Dashboard ({user.username})
+                  </button>
+                  <button className="btn btn-secondary" onClick={handleLogout}>
+                    <LogoutIcon size={16} /> Logout
+                  </button>
+                </>
+              ) : doctor ? (
+                <>
+                  <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
+                    <UserIcon size={16} /> Portal (Dr. {doctor.name})
+                  </button>
+                  <button className="btn btn-secondary" onClick={handleLogout}>
+                    <LogoutIcon size={16} /> Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="btn btn-secondary">Login</Link>
+                  <Link to="/register" className="btn btn-primary">Get Started</Link>
+                </>
+              )}
+            </div>
+          )}
+        </nav>
+
+        {/* Desktop Header Buttons */}
+        <div className="nav-buttons">
+          {user ? (
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                <UserIcon size={16} /> {user.username}
+              </button>
+              <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
+                <LogoutIcon size={16} />
+              </button>
+            </>
+          ) : doctor ? (
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
+                <UserIcon size={16} /> Dr. {doctor.name}
+              </button>
+              <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
+                <LogoutIcon size={16} />
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-secondary" style={{ display: 'inline-flex' }}>
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-primary" style={{ display: 'inline-flex' }}>
+                Get Started
+              </Link>
+            </>
+          )}
+
+          {/* Mobile Hamburger Toggle */}
+          <button className="mobile-menu-btn" onClick={toggleMobileMenu} aria-label="Toggle navigation menu">
+            {mobileOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
+          </button>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 
