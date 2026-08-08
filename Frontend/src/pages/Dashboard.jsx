@@ -5,10 +5,10 @@ import {
   fetchDashboardData,
   updateChecklist,
   addAnalysisHistory,
-  analyzeSkinWithModel1,
-  getRecommendationOptions,
-  getProductRecommendation,
+  analyzeSkin,
 } from '../services/api';
+import { SKIN_CONCERNS, SKIN_TYPES } from '../data/products.js';
+import { getRecommendations } from '../data/skincareRecommender.js';
 import {
   ScanIcon,
   ShieldIcon,
@@ -39,11 +39,12 @@ function Dashboard() {
   const [weatherTip, setWeatherTip] = useState('');
   const [weatherProducts, setWeatherProducts] = useState([]);
   const [manualClimate, setManualClimate] = useState('');
-  const [concerns, setConcerns] = useState([]);
-  const [skinTypes, setSkinTypes] = useState([]);
   const [productForm, setProductForm] = useState({ concern: '', skin_type: '' });
   const [productRecommendation, setProductRecommendation] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  const concerns = SKIN_CONCERNS;
+  const skinTypes = SKIN_TYPES;
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -67,18 +68,7 @@ function Dashboard() {
       }
     };
 
-    const loadOptions = async () => {
-      try {
-        const data = await getRecommendationOptions();
-        setConcerns(data.concerns || []);
-        setSkinTypes(data.skin_types || []);
-      } catch (err) {
-        console.error('Failed to fetch recommendation options:', err);
-      }
-    };
-
     if (token) loadDashboard();
-    loadOptions();
     fetchWeather();
   }, [token]);
 
@@ -209,19 +199,24 @@ function Dashboard() {
 
     setLoading(true);
     try {
-      const data = await analyzeSkinWithModel1(formData);
-      setResponseMsg(data.message || 'Analysis complete.');
-      setDisease(data.disease || data.predicted_condition || 'Skin condition evaluated');
-      setConfidence(data.confidence || '85.0%');
-      setDisclaimer(
-        data.disclaimer ||
-          'AI-generated screening information is for informational purposes only and is not a medical diagnosis.'
-      );
+      formData.append('analysisType', 'Complete Skin Analysis');
+      const res = await analyzeSkin(formData);
+      const data = res.data;
+      
+      const analysisResult = data.screeningConcerns?.[0]?.label || 'Skin condition evaluated';
+      const maxConfidence = data.skinTypeConfidence 
+        ? `${Math.round(data.skinTypeConfidence * 100)}%` 
+        : '85.0%';
+
+      setResponseMsg('Analysis complete.');
+      setDisease(analysisResult);
+      setConfidence(maxConfidence);
+      setDisclaimer('AI-generated screening information is for informational purposes only and is not a medical diagnosis.');
 
       const newEntry = {
         skinIssues,
-        result: data.disease || data.predicted_condition || 'Skin condition evaluated',
-        confidence: data.confidence || '85.0%',
+        result: analysisResult,
+        confidence: maxConfidence,
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()
       };
       setAnalysisHistory((prev) => [newEntry, ...prev]);
@@ -244,9 +239,17 @@ function Dashboard() {
     }
 
     try {
-      const response = await getProductRecommendation(productForm);
-      setProductRecommendation(response.data || response);
-      toast.success('Recommendation generated!');
+      const recommendations = getRecommendations(concern, skin_type, 'Any Product');
+      if (recommendations && recommendations.length > 0) {
+        const topResult = recommendations[0].product;
+        setProductRecommendation({
+          product_name: topResult.product_name,
+          ingredients: topResult.key_ingredients.join(', ')
+        });
+        toast.success('Recommendation generated!');
+      } else {
+        toast.warn('No products found for this combination.');
+      }
     } catch (err) {
       console.error('Product recommendation error:', err);
       toast.error('Failed to retrieve recommendation.');

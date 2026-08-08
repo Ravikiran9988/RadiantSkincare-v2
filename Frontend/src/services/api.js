@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const MODEL1_URL = import.meta.env.VITE_MODEL1_URL || 'http://localhost:5003';
-const MODEL2_URL = import.meta.env.VITE_MODEL2_URL || 'http://localhost:5004';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -55,37 +53,11 @@ export const submitSkinAnalysis = (formData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-// AI ML Model Services
-export const analyzeSkinWithModel1 = async (formData) => {
-  try {
-    const res = await axios.post(`${MODEL1_URL}/api/submit`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return res.data;
-  } catch (err) {
-    // Fallback via backend proxy if direct model call is blocked
-    try {
-      const fallbackRes = await api.post('/submit', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      return {
-        success: true,
-        disease: fallbackRes.data.Disease || fallbackRes.data.message,
-        disclaimer: "AI-generated screening result — not a medical diagnosis. Consult a qualified healthcare professional for clinical evaluation."
-      };
-    } catch (fallbackErr) {
-      throw err;
-    }
-  }
-};
-
-export const getRecommendationOptions = async () => {
-  const res = await axios.get(`${MODEL2_URL}/options`);
-  return res.data;
-};
-
-export const getProductRecommendation = async (data) => {
-  const res = await axios.post(`${MODEL2_URL}/api/recommend`, data);
+// Unified AI Model Service
+export const analyzeSkin = async (formData) => {
+  const res = await api.post('/ai/analyze-skin', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return res.data;
 };
 

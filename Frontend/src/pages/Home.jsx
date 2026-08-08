@@ -37,7 +37,7 @@ const Home = () => {
               <ScanIcon size={22} style={{ color: 'var(--primary-purple)' }} />
               <div>
                 <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>AI-Assisted Screening</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>ResNet50 vision engine</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Computer vision engine</span>
               </div>
             </div>
 
@@ -89,7 +89,7 @@ const Home = () => {
             <span className="step-number step-1">01</span>
             <h3>AI Skin Screening</h3>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-              Analyze your skin using our ResNet50-based computer vision model for automated pattern evaluation.
+              Analyze your skin using our AI-assisted computer vision models for automated pattern evaluation.
             </p>
           </div>
 
@@ -289,12 +289,12 @@ const Home = () => {
               </span>
               <h2 style={{ marginBottom: '1.15rem', color: '#ffffff' }}>AI that helps you understand your skin.</h2>
               <p style={{ color: '#C4B5FD', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: 1.65 }}>
-                RadiantSkincare uses a ResNet50 convolutional neural network to evaluate visual features across supported skin screening categories. Machine-learning recommendations help connect screening results with relevant skincare ingredients and products.
+                RadiantSkincare uses specialized neural networks to evaluate visual features across supported skin screening categories. Machine-learning recommendations help connect screening results with relevant skincare ingredients and products.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>ResNet50 Vision Engine:</strong> Automated pattern recognition for visual skin features.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Computer Vision Engine:</strong> Automated pattern recognition for visual skin features.</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0, marginTop: '2px' }} />

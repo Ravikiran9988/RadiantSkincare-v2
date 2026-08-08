@@ -12,6 +12,7 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const submissionRoutes = require('./routes/submission');
 const authRoutes = require('./routes/auth');
 const routineRoutes = require('./routes/routine');
+const aiRoutes = require('./routes/ai');
 
 const app = express();
 const server = http.createServer(app);
@@ -59,6 +60,7 @@ app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
 app.use('/api', submissionRoutes);
 app.use('/api/routine', routineRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

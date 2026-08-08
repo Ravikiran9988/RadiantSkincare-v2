@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { SKIN_TYPES, SKIN_CONCERNS, PRODUCT_TYPES } from '../data/products.js';
 import { getRecommendations, getFilteredProducts, getScoreLabel } from '../data/skincareRecommender.js';
+import everydayEssentials from '../data/everydayEssentials.js';
+import beginnerTips from '../data/beginnerTips.js';
+import getSkincareTips from '../data/skincareTips.js';
 import { updateChecklist, fetchDashboardData } from '../services/api';
 import {
   SparklesIcon,
@@ -11,30 +14,6 @@ import {
   SearchIcon,
   CheckIcon,
 } from '../components/Icons';
-
-// ─── STATIC SKINCARE TIPS ────────────────────────────────────────────────────
-const STATIC_TIPS = [
-  {
-    title: 'Keep Your Routine Consistent',
-    tip: 'Give your routine time to work before frequently changing products. Most skincare products take several weeks of consistent use.',
-  },
-  {
-    title: 'Introduce Actives Gradually',
-    tip: 'Introduce one new active ingredient at a time so you can better understand how your skin responds to each change.',
-  },
-  {
-    title: "Don't Skip Sunscreen",
-    tip: 'Use broad-spectrum sunscreen during daytime as part of your daily skincare routine — regardless of skin type.',
-  },
-  {
-    title: 'Patch Test New Products',
-    tip: 'Consider patch testing new products on a small area before applying them more broadly, especially for actives.',
-  },
-  {
-    title: 'Keep It Simple',
-    tip: 'A simple routine with compatible products is often easier to maintain and less likely to cause irritation.',
-  },
-];
 
 // ─── PRODUCT DETAIL MODAL ────────────────────────────────────────────────────
 function ProductModal({ product, onClose, onAddToRoutine }) {
@@ -316,12 +295,16 @@ function Products() {
     const effectiveSkinType = selectedSkinType === 'Not Sure' ? '' : selectedSkinType;
 
     if (!effectiveConcern && !effectiveSkinType) {
-      toast.warn('Please select at least a skin concern or skin type to see recommendations.');
-      return;
+      // Beginner path -> Everyday Essentials
+      setRecommendations(everydayEssentials);
+      setHasSearched(true);
+    } else {
+      // Personalized path
+      const results = getRecommendations(effectiveConcern, effectiveSkinType, selectedProductType);
+      setRecommendations(results);
+      setHasSearched(true);
     }
-    const results = getRecommendations(effectiveConcern, effectiveSkinType, selectedProductType);
-    setRecommendations(results);
-    setHasSearched(true);
+    
     setTimeout(() => {
       document.getElementById('recommendation-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 80);
@@ -513,21 +496,38 @@ function Products() {
       {hasSearched && (
         <section id="recommendation-results" style={{ padding: '0 0 44px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+            {(() => {
+              const isBeginnerCase = (!selectedConcern || selectedConcern === 'Not Sure') && (!selectedSkinType || selectedSkinType === 'Not Sure');
+              
+              let activeTips = [];
+              if (isBeginnerCase) {
+                activeTips = beginnerTips;
+              } else {
+                const querySkinType = (!selectedSkinType || selectedSkinType === 'Not Sure') ? 'Normal' : selectedSkinType;
+                const queryConcern = (!selectedConcern || selectedConcern === 'Not Sure') ? '' : selectedConcern;
+                activeTips = getSkincareTips(querySkinType, queryConcern).slice(0, 5);
+              }
 
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#171329' }}>Recommended For You</h2>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                  {selectedSkinType && selectedSkinType !== 'Not Sure' && <span className="status-badge">{selectedSkinType} Skin</span>}
-                  {selectedConcern && selectedConcern !== 'Not Sure' && <span className="status-badge pink">{selectedConcern}</span>}
-                </div>
-              </div>
-              <p style={{ fontSize: '0.875rem', color: '#625B71', margin: 0 }}>
-                {recommendations && recommendations.length > 0
-                  ? `${recommendations.length} relevant skincare option${recommendations.length !== 1 ? 's' : ''} selected based on your skin preferences and skincare goals.`
-                  : 'No close matches found. Try adjusting your selections below.'}
-              </p>
-            </div>
+              return (
+                <>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
+                      <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#171329' }}>
+                        {isBeginnerCase ? 'Not sure where to start?' : 'Recommended For You'}
+                      </h2>
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        {selectedSkinType && selectedSkinType !== 'Not Sure' && <span className="status-badge">{selectedSkinType} Skin</span>}
+                        {selectedConcern && selectedConcern !== 'Not Sure' && <span className="status-badge pink">{selectedConcern}</span>}
+                      </div>
+                    </div>
+                    <p style={{ fontSize: '0.875rem', color: '#625B71', margin: 0 }}>
+                      {isBeginnerCase
+                        ? "Start with simple everyday skincare essentials. You can explore more personalized recommendations when you know your skin type and concerns."
+                        : (recommendations && recommendations.length > 0
+                          ? `${recommendations.length} relevant skincare option${recommendations.length !== 1 ? 's' : ''} selected based on your skin preferences and skincare goals.`
+                          : 'No close matches found. Try adjusting your selections below.')}
+                    </p>
+                  </div>
 
             {/* No results */}
             {recommendations && recommendations.length === 0 && (
@@ -544,9 +544,18 @@ function Products() {
             {/* Product grid */}
             {recommendations && recommendations.length > 0 && (
               <div className="grid-3" style={{ marginBottom: '36px' }}>
-                {recommendations.map((item) => (
-                  <ProductCard key={item.product.product_id} item={item} isRecommendation={true} onViewDetails={setDetailProduct} onAddToRoutine={handleAddToRoutine} />
-                ))}
+                {recommendations.map((item) => {
+                  const productKey = isBeginnerCase ? item.product_id : item.product.product_id;
+                  return (
+                    <ProductCard 
+                      key={productKey} 
+                      item={item} 
+                      isRecommendation={!isBeginnerCase} 
+                      onViewDetails={setDetailProduct} 
+                      onAddToRoutine={handleAddToRoutine} 
+                    />
+                  );
+                })}
               </div>
             )}
 
@@ -554,18 +563,24 @@ function Products() {
             <div style={{ background: '#F8F7FF', border: '1px solid #EDE9FE', borderRadius: '18px', padding: '24px 28px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '16px' }}>
                 <CheckIcon size={17} style={{ color: '#7C3AED' }} />
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#171329', margin: 0 }}>Simple Skincare Tips</h3>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#171329', margin: 0 }}>
+                  {isBeginnerCase ? 'Simple Skincare Tips' : 'Personalized Skincare Tips'}
+                </h3>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {STATIC_TIPS.map((item, i) => (
-                  <div key={i} className="tip-card">
-                    <span className="tip-number">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <strong style={{ fontSize: '0.875rem', color: '#171329', display: 'block', marginBottom: '2px' }}>{item.title}</strong>
-                      <span style={{ fontSize: '0.835rem', color: '#625B71', lineHeight: 1.5 }}>{item.tip}</span>
+                {activeTips.map((item, i) => {
+                  const tipText = typeof item === 'string' ? item : item.tip;
+                  const tipTitle = typeof item === 'string' ? `Tip ${i + 1}` : item.title;
+                  return (
+                    <div key={i} className="tip-card">
+                      <span className="tip-number">{String(i + 1).padStart(2, '0')}</span>
+                      <div>
+                        <strong style={{ fontSize: '0.875rem', color: '#171329', display: 'block', marginBottom: '2px' }}>{tipTitle}</strong>
+                        <span style={{ fontSize: '0.835rem', color: '#625B71', lineHeight: 1.5 }}>{tipText}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <div style={{ marginTop: '14px', padding: '10px 14px', background: '#FFF1F7', border: '1px solid #FCE7F3', borderRadius: '8px' }}>
                 <p style={{ fontSize: '0.775rem', color: '#DB2777', margin: 0, maxWidth: '100%' }}>
@@ -573,6 +588,9 @@ function Products() {
                 </p>
               </div>
             </div>
+                </>
+              );
+            })()}
           </div>
         </section>
       )}

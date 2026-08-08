@@ -74,11 +74,11 @@ const Navbar = () => {
             <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {user ? (
                 <>
-                  <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
-                    <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Dashboard ({user.username})
+                  <button className="btn btn-secondary navbar-user-btn" onClick={() => navigate('/dashboard')}>
+                    <UserIcon size={16} /> Dashboard ({user.username})
                   </button>
-                  <button className="btn btn-secondary" onClick={handleLogout}>
-                    <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Logout
+                  <button className="btn btn-secondary navbar-user-btn" onClick={handleLogout}>
+                    <LogoutIcon size={16} /> Logout
                   </button>
                 </>
               ) : (
@@ -95,11 +95,11 @@ const Navbar = () => {
         <div className="nav-buttons">
           {user ? (
             <>
-              <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
-                <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> {user.username}
+              <button className="btn btn-secondary navbar-user-btn" onClick={() => navigate('/dashboard')}>
+                <UserIcon size={16} /> {user.username}
               </button>
-              <button className="btn btn-secondary" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
-                <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} />
+              <button className="btn btn-secondary navbar-user-btn" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
+                <LogoutIcon size={16} />
               </button>
             </>
           ) : (

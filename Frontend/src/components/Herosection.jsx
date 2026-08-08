@@ -42,8 +42,8 @@ const HeroSection = () => {
             <button className="btn btn-primary" onClick={handleStartAnalysis}>
               <ScanIcon size={18} /> Analyze My Skin
             </button>
-            <button className="btn btn-secondary" onClick={handleExploreProducts}>
-              <SearchIcon size={18} style={{ color: '#7C3AED' }} /> Explore Products
+            <button className="btn btn-secondary explore-products-btn" onClick={handleExploreProducts}>
+              <SearchIcon size={18} /> Explore Products
             </button>
           </div>
 
@@ -64,7 +64,7 @@ const HeroSection = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.65rem', borderBottom: '1px solid var(--border-color)' }}>
               <h3 style={{ fontSize: '1rem', margin: 0, color: 'var(--dark-text)' }}>AI Skin Screening</h3>
               <span className="status-badge">
-                <ScanIcon size={13} /> ResNet50 Vision Engine
+                <ScanIcon size={13} /> Computer Vision Engine
               </span>
             </div>
 

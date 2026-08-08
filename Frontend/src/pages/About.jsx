@@ -22,7 +22,7 @@ function About() {
             <div style={{ width: '42px', height: '42px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)' }}>
               <ScanIcon size={22} />
             </div>
-            <h3 style={{ margin: 0 }}>ResNet50 Vision Screening</h3>
+            <h3 style={{ margin: 0 }}>AI-Assisted Vision Screening</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
             Our deep learning computer vision model evaluates visual features across supported skin screening categories, providing prediction confidence metrics for automated pattern evaluation.

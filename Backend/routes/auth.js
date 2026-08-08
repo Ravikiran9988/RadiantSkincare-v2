@@ -16,37 +16,49 @@ router.post('/register', async (req, res) => {
   }
 
   try {
-    const existing = await User.findOne({ email: email.trim().toLowerCase() });
-    if (existing) {
-      return res.status(400).json({ success: false, message: 'Email already registered' });
-    }
-
-    const hashed = await bcrypt.hash(password, 10);
+    const cleanEmail = email.trim().toLowerCase();
+    let user = await User.findOne({ email: cleanEmail });
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashed = await bcrypt.hash(password, 10);
 
-    const user = new User({
-      username: username.trim(),
-      email: email.trim().toLowerCase(),
-      password: hashed,
-      otp: otpCode,
-      isVerified: false
-    });
-
-    await user.save();
+    if (user) {
+      if (user.isVerified) {
+        return res.status(400).json({ success: false, message: 'Email already registered' });
+      }
+      // If unverified, just update the credentials and proceed to resend OTP
+      user.username = username.trim();
+      user.password = hashed;
+      user.otp = otpCode;
+      await user.save();
+    } else {
+      user = new User({
+        username: username.trim(),
+        email: cleanEmail,
+        password: hashed,
+        otp: otpCode,
+        isVerified: false
+      });
+      await user.save();
+    }
 
     // Store in Otp collection with TTL expiry
     await Otp.create({
-      email: email.trim().toLowerCase(),
+      email: cleanEmail,
       otp: otpCode
     });
 
-    await sendEmail(
-      email.trim(),
-      'Verify your Radiant Skincare account',
-      `Your verification OTP for Radiant Skincare is ${otpCode}. It is valid for 5 minutes.`
-    );
+    try {
+      await sendEmail(
+        cleanEmail,
+        'Verify your Radiant Skincare account',
+        `Your verification OTP for Radiant Skincare is ${otpCode}. It is valid for 5 minutes.`
+      );
+    } catch (emailErr) {
+      console.error('Nodemailer Error:', emailErr);
+      return res.status(500).json({ success: false, message: 'Failed to send OTP' });
+    }
 
-    res.status(201).json({ success: true, message: 'OTP sent to your email', email: email.trim().toLowerCase() });
+    res.status(201).json({ success: true, message: 'OTP sent to your email', email: cleanEmail });
   } catch (err) {
     console.error('Register Error:', err);
     res.status(500).json({ success: false, message: 'Error registering user' });
