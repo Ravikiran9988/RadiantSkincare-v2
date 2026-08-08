@@ -58,23 +58,23 @@ const HeroSection = () => {
               <CheckIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Computer Vision Screening
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckIcon size={16} style={{ color: 'var(--secondary-pink)' }} /> Routine Builder & Insights
+              <CheckIcon size={16} style={{ color: 'var(--secondary-pink)' }} /> Personalized Routine & Insights
             </span>
           </div>
         </div>
 
-        {/* Right Column: Refined Skincare Facial AI Visualizer */}
+        {/* Right Column: Abstract Computer Vision AI Visualizer (Zero Facial Features) */}
         <div style={{ position: 'relative' }}>
           <div className="card" style={{ padding: '1.35rem', background: '#ffffff', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-elevated)' }}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.65rem', borderBottom: '1px solid var(--border-color)' }}>
-              <h3 style={{ fontSize: '1rem', margin: 0, color: 'var(--dark-text)' }}>AI Skin Analysis Preview</h3>
+              <h3 style={{ fontSize: '1rem', margin: 0, color: 'var(--dark-text)' }}>AI Skin Screening</h3>
               <span className="status-badge">
                 <ScanIcon size={13} /> ResNet50 Vision Engine
               </span>
             </div>
 
-            {/* Facial Scanning Overlay */}
+            {/* Abstract Skin Analysis Computer Vision Frame */}
             <div style={{
               position: 'relative',
               borderRadius: 'var(--radius-md)',
@@ -87,18 +87,27 @@ const HeroSection = () => {
               marginBottom: '1rem',
               border: '1px solid rgba(124, 58, 237, 0.25)'
             }}>
-              <svg width="180" height="180" viewBox="0 0 200 200" fill="none" style={{ position: 'absolute', opacity: 0.25 }}>
-                <path d="M100 20 C60 20 40 50 40 90 C40 140 70 180 100 180 C130 180 160 140 160 90 C160 50 140 20 100 20 Z" stroke="#EC4899" strokeWidth="2" strokeDasharray="4 4" />
-                <circle cx="75" cy="80" r="12" stroke="#7C3AED" strokeWidth="1.5" />
-                <circle cx="125" cy="80" r="12" stroke="#7C3AED" strokeWidth="1.5" />
-                <path d="M90 115 Q100 120 110 115" stroke="#7C3AED" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M80 145 Q100 155 120 145" stroke="#EC4899" strokeWidth="1.5" strokeLinecap="round" />
+              {/* Abstract Skin Contour & Target Grid Lines (Zero eyes/nose/mouth) */}
+              <svg width="200" height="200" viewBox="0 0 200 200" fill="none" style={{ position: 'absolute', opacity: 0.35 }}>
+                {/* Abstract Oval Contour */}
+                <ellipse cx="100" cy="100" rx="65" ry="80" stroke="#7C3AED" strokeWidth="1.5" strokeDasharray="4 4" />
+                {/* Grid Nodes */}
+                <circle cx="60" cy="70" r="3" fill="#EC4899" />
+                <circle cx="140" cy="70" r="3" fill="#EC4899" />
+                <circle cx="100" cy="50" r="3" fill="#7C3AED" />
+                <circle cx="100" cy="150" r="3" fill="#7C3AED" />
+                <circle cx="65" cy="130" r="3" fill="#EC4899" />
+                <circle cx="135" cy="130" r="3" fill="#EC4899" />
+                {/* Intersecting Radar Lines */}
+                <line x1="35" y1="100" x2="165" y2="100" stroke="rgba(124, 58, 237, 0.3)" strokeWidth="1" strokeDasharray="2 2" />
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(124, 58, 237, 0.3)" strokeWidth="1" strokeDasharray="2 2" />
               </svg>
 
+              {/* Active Target Reticle Box */}
               <div style={{
                 position: 'relative',
-                width: '100px',
-                height: '100px',
+                width: '110px',
+                height: '110px',
                 border: '2px solid #7C3AED',
                 borderRadius: '14px',
                 backgroundColor: 'rgba(124, 58, 237, 0.12)',
@@ -108,23 +117,25 @@ const HeroSection = () => {
                 justifyContent: 'center'
               }}>
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#EC4899', boxShadow: '0 0 8px #EC4899' }} />
+                
                 <div style={{
                   position: 'absolute',
-                  top: '-10px',
+                  top: '-12px',
                   left: '50%',
                   transform: 'translateX(-50%)',
                   background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
                   color: '#ffffff',
-                  fontSize: '0.65rem',
+                  fontSize: '0.68rem',
                   fontWeight: 800,
-                  padding: '2px 8px',
+                  padding: '2px 9px',
                   borderRadius: '4px',
                   whiteSpace: 'nowrap'
                 }}>
-                  Feature Detection • 88.4%
+                  Model Confidence • 88.4%
                 </div>
               </div>
 
+              {/* Sample Analysis Watermark */}
               <div style={{
                 position: 'absolute',
                 bottom: '10px',
@@ -141,13 +152,14 @@ const HeroSection = () => {
               </div>
             </div>
 
+            {/* Analysis Output Summary Box */}
             <div style={{ background: 'var(--soft-lavender)', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                <strong style={{ fontSize: '0.85rem', color: 'var(--dark-text)' }}>Classification:</strong>
+                <strong style={{ fontSize: '0.85rem', color: 'var(--dark-text)' }}>Screening Classification:</strong>
                 <span className="status-badge pink" style={{ fontSize: '0.725rem' }}>Acne & Rosacea Features</span>
               </div>
               <p style={{ fontSize: '0.8rem', color: 'var(--secondary-text)', margin: 0 }}>
-                Matched formulation ingredients: <strong>Salicylic Acid, Niacinamide</strong>. Build your routine to track progress.
+                Matched ingredients: <strong>Salicylic Acid, Niacinamide</strong>. Explore personalized skincare recommendations.
               </p>
             </div>
 
