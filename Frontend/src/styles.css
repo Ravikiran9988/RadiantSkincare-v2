@@ -537,29 +537,22 @@ label {
 
 .smart-product-grid {
   display: grid;
-  grid-template-columns: 1fr 520px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr);
   align-items: center;
   gap: 64px;
 }
 
-@media (max-width: 1099px) and (min-width: 768px) {
-  .smart-product-grid {
-    grid-template-columns: 1fr 460px;
-    gap: 36px;
-  }
-}
-
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .smart-product-section {
-    padding: 40px 0;
+    padding: 44px 0;
   }
 
   .smart-product-container {
-    padding: 0 20px;
+    padding: 0 24px;
   }
 
   .smart-product-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 40px;
   }
 }
