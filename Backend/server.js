@@ -3,19 +3,14 @@ const http = require('http');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
-const socketIO = require('socket.io');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
 
-// Route files
+// Route files for AI Skincare MVP
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const submissionRoutes = require('./routes/submission');
 const authRoutes = require('./routes/auth');
-const consultationRoutes = require('./routes/consultation');
-const chatRoutes = require('./routes/chat');
-const doctorAuthRoutes = require('./routes/doctorAuth');
-const doctorRoutes = require('./routes/doctor');
 const routineRoutes = require('./routes/routine');
 
 const app = express();
@@ -56,15 +51,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
   }
 }));
 
-// Socket.IO setup with CORS
-const io = socketIO(server, {
-  cors: {
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ['GET', 'POST']
-  },
-});
-
 // Database Connection
 connectDB();
 
@@ -73,10 +59,6 @@ app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
 app.use('/api', submissionRoutes);
 app.use('/api/routine', routineRoutes);
-app.use('/api/consultation', consultationRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/doctor', doctorAuthRoutes);
-app.use('/api/doctor', doctorRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {
@@ -106,9 +88,6 @@ app.use((err, req, res, next) => {
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 });
-
-// Socket.IO Handler
-require('./sockets/chatSocket')(io);
 
 // Start server
 server.listen(PORT, () => {

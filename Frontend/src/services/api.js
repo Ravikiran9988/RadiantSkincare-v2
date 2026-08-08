@@ -11,9 +11,9 @@ const api = axios.create({
   },
 });
 
-// Automatically attach user or doctor token if present
+// Automatically attach user token if present
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token') || localStorage.getItem('doctorToken');
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -25,7 +25,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear token on 401 if token expired
       if (localStorage.getItem('token') && !window.location.pathname.includes('/login')) {
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedIn');
@@ -56,19 +55,6 @@ export const submitSkinAnalysis = (formData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-// Consultation & Doctor Endpoints
-export const getDoctors = () => api.get('/consultation/doctors');
-export const scheduleConsultation = (data) => api.post('/consultation/book', data);
-export const getConsultationById = (id) => api.get(`/consultation/${id}`);
-export const getConsultationMessages = (id) => api.get(`/consultation/${id}/messages`);
-
-export const doctorLogin = (credentials) => api.post('/doctor/login', credentials);
-export const getDoctorProfile = () => api.get('/doctor/me');
-export const getDoctorConsultations = () => api.get('/doctor/consultations');
-
-// Chat Service Endpoints
-export const fetchChatHistory = (consultationId) => api.get(`/chat/history/${consultationId}`);
-
 // AI ML Model Services
 export const analyzeSkinWithModel1 = async (formData) => {
   try {
@@ -85,7 +71,7 @@ export const analyzeSkinWithModel1 = async (formData) => {
       return {
         success: true,
         disease: fallbackRes.data.Disease || fallbackRes.data.message,
-        disclaimer: "AI-generated screening result — not a medical diagnosis. Please consult a qualified dermatologist for professional evaluation."
+        disclaimer: "AI-generated screening result — not a medical diagnosis. Consult a qualified healthcare professional for clinical evaluation."
       };
     } catch (fallbackErr) {
       throw err;
