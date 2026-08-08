@@ -205,20 +205,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Smart Product Matching Section (Compact 2-Column Section) */}
-      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '3.25rem 0' }}>
+      {/* 5. Smart Product Matching Section (Exact Pixel Spacing: 64px padding, 20px / 18px / 28px left, 28px / 10px / 28px / 10px / 32px right) */}
+      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '64px 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
             {/* Left Column */}
             <div>
-              <span className="eyebrow" style={{ marginBottom: '0.85rem' }}>
+              <span className="eyebrow" style={{ marginBottom: '20px' }}>
                 <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
                 SMART PRODUCT ENGINE
               </span>
-              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '1rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#171329', marginBottom: '18px', lineHeight: 1.25 }}>
                 Smart Product Matching
               </h2>
-              <p style={{ fontSize: '1rem', color: '#625B71', lineHeight: 1.6, maxWidth: '520px', marginBottom: '1.75rem' }}>
+              <p style={{ fontSize: '1rem', color: '#625B71', lineHeight: 1.6, maxWidth: '520px', marginBottom: '28px' }}>
                 Find products based on your skin type and specific concerns using our machine-learning recommendation engine.
               </p>
               <Link
@@ -251,16 +251,16 @@ const Home = () => {
                 boxShadow: '0 12px 40px rgba(124, 58, 237, 0.08)'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '28px' }}>
                 <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
                 <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#171329', margin: 0 }}>
                   Quick Product Matcher
                 </h3>
               </div>
 
-              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
+              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginBottom: '28px' }}>
+                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
                     Skin Concern:
                   </label>
                   <select
@@ -283,8 +283,8 @@ const Home = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
+                <div style={{ marginBottom: '32px' }}>
+                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '10px', display: 'block' }}>
                     Skin Type:
                   </label>
                   <select
@@ -321,7 +321,6 @@ const Home = () => {
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    marginTop: '0.35rem',
                     boxShadow: '0 8px 24px rgba(124, 58, 237, 0.22)'
                   }}
                 >
