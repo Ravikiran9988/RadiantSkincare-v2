@@ -6,14 +6,16 @@
 // ============================================================
 
 export const PRODUCT_TYPES = [
-  'All Products',
+  'Any Product',
   'Cleanser',
   'Serum',
   'Essence',
   'Moisturizer',
   'Sunscreen',
   'Treatment',
+  'Eye Care',
   'Body Care',
+  'Complete Routine',
 ];
 
 export const SKIN_TYPES = [
@@ -22,19 +24,23 @@ export const SKIN_TYPES = [
   'Combination',
   'Normal',
   'Sensitive',
+  'Not Sure',
 ];
 
 export const SKIN_CONCERNS = [
   'Acne & Breakouts',
-  'Dryness / Dehydration',
+  'Dryness',
+  'Dehydration',
   'Oiliness',
   'Redness',
-  'Dark Spots / Uneven Tone',
+  'Dark Spots',
   'Uneven Texture',
   'Sensitivity',
-  'Fine Lines / Aging',
-  'Dull-Looking Skin',
-  'Visible Pores',
+  'Signs of Aging',
+  'Dullness',
+  'Pores',
+  'Barrier Support',
+  'Not Sure',
 ];
 
 const products = [
@@ -46,7 +52,7 @@ const products = [
     product_name: 'Gentle Hydrating Cleanser',
     product_type: 'Cleanser',
     skin_types: ['Dry', 'Normal', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Sensitivity', 'Redness'],
+    concerns: ['Dryness', 'Sensitivity', 'Redness'],
     key_ingredients: ['Glycerin', 'Panthenol', 'Ceramides'],
     description:
       'A mild, low-lather cleanser formulation designed for dry and sensitive skin. Helps cleanse without disrupting the moisture barrier.',
@@ -64,7 +70,7 @@ const products = [
     product_name: 'Foaming Gel Cleanser',
     product_type: 'Cleanser',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Oiliness', 'Acne & Breakouts', 'Visible Pores'],
+    concerns: ['Oiliness', 'Acne & Breakouts', 'Pores'],
     key_ingredients: ['Salicylic Acid', 'Niacinamide', 'Tea Tree Extract'],
     description:
       'A foaming gel cleanser formulation commonly used in oily and acne-prone skin routines. Helps remove excess surface oil during cleansing.',
@@ -82,7 +88,7 @@ const products = [
     product_name: 'Salicylic Acid Cleansing Gel',
     product_type: 'Cleanser',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Acne & Breakouts', 'Oiliness', 'Uneven Texture', 'Visible Pores'],
+    concerns: ['Acne & Breakouts', 'Oiliness', 'Uneven Texture', 'Pores'],
     key_ingredients: ['Salicylic Acid (BHA)', 'Zinc PCA', 'Glycerin'],
     description:
       'A BHA-based cleansing gel formulation designed to assist with congestion, excess oil, and skin texture as part of a targeted skincare routine.',
@@ -100,7 +106,7 @@ const products = [
     product_name: 'Cream Cleanser',
     product_type: 'Cleanser',
     skin_types: ['Dry', 'Sensitive', 'Normal'],
-    concerns: ['Dryness / Dehydration', 'Sensitivity', 'Redness'],
+    concerns: ['Dryness', 'Sensitivity', 'Redness'],
     key_ingredients: ['Shea Butter', 'Ceramides', 'Oat Extract'],
     description:
       'A creamy, low-foam cleanser formulation designed for dry, sensitive, or compromised skin. Provides a comfortable cleansing experience while supporting the skin barrier.',
@@ -135,7 +141,7 @@ const products = [
     product_name: 'Micellar Cleansing Water',
     product_type: 'Cleanser',
     skin_types: ['Normal', 'Sensitive', 'Dry', 'Combination'],
-    concerns: ['Sensitivity', 'Dryness / Dehydration', 'Redness'],
+    concerns: ['Sensitivity', 'Dryness', 'Redness'],
     key_ingredients: ['Micelles', 'Glycerin', 'Panthenol'],
     description:
       'A gentle micellar water formulation that removes surface impurities without rinsing. Suitable as a first-step cleanser or a gentle standalone option for sensitive skin.',
@@ -156,7 +162,7 @@ const products = [
     product_name: 'Niacinamide Serum',
     product_type: 'Serum',
     skin_types: ['Oily', 'Combination', 'Normal'],
-    concerns: ['Acne & Breakouts', 'Oiliness', 'Visible Pores', 'Dark Spots / Uneven Tone', 'Uneven Texture'],
+    concerns: ['Acne & Breakouts', 'Oiliness', 'Pores', 'Dark Spots', 'Uneven Texture'],
     key_ingredients: ['Niacinamide', 'Zinc PCA'],
     description:
       'A lightweight serum formulation with niacinamide, commonly used in skincare routines focused on oiliness, blemish-prone skin, and uneven-looking tone.',
@@ -174,7 +180,7 @@ const products = [
     product_name: 'Hyaluronic Acid Hydrating Serum',
     product_type: 'Serum',
     skin_types: ['Dry', 'Normal', 'Combination', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Fine Lines / Aging', 'Dull-Looking Skin', 'Sensitivity'],
+    concerns: ['Dryness', 'Signs of Aging', 'Dullness', 'Sensitivity'],
     key_ingredients: ['Hyaluronic Acid', 'Sodium Hyaluronate', 'Glycerin'],
     description:
       'A hydration-focused serum formulation with hyaluronic acid, a humectant commonly used to help attract and retain moisture in the skin.',
@@ -191,7 +197,7 @@ const products = [
     product_name: 'Vitamin C Brightening Serum',
     product_type: 'Serum',
     skin_types: ['Normal', 'Combination', 'Dry'],
-    concerns: ['Dark Spots / Uneven Tone', 'Dull-Looking Skin', 'Fine Lines / Aging'],
+    concerns: ['Dark Spots', 'Dullness', 'Signs of Aging'],
     key_ingredients: ['L-Ascorbic Acid (Vitamin C)', 'Vitamin E', 'Ferulic Acid'],
     description:
       'An antioxidant serum formulation with vitamin C, commonly used in morning routines focused on uneven-looking skin tone and dull-looking skin.',
@@ -209,7 +215,7 @@ const products = [
     product_name: 'Azelaic Acid Serum',
     product_type: 'Serum',
     skin_types: ['Oily', 'Combination', 'Sensitive'],
-    concerns: ['Acne & Breakouts', 'Redness', 'Dark Spots / Uneven Tone', 'Uneven Texture'],
+    concerns: ['Acne & Breakouts', 'Redness', 'Dark Spots', 'Uneven Texture'],
     key_ingredients: ['Azelaic Acid', 'Niacinamide'],
     description:
       'A multi-tasking serum formulation with azelaic acid, commonly used in routines focused on blemish-prone skin, uneven tone, and redness.',
@@ -227,7 +233,7 @@ const products = [
     product_name: 'Barrier Support Serum',
     product_type: 'Serum',
     skin_types: ['Dry', 'Sensitive', 'Normal'],
-    concerns: ['Dryness / Dehydration', 'Sensitivity', 'Redness'],
+    concerns: ['Dryness', 'Sensitivity', 'Redness'],
     key_ingredients: ['Ceramides', 'Panthenol', 'Glycerin', 'Centella Asiatica'],
     description:
       'A serum formulation designed to support the skin barrier, commonly used in routines for dry, compromised, or sensitivity-prone skin.',
@@ -244,7 +250,7 @@ const products = [
     product_name: 'Peptide Serum',
     product_type: 'Serum',
     skin_types: ['Dry', 'Normal', 'Combination'],
-    concerns: ['Fine Lines / Aging', 'Dullness / Dehydration', 'Dull-Looking Skin'],
+    concerns: ['Signs of Aging', 'Dryness', 'Dullness'],
     key_ingredients: ['Peptide Complex', 'Hyaluronic Acid', 'Niacinamide'],
     description:
       'A serum formulation containing peptides, commonly used in anti-aging routines to support the appearance of skin firmness and overall skin condition.',
@@ -261,7 +267,7 @@ const products = [
     product_name: 'Tranexamic Acid Serum',
     product_type: 'Serum',
     skin_types: ['Normal', 'Combination', 'Sensitive'],
-    concerns: ['Dark Spots / Uneven Tone', 'Dull-Looking Skin', 'Redness'],
+    concerns: ['Dark Spots', 'Dullness', 'Redness'],
     key_ingredients: ['Tranexamic Acid', 'Niacinamide', 'Vitamin C'],
     description:
       'A serum formulation with tranexamic acid, commonly used in routines focused on uneven-looking skin tone and post-blemish marks.',
@@ -278,7 +284,7 @@ const products = [
     product_name: 'Centella Asiatica Calming Essence',
     product_type: 'Essence',
     skin_types: ['Sensitive', 'Normal', 'Dry'],
-    concerns: ['Redness', 'Sensitivity', 'Dryness / Dehydration'],
+    concerns: ['Redness', 'Sensitivity', 'Dryness'],
     key_ingredients: ['Centella Asiatica', 'Madecassoside', 'Panthenol'],
     description:
       'A calming essence formulation with centella asiatica, commonly used in routines for redness-prone or sensitivity-prone skin.',
@@ -299,7 +305,7 @@ const products = [
     product_name: 'Lightweight Gel Moisturizer',
     product_type: 'Moisturizer',
     skin_types: ['Oily', 'Combination', 'Normal'],
-    concerns: ['Oiliness', 'Acne & Breakouts', 'Visible Pores', 'Dryness / Dehydration'],
+    concerns: ['Oiliness', 'Acne & Breakouts', 'Pores', 'Dryness'],
     key_ingredients: ['Hyaluronic Acid', 'Niacinamide', 'Glycerin'],
     description:
       'A water-based gel moisturiser formulation suitable for oily and combination skin types. Provides lightweight hydration without heavy texture.',
@@ -316,7 +322,7 @@ const products = [
     product_name: 'Ceramide Barrier Cream',
     product_type: 'Moisturizer',
     skin_types: ['Dry', 'Sensitive', 'Normal'],
-    concerns: ['Dryness / Dehydration', 'Sensitivity', 'Redness', 'Fine Lines / Aging'],
+    concerns: ['Dryness', 'Sensitivity', 'Redness', 'Signs of Aging'],
     key_ingredients: ['Ceramides NP/AP/EOP', 'Cholesterol', 'Fatty Acids', 'Glycerin'],
     description:
       'A rich barrier-supporting cream formulation with ceramides, commonly used in dry and sensitive skin routines to help support skin barrier integrity.',
@@ -333,7 +339,7 @@ const products = [
     product_name: 'Hydrating Cream Moisturizer',
     product_type: 'Moisturizer',
     skin_types: ['Dry', 'Normal', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Fine Lines / Aging', 'Sensitivity'],
+    concerns: ['Dryness', 'Signs of Aging', 'Sensitivity'],
     key_ingredients: ['Glycerin', 'Shea Butter', 'Squalane', 'Hyaluronic Acid'],
     description:
       'A nourishing cream moisturiser formulation designed for dry and normal skin types, providing long-lasting hydration.',
@@ -350,7 +356,7 @@ const products = [
     product_name: 'Oil-Free Moisturizer',
     product_type: 'Moisturizer',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Oiliness', 'Acne & Breakouts', 'Visible Pores'],
+    concerns: ['Oiliness', 'Acne & Breakouts', 'Pores'],
     key_ingredients: ['Niacinamide', 'Zinc PCA', 'Hyaluronic Acid'],
     description:
       'A non-comedogenic, oil-free moisturiser formulation designed for oily or acne-prone skin types.',
@@ -367,7 +373,7 @@ const products = [
     product_name: 'Sensitive Skin Moisturizer',
     product_type: 'Moisturizer',
     skin_types: ['Sensitive', 'Normal', 'Dry'],
-    concerns: ['Sensitivity', 'Redness', 'Dryness / Dehydration'],
+    concerns: ['Sensitivity', 'Redness', 'Dryness'],
     key_ingredients: ['Oat Extract', 'Allantoin', 'Glycerin', 'Panthenol'],
     description:
       'A fragrance-free, gentle moisturiser formulation designed for reactive and sensitive skin types.',
@@ -384,7 +390,7 @@ const products = [
     product_name: 'Rich Overnight Repair Cream',
     product_type: 'Moisturizer',
     skin_types: ['Dry', 'Normal'],
-    concerns: ['Dryness / Dehydration', 'Fine Lines / Aging', 'Dull-Looking Skin'],
+    concerns: ['Dryness', 'Signs of Aging', 'Dullness'],
     key_ingredients: ['Squalane', 'Peptide Complex', 'Shea Butter', 'Hyaluronic Acid'],
     description:
       'A richer overnight moisturiser formulation designed to support skin comfort and appearance during the evening routine.',
@@ -405,7 +411,7 @@ const products = [
     product_name: 'Broad-Spectrum SPF 50 Sunscreen',
     product_type: 'Sunscreen',
     skin_types: ['Normal', 'Dry', 'Combination'],
-    concerns: ['Dark Spots / Uneven Tone', 'Fine Lines / Aging', 'Dull-Looking Skin'],
+    concerns: ['Dark Spots', 'Signs of Aging', 'Dullness'],
     key_ingredients: ['UV Filters (Broad-Spectrum)', 'Glycerin', 'Vitamin E'],
     description:
       'A broad-spectrum SPF 50 sunscreen formulation that helps protect the skin from UVA and UVB exposure. Suitable for daily use.',
@@ -422,7 +428,7 @@ const products = [
     product_name: 'Lightweight Gel Sunscreen',
     product_type: 'Sunscreen',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Oiliness', 'Acne & Breakouts', 'Visible Pores'],
+    concerns: ['Oiliness', 'Acne & Breakouts', 'Pores'],
     key_ingredients: ['UV Filters (Broad-Spectrum)', 'Niacinamide', 'Hyaluronic Acid'],
     description:
       'A lightweight gel-textured sunscreen formulation designed for oily and combination skin types. Provides broad-spectrum protection with a non-greasy finish.',
@@ -439,7 +445,7 @@ const products = [
     product_name: 'Sensitive Skin Mineral Sunscreen',
     product_type: 'Sunscreen',
     skin_types: ['Sensitive', 'Dry'],
-    concerns: ['Sensitivity', 'Redness', 'Dryness / Dehydration'],
+    concerns: ['Sensitivity', 'Redness', 'Dryness'],
     key_ingredients: ['Zinc Oxide', 'Titanium Dioxide', 'Centella Asiatica'],
     description:
       'A mineral-filter sunscreen formulation using zinc oxide and titanium dioxide, commonly recommended for sensitive and reactive skin types.',
@@ -456,7 +462,7 @@ const products = [
     product_name: 'Broad-Spectrum SPF 30+ Sunscreen',
     product_type: 'Sunscreen',
     skin_types: ['Normal', 'Combination', 'Oily'],
-    concerns: ['Dark Spots / Uneven Tone', 'Fine Lines / Aging'],
+    concerns: ['Dark Spots', 'Signs of Aging'],
     key_ingredients: ['UV Filters (Broad-Spectrum)', 'Glycerin', 'Panthenol'],
     description:
       'A broad-spectrum SPF 30 sunscreen formulation suitable for everyday use as part of a morning skincare routine.',
@@ -478,7 +484,7 @@ const products = [
     product_name: 'Salicylic Acid Spot Treatment',
     product_type: 'Treatment',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Acne & Breakouts', 'Visible Pores', 'Oiliness', 'Uneven Texture'],
+    concerns: ['Acne & Breakouts', 'Pores', 'Oiliness', 'Uneven Texture'],
     key_ingredients: ['Salicylic Acid 2%', 'Zinc PCA'],
     description:
       'A targeted salicylic acid treatment formulation commonly used in blemish-focused skincare routines to address localised breakouts and pore congestion.',
@@ -496,7 +502,7 @@ const products = [
     product_name: 'Azelaic Acid Treatment',
     product_type: 'Treatment',
     skin_types: ['Oily', 'Combination', 'Sensitive'],
-    concerns: ['Acne & Breakouts', 'Redness', 'Dark Spots / Uneven Tone', 'Uneven Texture'],
+    concerns: ['Acne & Breakouts', 'Redness', 'Dark Spots', 'Uneven Texture'],
     key_ingredients: ['Azelaic Acid 10–15%', 'Niacinamide'],
     description:
       'A targeted azelaic acid treatment formulation commonly used for blemish-prone, redness-prone, or uneven-tone skin routines.',
@@ -531,7 +537,7 @@ const products = [
     product_name: 'Retinol-Based Treatment Serum',
     product_type: 'Treatment',
     skin_types: ['Normal', 'Combination', 'Oily'],
-    concerns: ['Fine Lines / Aging', 'Uneven Texture', 'Dark Spots / Uneven Tone', 'Dull-Looking Skin'],
+    concerns: ['Signs of Aging', 'Uneven Texture', 'Dark Spots', 'Dullness'],
     key_ingredients: ['Retinol', 'Bakuchiol', 'Squalane'],
     description:
       'A retinoid-based treatment serum formulation commonly used in evening routines focused on skin texture, fine lines, and uneven-looking skin tone.',
@@ -549,7 +555,7 @@ const products = [
     product_name: 'AHA Exfoliating Treatment',
     product_type: 'Treatment',
     skin_types: ['Normal', 'Dry', 'Combination'],
-    concerns: ['Uneven Texture', 'Dull-Looking Skin', 'Dark Spots / Uneven Tone', 'Fine Lines / Aging'],
+    concerns: ['Uneven Texture', 'Dullness', 'Dark Spots', 'Signs of Aging'],
     key_ingredients: ['Glycolic Acid', 'Lactic Acid', 'Panthenol'],
     description:
       'An AHA-based exfoliating treatment formulation with glycolic or lactic acid, commonly used in routines focused on skin texture and dull-looking skin.',
@@ -567,7 +573,7 @@ const products = [
     product_name: 'Barrier Repair Treatment',
     product_type: 'Treatment',
     skin_types: ['Dry', 'Sensitive'],
-    concerns: ['Sensitivity', 'Redness', 'Dryness / Dehydration'],
+    concerns: ['Sensitivity', 'Redness', 'Dryness'],
     key_ingredients: ['Ceramides', 'Fatty Acids', 'Cholesterol', 'Oat Extract'],
     description:
       'A targeted barrier repair formulation commonly used when the skin barrier is compromised, reactive, or dry. Supports the appearance of comfortable, calmer-looking skin.',
@@ -584,7 +590,7 @@ const products = [
     product_name: 'Bakuchiol Serum (Retinol Alternative)',
     product_type: 'Serum',
     skin_types: ['Sensitive', 'Dry', 'Normal'],
-    concerns: ['Fine Lines / Aging', 'Dull-Looking Skin', 'Uneven Texture'],
+    concerns: ['Signs of Aging', 'Dullness', 'Uneven Texture'],
     key_ingredients: ['Bakuchiol', 'Squalane', 'Vitamin E'],
     description:
       'A bakuchiol serum formulation commonly discussed as a gentler plant-derived alternative to retinol for aging-focused routines.',
@@ -601,7 +607,7 @@ const products = [
     product_name: 'Alpha Arbutin Serum',
     product_type: 'Serum',
     skin_types: ['Normal', 'Combination', 'Dry'],
-    concerns: ['Dark Spots / Uneven Tone', 'Dull-Looking Skin'],
+    concerns: ['Dark Spots', 'Dullness'],
     key_ingredients: ['Alpha Arbutin', 'Hyaluronic Acid', 'Glycerin'],
     description:
       'A serum formulation containing alpha arbutin, commonly used in routines focused on the appearance of dark spots and uneven skin tone.',
@@ -618,7 +624,7 @@ const products = [
     product_name: 'Squalane Facial Oil',
     product_type: 'Serum',
     skin_types: ['Dry', 'Normal', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Fine Lines / Aging', 'Sensitivity'],
+    concerns: ['Dryness', 'Signs of Aging', 'Sensitivity'],
     key_ingredients: ['Squalane'],
     description:
       'A squalane facial oil formulation commonly used as a lightweight oil step to support skin hydration and comfort.',
@@ -639,7 +645,7 @@ const products = [
     product_name: 'Gentle Fragrance-Free Body Wash',
     product_type: 'Body Care',
     skin_types: ['Sensitive', 'Dry', 'Normal'],
-    concerns: ['Sensitivity', 'Dryness / Dehydration', 'Redness'],
+    concerns: ['Sensitivity', 'Dryness', 'Redness'],
     key_ingredients: ['Glycerin', 'Oat Extract', 'Panthenol'],
     description:
       'A gentle, fragrance-free body wash formulation suitable for sensitive and dry body skin. Designed for daily use without stripping moisture.',
@@ -656,7 +662,7 @@ const products = [
     product_name: 'Body Moisturiser Lotion',
     product_type: 'Body Care',
     skin_types: ['Normal', 'Dry', 'Combination'],
-    concerns: ['Dryness / Dehydration'],
+    concerns: ['Dryness'],
     key_ingredients: ['Glycerin', 'Shea Butter', 'Vitamin E'],
     description:
       'A daily body moisturiser lotion formulation designed to support comfortable, hydrated body skin.',
@@ -673,7 +679,7 @@ const products = [
     product_name: 'Urea Moisturiser (10%)',
     product_type: 'Body Care',
     skin_types: ['Dry', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Uneven Texture'],
+    concerns: ['Dryness', 'Uneven Texture'],
     key_ingredients: ['Urea 10%', 'Glycerin', 'Ceramides'],
     description:
       'A urea-based moisturiser formulation commonly used for very dry or rough body skin. Urea is a humectant and mild keratolytic commonly used in formulations supporting skin softness and texture.',
@@ -691,7 +697,7 @@ const products = [
     product_name: 'Fragrance-Free Barrier Body Cream',
     product_type: 'Body Care',
     skin_types: ['Sensitive', 'Dry'],
-    concerns: ['Sensitivity', 'Dryness / Dehydration', 'Redness'],
+    concerns: ['Sensitivity', 'Dryness', 'Redness'],
     key_ingredients: ['Ceramides', 'Petrolatum', 'Oat Extract'],
     description:
       'A thick, fragrance-free barrier cream formulation for sensitive or dry body skin. Commonly used in supportive care routines for very dry or reactive body skin.',
@@ -712,7 +718,7 @@ const products = [
     product_name: 'Kojic Acid Serum',
     product_type: 'Serum',
     skin_types: ['Normal', 'Combination', 'Dry'],
-    concerns: ['Dark Spots / Uneven Tone', 'Dull-Looking Skin'],
+    concerns: ['Dark Spots', 'Dullness'],
     key_ingredients: ['Kojic Acid', 'Glycerin', 'Niacinamide'],
     description:
       'A serum formulation with kojic acid, commonly used in routines targeting the appearance of uneven-looking skin tone and post-blemish marks.',
@@ -729,7 +735,7 @@ const products = [
     product_name: 'Lactic Acid Exfoliant',
     product_type: 'Treatment',
     skin_types: ['Dry', 'Normal', 'Sensitive'],
-    concerns: ['Uneven Texture', 'Dull-Looking Skin', 'Dryness / Dehydration'],
+    concerns: ['Uneven Texture', 'Dullness', 'Dryness'],
     key_ingredients: ['Lactic Acid', 'Hyaluronic Acid', 'Glycerin'],
     description:
       'A lactic acid exfoliant formulation commonly used for a gentler AHA exfoliating option that also provides hydration alongside exfoliation.',
@@ -747,7 +753,7 @@ const products = [
     product_name: 'Mandelic Acid Serum',
     product_type: 'Serum',
     skin_types: ['Sensitive', 'Oily', 'Combination'],
-    concerns: ['Acne & Breakouts', 'Uneven Texture', 'Dark Spots / Uneven Tone'],
+    concerns: ['Acne & Breakouts', 'Uneven Texture', 'Dark Spots'],
     key_ingredients: ['Mandelic Acid', 'Niacinamide'],
     description:
       'A mandelic acid serum formulation, commonly used as a gentler exfoliating option for blemish-prone or sensitive skin routines.',
@@ -764,7 +770,7 @@ const products = [
     product_name: 'Panthenol Hydrating Serum',
     product_type: 'Serum',
     skin_types: ['Sensitive', 'Dry', 'Normal'],
-    concerns: ['Dryness / Dehydration', 'Redness', 'Sensitivity'],
+    concerns: ['Dryness', 'Redness', 'Sensitivity'],
     key_ingredients: ['Panthenol (Provitamin B5)', 'Glycerin', 'Allantoin'],
     description:
       'A hydrating serum formulation with panthenol (provitamin B5), commonly used in routines focused on skin comfort and hydration support.',
@@ -781,7 +787,7 @@ const products = [
     product_name: 'Green Tea Antioxidant Serum',
     product_type: 'Serum',
     skin_types: ['Oily', 'Combination', 'Normal'],
-    concerns: ['Oiliness', 'Dull-Looking Skin', 'Acne & Breakouts'],
+    concerns: ['Oiliness', 'Dullness', 'Acne & Breakouts'],
     key_ingredients: ['Green Tea Extract (EGCG)', 'Niacinamide', 'Hyaluronic Acid'],
     description:
       'An antioxidant serum formulation with green tea extract, commonly used in routines focused on oily skin and overall skin condition.',
@@ -798,7 +804,7 @@ const products = [
     product_name: 'Rosehip Seed Oil',
     product_type: 'Serum',
     skin_types: ['Dry', 'Normal', 'Combination'],
-    concerns: ['Dark Spots / Uneven Tone', 'Fine Lines / Aging', 'Dryness / Dehydration'],
+    concerns: ['Dark Spots', 'Signs of Aging', 'Dryness'],
     key_ingredients: ['Rosehip Seed Oil', 'Vitamin A (naturally occurring)', 'Vitamin E'],
     description:
       'A facial oil formulation with rosehip seed oil, commonly used in evening routines for dry or aging-focused skin concerns.',
@@ -816,7 +822,7 @@ const products = [
     product_name: 'Glycolic Acid Toner',
     product_type: 'Treatment',
     skin_types: ['Normal', 'Oily', 'Combination'],
-    concerns: ['Uneven Texture', 'Dull-Looking Skin', 'Visible Pores', 'Dark Spots / Uneven Tone'],
+    concerns: ['Uneven Texture', 'Dullness', 'Pores', 'Dark Spots'],
     key_ingredients: ['Glycolic Acid 5–7%', 'Aloe Vera', 'Glycerin'],
     description:
       'A glycolic acid toner formulation commonly used as an exfoliating step in routines focused on skin texture, brightness, and pore appearance.',
@@ -834,7 +840,7 @@ const products = [
     product_name: 'Pore-Minimising Primer Serum',
     product_type: 'Serum',
     skin_types: ['Oily', 'Combination'],
-    concerns: ['Visible Pores', 'Oiliness'],
+    concerns: ['Pores', 'Oiliness'],
     key_ingredients: ['Niacinamide', 'Silica', 'Zinc PCA'],
     description:
       'A serum formulation with niacinamide and silica, commonly used in routines targeting the appearance of visible pores and surface oiliness.',
@@ -868,7 +874,7 @@ const products = [
     product_name: 'Licorice Root Extract Serum',
     product_type: 'Serum',
     skin_types: ['Normal', 'Combination', 'Sensitive'],
-    concerns: ['Dark Spots / Uneven Tone', 'Redness', 'Dull-Looking Skin'],
+    concerns: ['Dark Spots', 'Redness', 'Dullness'],
     key_ingredients: ['Licorice Root Extract', 'Niacinamide', 'Hyaluronic Acid'],
     description:
       'A serum formulation with licorice root extract, commonly used in routines targeting uneven-looking skin tone and redness-prone skin.',
@@ -885,7 +891,7 @@ const products = [
     product_name: 'Snail Mucin Essence',
     product_type: 'Essence',
     skin_types: ['Dry', 'Normal', 'Combination', 'Sensitive'],
-    concerns: ['Dryness / Dehydration', 'Fine Lines / Aging', 'Dull-Looking Skin', 'Uneven Texture'],
+    concerns: ['Dryness', 'Signs of Aging', 'Dullness', 'Uneven Texture'],
     key_ingredients: ['Snail Secretion Filtrate', 'Hyaluronic Acid', 'Glycerin'],
     description:
       'An essence formulation with snail secretion filtrate, commonly used in multi-step skincare routines for hydration and skin comfort support.',
@@ -902,7 +908,7 @@ const products = [
     product_name: 'Retinal Serum (Retinaldehyde)',
     product_type: 'Treatment',
     skin_types: ['Normal', 'Combination'],
-    concerns: ['Fine Lines / Aging', 'Uneven Texture', 'Dull-Looking Skin'],
+    concerns: ['Signs of Aging', 'Uneven Texture', 'Dullness'],
     key_ingredients: ['Retinaldehyde', 'Squalane', 'Ceramides'],
     description:
       'A retinaldehyde-based treatment serum formulation. Retinaldehyde is commonly discussed as a potent form of vitamin A that may be better tolerated than prescription retinoids for some users.',
@@ -920,7 +926,7 @@ const products = [
     product_name: 'Vitamin B5 Healing Gel',
     product_type: 'Treatment',
     skin_types: ['Sensitive', 'Dry', 'Normal'],
-    concerns: ['Sensitivity', 'Redness', 'Dryness / Dehydration'],
+    concerns: ['Sensitivity', 'Redness', 'Dryness'],
     key_ingredients: ['Panthenol (Vitamin B5)', 'Centella Asiatica', 'Glycerin'],
     description:
       'A panthenol-based healing gel formulation commonly used to support the appearance of irritated or compromised skin in supportive skincare routines.',

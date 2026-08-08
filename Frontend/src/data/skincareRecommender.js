@@ -10,15 +10,33 @@ import products from './products.js';
 // Map skin concerns to related ingredient keywords (for bonus scoring)
 const CONCERN_INGREDIENT_MAP = {
   'Acne & Breakouts': ['Salicylic Acid', 'Niacinamide', 'Benzoyl Peroxide', 'Azelaic Acid', 'Zinc PCA', 'Tea Tree', 'Mandelic Acid'],
-  'Dryness / Dehydration': ['Hyaluronic Acid', 'Glycerin', 'Ceramides', 'Squalane', 'Panthenol', 'Shea Butter', 'Sodium Hyaluronate'],
+  'Dryness': ['Hyaluronic Acid', 'Glycerin', 'Ceramides', 'Squalane', 'Panthenol', 'Shea Butter', 'Sodium Hyaluronate'],
+  'Dehydration': ['Hyaluronic Acid', 'Sodium Hyaluronate', 'Glycerin', 'Panthenol', 'Snail Secretion', 'Aloe'],
   'Oiliness': ['Niacinamide', 'Zinc PCA', 'Salicylic Acid', 'Silica', 'Kaolin'],
   'Redness': ['Centella Asiatica', 'Azelaic Acid', 'Niacinamide', 'Oat Extract', 'Allantoin', 'Calamine', 'Zinc Oxide', 'Madecassoside'],
-  'Dark Spots / Uneven Tone': ['Vitamin C', 'L-Ascorbic Acid', 'Niacinamide', 'Tranexamic Acid', 'Alpha Arbutin', 'Kojic Acid', 'Licorice Root', 'Retinol'],
+  'Dark Spots': ['Vitamin C', 'L-Ascorbic Acid', 'Niacinamide', 'Tranexamic Acid', 'Alpha Arbutin', 'Kojic Acid', 'Licorice Root', 'Retinol'],
   'Uneven Texture': ['Salicylic Acid', 'Glycolic Acid', 'Lactic Acid', 'AHA', 'BHA', 'Retinol', 'Retinaldehyde', 'Mandelic Acid'],
   'Sensitivity': ['Ceramides', 'Centella Asiatica', 'Oat Extract', 'Allantoin', 'Panthenol', 'Glycerin', 'Zinc Oxide'],
-  'Fine Lines / Aging': ['Retinol', 'Retinaldehyde', 'Bakuchiol', 'Peptide', 'Vitamin C', 'Hyaluronic Acid', 'Squalane'],
-  'Dull-Looking Skin': ['Vitamin C', 'L-Ascorbic Acid', 'Niacinamide', 'Glycolic Acid', 'Lactic Acid', 'AHA', 'Rosehip'],
-  'Visible Pores': ['Niacinamide', 'Zinc PCA', 'Salicylic Acid', 'AHA', 'Silica'],
+  'Signs of Aging': ['Retinol', 'Retinaldehyde', 'Bakuchiol', 'Peptide', 'Vitamin C', 'Hyaluronic Acid', 'Squalane'],
+  'Dullness': ['Vitamin C', 'L-Ascorbic Acid', 'Niacinamide', 'Glycolic Acid', 'Lactic Acid', 'AHA', 'Rosehip'],
+  'Pores': ['Niacinamide', 'Zinc PCA', 'Salicylic Acid', 'AHA', 'Silica'],
+  'Barrier Support': ['Ceramides', 'Fatty Acids', 'Cholesterol', 'Panthenol', 'Oat Extract', 'Glycerin', 'Squalane'],
+};
+
+// Normalize user selections — handle "Not Sure" and alias values
+const normalizeConcern = (concern) => {
+  if (!concern || concern === 'Not Sure') return '';
+  return concern;
+};
+
+const normalizeSkinType = (skinType) => {
+  if (!skinType || skinType === 'Not Sure') return '';
+  return skinType;
+};
+
+const normalizeProductType = (productType) => {
+  if (!productType || productType === 'Any Product' || productType === 'All Products' || productType === 'Complete Routine') return '';
+  return productType;
 };
 
 // Score label thresholds
@@ -45,11 +63,10 @@ const scoreProduct = (product, concern, skinType, productType) => {
     score += 30;
   }
 
-  // 3. Product type match (+15)
-  if (productType && productType !== 'All Products' && product.product_type === productType) {
+  // 3. Product type match (+15) — no type filter = +5 baseline
+  if (productType && product.product_type === productType) {
     score += 15;
-  } else if (!productType || productType === 'All Products') {
-    // No product type filter — give partial credit as all types are eligible
+  } else if (!productType) {
     score += 5;
   }
 
@@ -63,27 +80,31 @@ const scoreProduct = (product, concern, skinType, productType) => {
   }
 
   // 5. Routine compatibility bonus (+5)
-  // If concern is aging/dullness and product is AM — +5 for vitamin C, sunscreen
-  // If concern is acne and product is PM — +5 for BHA/retinoid treatments
-  if (concern === 'Fine Lines / Aging' || concern === 'Dark Spots / Uneven Tone' || concern === 'Dull-Looking Skin') {
+  if (concern === 'Signs of Aging' || concern === 'Dark Spots' || concern === 'Dullness') {
     if (product.routine === 'AM' || product.routine === 'AM | PM') score += 5;
   }
   if (concern === 'Acne & Breakouts' || concern === 'Uneven Texture') {
     if (product.routine === 'PM' || product.routine === 'AM | PM') score += 5;
   }
   if (!concern) {
-    score += 5; // neutral
+    score += 5; // neutral — no concern specified
   }
 
   return Math.min(score, 100);
 };
 
 /**
- * Get recommended products based on user selections
- * Returns array of { product, score, scoreLabel } sorted by score desc
- * Only includes products scoring >= 50
+ * Get recommended products based on user selections.
+ * Normalizes "Not Sure" and "Any Product" to empty strings (no filter).
+ * Returns array of { product, score, scoreLabel } sorted by score desc.
+ * Only includes products scoring >= 50.
  */
-export const getRecommendations = (concern, skinType, productType = 'All Products') => {
+export const getRecommendations = (rawConcern, rawSkinType, rawProductType = 'Any Product') => {
+  const concern = normalizeConcern(rawConcern);
+  const skinType = normalizeSkinType(rawSkinType);
+  const productType = normalizeProductType(rawProductType);
+
+  // Require at least one non-empty filter
   if (!concern && !skinType) return [];
 
   const scored = products.map((product) => ({
@@ -103,11 +124,13 @@ export const getRecommendations = (concern, skinType, productType = 'All Product
 };
 
 /**
- * Get all products filtered by product type and search query
+ * Get all products filtered by product type and search query.
+ * Handles "Any Product" / "All Products" as no filter.
  */
-export const getFilteredProducts = (productType = 'All Products', searchQuery = '') => {
+export const getFilteredProducts = (productType = 'Any Product', searchQuery = '') => {
+  const normalizedType = normalizeProductType(productType);
   return products.filter((p) => {
-    const matchesType = productType === 'All Products' || p.product_type === productType;
+    const matchesType = !normalizedType || p.product_type === normalizedType;
     const q = searchQuery.toLowerCase();
     const matchesSearch =
       !q ||
