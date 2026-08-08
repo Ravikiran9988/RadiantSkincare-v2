@@ -49,7 +49,7 @@ const HeroSection = () => {
               <ScanIcon size={18} /> Analyze My Skin
             </button>
             <button className="btn btn-secondary" onClick={handleExploreProducts}>
-              <SearchIcon size={18} style={{ color: 'var(--primary-purple)' }} /> Explore Products
+              <SearchIcon size={18} style={{ color: '#7C3AED' }} /> Explore Products
             </button>
           </div>
 
