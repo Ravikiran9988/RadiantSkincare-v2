@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { analyzeSkin } from '../services/api';
+import { analyzeSkin, generateAIExplanation } from '../services/api';
+import { getRecommendations } from '../data/skincareRecommender';
 import { toast } from 'react-toastify';
 import {
   ScanIcon,
@@ -18,6 +19,8 @@ function AIConsultation() {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [aiExplanation, setAiExplanation] = useState(null);
+  const [explanationLoading, setExplanationLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFile = (file) => {
@@ -57,6 +60,7 @@ function AIConsultation() {
 
     setLoading(true);
     setResult(null);
+    setAiExplanation(null);
 
     try {
       const formData = new FormData();
@@ -67,6 +71,29 @@ function AIConsultation() {
       if (res.success && res.data) {
         setResult(res.data);
         toast.success('Screening analysis complete!');
+        
+        // Fetch AI Explanation
+        setExplanationLoading(true);
+        try {
+          const rawConcern = res.data.screeningConcerns?.length > 0 ? res.data.screeningConcerns[0].label : 'Not Sure';
+          const rawSkinType = res.data.skinType || 'Not Sure';
+          const recommendedProducts = getRecommendations(rawConcern, rawSkinType, 'Any Product').slice(0, 3);
+          const routineTips = ["Use sunscreen daily", "Patch test new products", "Stay hydrated", "Follow your custom AI routine consistently"];
+
+          const explainRes = await generateAIExplanation({
+            skinProfile: res.data,
+            recommendedProducts,
+            routineTips
+          });
+          
+          if (explainRes.success) {
+            setAiExplanation(explainRes.explanation);
+          }
+        } catch (e) {
+          console.error("Failed to load explanation:", e);
+        } finally {
+          setExplanationLoading(false);
+        }
       } else {
         throw new Error(res.message || 'Analysis failed');
       }
@@ -271,6 +298,22 @@ function AIConsultation() {
                   </div>
                 </div>
               )}
+
+              {/* AI Expert Explanation */}
+              <div style={{ backgroundColor: 'var(--soft-lavender)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+                <h4 style={{ color: 'var(--dark-text)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <SparklesIcon size={16} style={{ color: 'var(--primary-purple)' }} /> AI Expert Explanation
+                </h4>
+                {explanationLoading ? (
+                  <p style={{ fontSize: '0.95rem', color: 'var(--secondary-text)', fontStyle: 'italic' }}>Generating expert insights securely via Hugging Face...</p>
+                ) : aiExplanation ? (
+                  <div style={{ fontSize: '0.95rem', color: 'var(--dark-text)', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>
+                    {aiExplanation}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: '0.95rem', color: 'var(--secondary-text)' }}>Explanation currently unavailable.</p>
+                )}
+              </div>
 
               <div style={{ marginBottom: '1.5rem' }}>
                 <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Personalized Recommendations</h4>

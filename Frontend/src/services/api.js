@@ -55,10 +55,27 @@ export const submitSkinAnalysis = (formData) =>
 
 // Unified AI Model Service
 export const analyzeSkin = async (formData) => {
-  const res = await api.post('/ai/analyze-skin', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-  return res.data;
+  try {
+    const response = await api.post('/ai/analyze-skin', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error in analyzeSkin:', error);
+    throw error.response?.data || { success: false, message: 'Server error' };
+  }
+};
+
+export const generateAIExplanation = async (data) => {
+  try {
+    const response = await api.post('/ai/explain-results', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error in generateAIExplanation:', error);
+    throw error.response?.data || { success: false, message: 'Server error' };
+  }
 };
 
 export default api;
