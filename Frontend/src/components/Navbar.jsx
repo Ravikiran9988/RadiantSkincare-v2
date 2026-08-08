@@ -73,7 +73,7 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Brand Logo */}
         <Link to="/" className="logo brand-name">
-          <SparklesIcon size={22} style={{ color: 'var(--primary-purple)' }} />
+          <SparklesIcon size={20} style={{ color: 'var(--primary-purple)' }} />
           Radiant<span style={{ color: 'var(--primary-purple)' }}>Skincare</span>
         </Link>
 
@@ -91,19 +91,19 @@ const Navbar = () => {
               {user ? (
                 <>
                   <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
-                    <UserIcon size={16} /> Dashboard ({user.username})
+                    <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Dashboard ({user.username})
                   </button>
                   <button className="btn btn-secondary" onClick={handleLogout}>
-                    <LogoutIcon size={16} /> Logout
+                    <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Logout
                   </button>
                 </>
               ) : doctor ? (
                 <>
                   <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
-                    <UserIcon size={16} /> Portal (Dr. {doctor.name})
+                    <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Portal (Dr. {doctor.name})
                   </button>
                   <button className="btn btn-secondary" onClick={handleLogout}>
-                    <LogoutIcon size={16} /> Logout
+                    <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Logout
                   </button>
                 </>
               ) : (
@@ -116,24 +116,24 @@ const Navbar = () => {
           )}
         </nav>
 
-        {/* Right Action Buttons */}
+        {/* Desktop Action Buttons */}
         <div className="nav-buttons">
           {user ? (
             <>
               <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
-                <UserIcon size={16} /> {user.username}
+                <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> {user.username}
               </button>
-              <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
-                <LogoutIcon size={16} stroke="var(--primary-purple)" />
+              <button className="btn btn-secondary" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
+                <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} />
               </button>
             </>
           ) : doctor ? (
             <>
               <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
-                <UserIcon size={16} /> Dr. {doctor.name}
+                <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Dr. {doctor.name}
               </button>
-              <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
-                <LogoutIcon size={16} />
+              <button className="btn btn-secondary" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
+                <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} />
               </button>
             </>
           ) : (

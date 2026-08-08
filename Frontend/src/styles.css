@@ -1,5 +1,5 @@
 /* ===================================================
-   RADIANT SKINCARE - PREMIUM PURPLE + PINK DESIGN SYSTEM
+   RADIANT SKINCARE - STARTUP LAUNCH DESIGN SYSTEM
    =================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -28,7 +28,6 @@
 
   --gradient-primary: linear-gradient(135deg, #7C3AED, #EC4899);
   --gradient-primary-hover: linear-gradient(135deg, #6D28D9, #DB2777);
-  --gradient-soft: linear-gradient(135deg, #F5F3FF, #FFF1F7);
 
   --shadow-sm: 0 1px 3px rgba(23, 19, 41, 0.04);
   --shadow-card: 0 2px 8px rgba(23, 19, 41, 0.04), 0 1px 2px rgba(23, 19, 41, 0.02);
@@ -51,13 +50,13 @@ body {
   background-color: var(--bg-canvas);
   color: var(--secondary-text);
   min-height: 100vh;
-  line-height: 1.65;
+  line-height: 1.6;
   font-size: 16px;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Hierarchy - Solid Navy/Charcoal Headings */
+/* Typography Hierarchy - Controlled Headline Scaling (52-56px Desktop Max) */
 h1, h2, h3, h4, h5, h6 {
   color: var(--dark-text);
   font-weight: 700;
@@ -66,16 +65,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.15rem, 4vw, 3.35rem); /* Controlled ~54px desktop max */
   font-weight: 800;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
 }
 
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
@@ -95,21 +94,21 @@ p {
   background-color: var(--light-purple);
   padding: 0.35rem 0.85rem;
   border-radius: 9999px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .subheading {
-  font-size: 1.125rem;
+  font-size: 1.05rem; /* ~17-18px */
   color: var(--secondary-text);
-  max-width: 620px;
-  line-height: 1.65;
+  max-width: 540px;
+  line-height: 1.6;
 }
 
 /* Container */
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
 /* Premium Surface Cards */
@@ -118,7 +117,7 @@ p {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  padding: 2rem;
+  padding: 1.85rem;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
 
@@ -128,13 +127,14 @@ p {
   transform: translateY(-2px);
 }
 
-/* Button System - Purple/Pink Identity */
+/* Button System - High Contrast & Optimal Spacing */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.6rem;
+  height: 50px;
+  padding: 0 1.6rem;
   font-size: 0.95rem;
   font-weight: 600;
   border-radius: var(--radius-md);
@@ -147,19 +147,20 @@ p {
 .btn-primary {
   background: var(--gradient-primary);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.22);
 }
 
 .btn-primary:hover {
   background: var(--gradient-primary-hover);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.32);
   transform: translateY(-1px);
 }
 
+/* Fixed Secondary CTA Contrast (#FFFFFF bg, #7C3AED border & text) */
 .btn-secondary {
   background-color: #ffffff;
   color: var(--primary-purple);
-  border-color: var(--primary-purple);
+  border: 1px solid var(--primary-purple);
 }
 
 .btn-secondary:hover {
@@ -206,12 +207,12 @@ label {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--dark-text);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
-/* Compact Navbar (72–80px) */
+/* Compact Navbar (74px) */
 .navbar {
-  height: 76px;
+  height: 74px;
   background-color: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
@@ -231,7 +232,7 @@ label {
 }
 
 .logo.brand-name {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 800;
   color: var(--dark-text);
   text-decoration: none;
@@ -277,7 +278,7 @@ label {
   cursor: pointer;
 }
 
-/* Medical Disclaimer & Safety Box */
+/* Medical Disclaimer Box */
 .medical-disclaimer-box {
   background-color: var(--soft-rose);
   border: 1px solid var(--light-pink);
@@ -378,7 +379,7 @@ label {
 .chat-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
-  height: 680px;
+  height: 660px;
   background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
@@ -444,7 +445,7 @@ label {
   gap: 0.75rem;
 }
 
-/* Dark AI Technology & Footer Section (#1E1633) */
+/* Dark AI Technology Section (#1E1633) */
 .dark-section {
   background-color: var(--dark-surface);
   color: #ffffff;
@@ -467,13 +468,13 @@ label {
   padding: 2rem;
 }
 
-/* Professional Dark Footer */
+/* Compact Footer (Reduced padding by ~20%) */
 .footer {
   background-color: var(--dark-surface);
   color: #ffffff;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4rem 1.5rem 2rem;
-  margin-top: 5rem;
+  padding: 3.25rem 1.5rem 1.75rem;
+  margin-top: 4rem;
 }
 
 .footer-container {
@@ -481,16 +482,16 @@ label {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr repeat(3, 1fr);
-  gap: 3rem;
+  gap: 2.5rem;
 }
 
 .footer-col h4 {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .footer-col ul {
@@ -498,11 +499,11 @@ label {
 }
 
 .footer-col li {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
 }
 
 .footer-col a {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #C4B5FD;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -514,8 +515,8 @@ label {
 
 .footer-bottom-bar {
   max-width: 1200px;
-  margin: 3rem auto 0;
-  padding-top: 2rem;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: space-between;
@@ -542,7 +543,7 @@ label {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 76px;
+    top: 74px;
     left: 0;
     width: 100%;
     background: #ffffff;
