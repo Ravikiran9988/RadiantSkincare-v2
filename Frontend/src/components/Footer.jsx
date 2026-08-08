@@ -11,7 +11,7 @@ const Footer = () => {
           <Link to="/" className="logo brand-name" style={{ marginBottom: '0.85rem', display: 'inline-flex', color: '#ffffff' }}>
             <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
             <span>Radiant</span>
-            <span style={{ color: 'var(--secondary-pink)', marginLeft: '6px' }}>Skincare</span>
+            <span style={{ color: 'var(--secondary-pink)' }}>Skincare</span>
           </Link>
           <p style={{ fontSize: '0.875rem', color: '#C4B5FD', marginBottom: '1rem', lineHeight: 1.55 }}>
             Radiant Skincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant products, build routines, and track their skincare journey over time.

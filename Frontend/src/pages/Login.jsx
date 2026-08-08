@@ -48,18 +48,18 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: '2.5rem 1rem 3.5rem', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-      <div className="card" style={{ maxWidth: '460px', width: '100%', padding: '36px 40px', margin: '2.5rem auto 0', borderRadius: '20px' }}>
+    <div style={{ padding: '1.5rem 1rem 3rem', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+      <div className="card" style={{ maxWidth: '460px', width: '100%', padding: '36px 40px', margin: '40px auto 0', borderRadius: '20px' }}>
         {/* Full Width Heading & Subtitle */}
-        <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <span className="eyebrow" style={{ marginBottom: '0.75rem' }}>
             <SparklesIcon size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }} />
             User Authentication
           </span>
-          <h1 style={{ fontSize: 'clamp(1.75rem, 3vw, 2rem)', margin: 0, color: 'var(--dark-text)', fontWeight: 700, lineHeight: 1.25 }}>
+          <h1 style={{ fontSize: 'clamp(1.75rem, 3vw, 2rem)', margin: 0, color: '#171329', fontWeight: 700, lineHeight: 1.25 }}>
             Sign in to Radiant Skincare
           </h1>
-          <p style={{ fontSize: '0.95rem', color: 'var(--secondary-text)', marginTop: '0.5rem', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '16px', color: '#625B71', marginTop: '0.5rem', lineHeight: 1.5 }}>
             Access your personalized skincare dashboard
           </p>
         </div>
@@ -72,9 +72,9 @@ const Login = () => {
         )}
 
         {/* Compact Form Container */}
-        <form onSubmit={handleSubmit} style={{ maxWidth: '380px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: '380px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--dark-text)', marginBottom: '8px', display: 'block' }}>
+            <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
               Email Address:
             </label>
             <input
@@ -89,7 +89,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--dark-text)', marginBottom: '8px', display: 'block' }}>
+            <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#171329', marginBottom: '8px', display: 'block' }}>
               Password:
             </label>
             <div style={{ position: 'relative' }}>
@@ -112,7 +112,7 @@ const Login = () => {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: 'var(--primary-purple)',
+                  color: '#7C3AED',
                   cursor: 'pointer',
                   fontSize: '0.85rem',
                   fontWeight: 600
@@ -123,15 +123,15 @@ const Login = () => {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading} style={{ marginTop: '0.35rem', width: '100%', height: '52px', borderRadius: '12px' }}>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{ marginTop: '4px', width: '100%', height: '52px', borderRadius: '12px' }}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)', textAlign: 'center', fontSize: '0.9rem' }}>
-          <p style={{ color: 'var(--secondary-text)', margin: 0 }}>
+        <div style={{ marginTop: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)', textAlign: 'center', fontSize: '0.9rem' }}>
+          <p style={{ color: '#625B71', margin: 0 }}>
             New to Radiant Skincare?{' '}
-            <Link to="/register" style={{ color: 'var(--primary-purple)', fontWeight: 600, textDecoration: 'none' }}>
+            <Link to="/register" style={{ color: '#7C3AED', fontWeight: 600, textDecoration: 'none' }}>
               Register Here
             </Link>
           </p>

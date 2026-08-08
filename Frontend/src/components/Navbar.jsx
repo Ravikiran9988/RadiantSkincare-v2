@@ -58,7 +58,7 @@ const Navbar = () => {
         <Link to="/" className="logo brand-name">
           <SparklesIcon size={20} style={{ color: 'var(--primary-purple)' }} />
           <span>Radiant</span>
-          <span style={{ color: 'var(--primary-purple)', marginLeft: '6px' }}>Skincare</span>
+          <span style={{ color: 'var(--primary-purple)' }}>Skincare</span>
         </Link>
 
         {/* Public Navigation Links */}

@@ -261,9 +261,9 @@ label {
   font-weight: 800;
   color: var(--dark-text);
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 8px;
 }
 
 .logo.brand-name span {
