@@ -556,3 +556,216 @@ label {
     gap: 40px;
   }
 }
+
+/* ─── Modal Overlay ─────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 19, 41, 0.52);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.18s ease;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.25rem 2.5rem;
+  max-width: 680px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(23, 19, 41, 0.18);
+  position: relative;
+  animation: slideUp 0.22s ease;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: var(--soft-lavender);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--secondary-text);
+  transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: var(--light-purple);
+  color: var(--primary-purple);
+}
+
+/* ─── Product Cards ─────────────────────────────────────── */
+.product-card {
+  background: #ffffff;
+  border: 1px solid #EDE9FE;
+  border-radius: 22px;
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+  box-shadow: 0 2px 12px rgba(124, 58, 237, 0.04);
+}
+
+.product-card:hover {
+  border-color: #C4B5FD;
+  box-shadow: 0 8px 28px rgba(124, 58, 237, 0.10);
+  transform: translateY(-2px);
+}
+
+/* ─── Score Badge ───────────────────────────────────────── */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.score-badge-purple {
+  background: var(--light-purple);
+  color: var(--primary-purple);
+}
+
+.score-badge-pink {
+  background: var(--light-pink);
+  color: var(--secondary-pink);
+}
+
+.score-badge-muted {
+  background: #F0EEF6;
+  color: #8A8398;
+}
+
+/* ─── Tip Cards ─────────────────────────────────────────── */
+.tip-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #ffffff;
+  border: 1px solid #EDE9FE;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+}
+
+.tip-number {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--primary-purple);
+  background: var(--light-purple);
+  border-radius: 50%;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ─── Product Filter Bar ────────────────────────────────── */
+.filter-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+@media (max-width: 900px) {
+  .filter-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+  .modal-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 18px;
+  }
+}
+
+/* ─── Ingredient Pill ───────────────────────────────────── */
+.ingredient-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: var(--soft-lavender);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-purple);
+  white-space: nowrap;
+}
+
+/* ─── Routine Pill ──────────────────────────────────────── */
+.routine-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: var(--soft-rose);
+  border: 1px solid var(--light-pink);
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--secondary-pink);
+}
+
+/* ─── Category Explore Cards ────────────────────────────── */
+.category-card {
+  background: #ffffff;
+  border: 1px solid #EDE9FE;
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+  text-decoration: none;
+}
+
+.category-card:hover {
+  border-color: #C4B5FD;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.09);
+  transform: translateY(-2px);
+}
+
+/* ─── Keyframe Animations ───────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInCards {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInCards 0.3s ease forwards;
+}
