@@ -13,7 +13,7 @@ const Footer = () => {
             Radiant<span style={{ color: 'var(--secondary-pink)' }}>Skincare</span>
           </Link>
           <p style={{ fontSize: '0.875rem', color: '#C4B5FD', marginBottom: '1rem', lineHeight: 1.55 }}>
-            RadiantSkincare is an AI-powered personalized skincare platform combining computer vision screening, ingredient recommendation algorithms, and real-time telehealth consultations.
+            RadiantSkincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant products, build routines, and track their skincare journey over time.
           </p>
           <div style={{
             backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -28,7 +28,7 @@ const Footer = () => {
             gap: '0.5rem'
           }}>
             <ShieldIcon size={15} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
-            <span>AI results are for informational screening purposes and are not a medical diagnosis.</span>
+            <span>AI-generated screening information is for informational purposes only and is not a medical diagnosis. Consult a healthcare professional for clinical evaluation.</span>
           </div>
         </div>
 
@@ -36,10 +36,10 @@ const Footer = () => {
         <div className="footer-col">
           <h4>Product</h4>
           <ul>
-            <li><Link to="/ai-consultation">AI Skin Screening</Link></li>
-            <li><Link to="/products">Product Recommender</Link></li>
-            <li><Link to="/consultation">Doctor Consultations</Link></li>
-            <li><Link to="/dashboard">User Dashboard</Link></li>
+            <li><Link to="/ai-consultation">AI Skin Analysis</Link></li>
+            <li><Link to="/products">Products</Link></li>
+            <li><Link to="/dashboard">Skin Insights</Link></li>
+            <li><Link to="/dashboard">My Routine</Link></li>
           </ul>
         </div>
 
@@ -47,9 +47,9 @@ const Footer = () => {
         <div className="footer-col">
           <h4>Company</h4>
           <ul>
-            <li><Link to="/about">About Technology</Link></li>
-            <li><Link to="/about#privacy">Privacy Safeguards</Link></li>
-            <li><Link to="/about#safety">Medical Safety Notice</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/about#tech">Technology</Link></li>
+            <li><Link to="/about#privacy">Privacy</Link></li>
           </ul>
         </div>
 
@@ -67,7 +67,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="footer-bottom-bar">
         <div>&copy; {new Date().getFullYear()} RadiantSkincare. All rights reserved.</div>
-        <div>Personalized AI Skincare & Telehealth Platform</div>
+        <div>Personalized AI Skincare Platform</div>
       </div>
     </footer>
   );

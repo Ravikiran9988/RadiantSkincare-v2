@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScanIcon, ShieldIcon, SparklesIcon, StethoscopeIcon, LockIcon } from '../components/Icons';
+import { ScanIcon, ShieldIcon, SparklesIcon, CalendarIcon, LockIcon } from '../components/Icons';
 
 function About() {
   return (
@@ -11,7 +11,7 @@ function About() {
         </span>
         <h1>Why RadiantSkincare?</h1>
         <p className="subheading" style={{ margin: '0.75rem auto 0' }}>
-          Combining computer vision neural networks, targeted formulation algorithms, and real-time telehealth rooms to make dermatological insights accessible and clear.
+          RadiantSkincare is an AI-powered personalized skincare platform designed to help users understand their skin, discover relevant skincare products, build routines, and track their skincare journey over time.
         </p>
       </div>
 
@@ -44,12 +44,12 @@ function About() {
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
             <div style={{ width: '42px', height: '42px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)' }}>
-              <StethoscopeIcon size={22} />
+              <CalendarIcon size={22} />
             </div>
-            <h3 style={{ margin: 0 }}>Real-Time Telehealth Integration</h3>
+            <h3 style={{ margin: 0 }}>Personalized Routine & Tracking</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
-            When users require professional healthcare advice, our Socket.IO engine connects patients with dermatologists inside confidential, room-isolated chat environments.
+            Users can build morning and evening skincare routines, log daily step completion, and track screening progress trends across recurring AI analysis check-ins.
           </p>
         </div>
 
@@ -61,7 +61,7 @@ function About() {
             <h3 style={{ margin: 0 }}>Privacy & Data Security</h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', lineHeight: 1.6 }}>
-            All user data, password hashes, and consultation messages are stored in isolated MongoDB structures using encrypted JWT session handling and path-traversal protected uploads.
+            All user profiles, password hashes, and screening histories are stored in isolated MongoDB structures using encrypted JWT session handling and path-traversal protected uploads.
           </p>
         </div>
       </div>
@@ -72,7 +72,7 @@ function About() {
           <ShieldIcon size={20} style={{ color: 'var(--secondary-pink)' }} /> Medical Safety Notice
         </h3>
         <p style={{ fontSize: '0.9rem', color: 'var(--dark-text)', margin: 0 }}>
-          RadiantSkincare AI tools serve as preliminary screening and educational assistance only. They do not constitute a binding clinical diagnosis. Users are advised to seek professional medical evaluation from licensed healthcare providers for diagnostic assessment and treatment plans.
+          AI-generated screening information is for informational purposes only and is not a medical diagnosis. If you have a persistent, severe, or concerning skin issue, consult a qualified healthcare professional.
         </p>
       </div>
     </div>

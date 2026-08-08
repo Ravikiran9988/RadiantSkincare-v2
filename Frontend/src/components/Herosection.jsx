@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ScanIcon, StethoscopeIcon, SparklesIcon, CheckIcon } from './Icons';
+import { ScanIcon, SparklesIcon, CheckIcon, SearchIcon } from './Icons';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -15,14 +15,8 @@ const HeroSection = () => {
     }
   };
 
-  const handleTalkToDoctor = () => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/consultation');
-    } else {
-      localStorage.setItem('redirectAfterLogin', '/consultation');
-      navigate('/login');
-    }
+  const handleExploreProducts = () => {
+    navigate('/products');
   };
 
   return (
@@ -47,40 +41,40 @@ const HeroSection = () => {
           </h1>
 
           <p className="subheading" style={{ marginBottom: '1.75rem', maxWidth: '540px' }}>
-            Analyze your skin with AI, discover personalized product recommendations, and connect with dermatologists when you need professional guidance.
+            Analyze your skin with AI, discover personalized product recommendations, and build a routine designed around your skin type and concerns.
           </p>
 
           <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
             <button className="btn btn-primary" onClick={handleStartAnalysis}>
               <ScanIcon size={18} /> Analyze My Skin
             </button>
-            <button className="btn btn-secondary" onClick={handleTalkToDoctor}>
-              <StethoscopeIcon size={18} style={{ color: 'var(--primary-purple)' }} /> Talk to a Dermatologist
+            <button className="btn btn-secondary" onClick={handleExploreProducts}>
+              <SearchIcon size={18} style={{ color: 'var(--primary-purple)' }} /> Explore Products
             </button>
           </div>
 
           <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.85rem', color: 'var(--secondary-text)' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Computer Vision Analysis
+              <CheckIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Computer Vision Screening
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckIcon size={16} style={{ color: 'var(--secondary-pink)' }} /> ML Product Matching
+              <CheckIcon size={16} style={{ color: 'var(--secondary-pink)' }} /> Routine Builder & Insights
             </span>
           </div>
         </div>
 
-        {/* Right Column: Refined Skincare Facial AI Visualizer (Zero Broken Images) */}
+        {/* Right Column: Refined Skincare Facial AI Visualizer */}
         <div style={{ position: 'relative' }}>
           <div className="card" style={{ padding: '1.35rem', background: '#ffffff', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-elevated)' }}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.65rem', borderBottom: '1px solid var(--border-color)' }}>
-              <h3 style={{ fontSize: '1rem', margin: 0, color: 'var(--dark-text)' }}>AI Skin Screening</h3>
+              <h3 style={{ fontSize: '1rem', margin: 0, color: 'var(--dark-text)' }}>AI Skin Analysis Preview</h3>
               <span className="status-badge">
                 <ScanIcon size={13} /> ResNet50 Vision Engine
               </span>
             </div>
 
-            {/* Skincare Face Contour + Scanning Target Overlay */}
+            {/* Facial Scanning Overlay */}
             <div style={{
               position: 'relative',
               borderRadius: 'var(--radius-md)',
@@ -93,7 +87,6 @@ const HeroSection = () => {
               marginBottom: '1rem',
               border: '1px solid rgba(124, 58, 237, 0.25)'
             }}>
-              {/* Elegant Facial Contour SVG Silhouette Overlay */}
               <svg width="180" height="180" viewBox="0 0 200 200" fill="none" style={{ position: 'absolute', opacity: 0.25 }}>
                 <path d="M100 20 C60 20 40 50 40 90 C40 140 70 180 100 180 C130 180 160 140 160 90 C160 50 140 20 100 20 Z" stroke="#EC4899" strokeWidth="2" strokeDasharray="4 4" />
                 <circle cx="75" cy="80" r="12" stroke="#7C3AED" strokeWidth="1.5" />
@@ -102,7 +95,6 @@ const HeroSection = () => {
                 <path d="M80 145 Q100 155 120 145" stroke="#EC4899" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
 
-              {/* Active Target Scanning Frame */}
               <div style={{
                 position: 'relative',
                 width: '100px',
@@ -115,9 +107,7 @@ const HeroSection = () => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                {/* Target Crosshair Reticle Points */}
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#EC4899', boxShadow: '0 0 8px #EC4899' }} />
-                
                 <div style={{
                   position: 'absolute',
                   top: '-10px',
@@ -135,7 +125,6 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {/* Sample Analysis Watermark */}
               <div style={{
                 position: 'absolute',
                 bottom: '10px',
@@ -152,14 +141,13 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Analysis Output Summary Box */}
             <div style={{ background: 'var(--soft-lavender)', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
                 <strong style={{ fontSize: '0.85rem', color: 'var(--dark-text)' }}>Classification:</strong>
                 <span className="status-badge pink" style={{ fontSize: '0.725rem' }}>Acne & Rosacea Features</span>
               </div>
               <p style={{ fontSize: '0.8rem', color: 'var(--secondary-text)', margin: 0 }}>
-                Matched formulation ingredients: <strong>Salicylic Acid, Niacinamide</strong>. Recommended doctor consult for guidance.
+                Matched formulation ingredients: <strong>Salicylic Acid, Niacinamide</strong>. Build your routine to track progress.
               </p>
             </div>
 

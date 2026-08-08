@@ -15,8 +15,9 @@ import {
   SparklesIcon,
   UploadIcon,
   CheckIcon,
-  StethoscopeIcon,
-  SunIcon
+  SunIcon,
+  CalendarIcon,
+  InfoIcon
 } from '../components/Icons';
 import './Dashboard.css';
 
@@ -49,7 +50,15 @@ function Dashboard() {
       try {
         const res = await fetchDashboardData();
         if (res.data) {
-          setRoutineChecklist(res.data.routineChecklist || []);
+          setRoutineChecklist(res.data.routineChecklist || [
+            { step: 'AM: Gentle Hydrating Cleanser', done: false },
+            { step: 'AM: Antioxidant Vitamin C Serum', done: false },
+            { step: 'AM: Barrier Hydrating Lotion', done: false },
+            { step: 'AM: Broad-Spectrum SPF 50+ Sunscreen', done: false },
+            { step: 'PM: Salicylic Acid BHA Cleanser', done: false },
+            { step: 'PM: Niacinamide Treatment Gel', done: false },
+            { step: 'PM: Ceramide Moisture Lock Cream', done: false },
+          ]);
           setAnalysisHistory(res.data.analysisHistory || []);
           setUserInfo(res.data.user || {});
         }
@@ -171,6 +180,14 @@ function Dashboard() {
     }
   };
 
+  const addRecommendedToRoutine = (productName) => {
+    const newStep = { step: `Custom: ${productName}`, done: false };
+    const updated = [...routineChecklist, newStep];
+    setRoutineChecklist(updated);
+    updateChecklist(updated);
+    toast.success(`Added ${productName} to your routine!`);
+  };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(disease).then(() => {
       setCopySuccess('Copied result!');
@@ -236,59 +253,59 @@ function Dashboard() {
 
   return (
     <div className="page-container">
-      {/* 1. Header */}
+      {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <span className="eyebrow">Personal Dashboard</span>
+        <span className="eyebrow">Personalized AI Skincare MVP</span>
         <h1>Good morning, {userInfo?.username || 'User'}</h1>
-        <p style={{ color: 'var(--secondary-text)' }}>Track your AI skin screening history, daily routines, and doctor consultations</p>
+        <p style={{ color: 'var(--secondary-text)' }}>Track your AI skin screening history, daily routines, and formulation recommendations</p>
       </div>
 
-      {/* 2. Overview Metric Cards */}
+      {/* Overview Cards (4 Cards Structure) */}
       <div className="grid-4" style={{ marginBottom: '2.5rem' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Latest Skin Analysis</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Latest AI Screening</span>
             <ScanIcon size={18} style={{ color: 'var(--primary-purple)' }} />
           </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--dark-text)' }}>
             {analysisHistory[0]?.result ? analysisHistory[0].result.split('suggests')[1] || analysisHistory[0].result : 'No recent screening'}
           </div>
         </div>
 
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Recommended Products</span>
-            <SparklesIcon size={18} style={{ color: 'var(--secondary-pink)' }} />
-          </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
-            {productRecommendation?.product_name || 'Select concern below'}
-          </div>
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Upcoming Consultation</span>
-            <StethoscopeIcon size={18} style={{ color: 'var(--primary-purple)' }} />
-          </div>
-          <button className="btn btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', width: '100%' }} onClick={() => navigate('/consultation')}>
-            Book Appointment
-          </button>
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Skin Routine</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>My Routine</span>
             <CheckIcon size={18} style={{ color: 'var(--secondary-pink)' }} />
           </div>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--dark-text)' }}>
-            {routineChecklist.filter(i => i.done).length} / {routineChecklist.length} Steps Active
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+            {routineChecklist.filter(i => i.done).length} / {routineChecklist.length} Steps Completed
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Recommendations</span>
+            <SparklesIcon size={18} style={{ color: 'var(--primary-purple)' }} />
+          </div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+            {productRecommendation?.product_name || '6 Formulations Matched'}
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', fontWeight: 600 }}>Skin Insights</span>
+            <CalendarIcon size={18} style={{ color: 'var(--secondary-pink)' }} />
+          </div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--dark-text)' }}>
+            {analysisHistory.length} Total Screenings Logged
           </div>
         </div>
       </div>
 
-      {/* 3. Main Dashboard Columns */}
+      {/* Main Grid Sections */}
       <div className="grid-2" style={{ gap: '2rem', alignItems: 'start' }}>
-        {/* Left: AI Screening Form & Results */}
+        {/* Left: AI Screening Uploader */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
             <ScanIcon size={20} style={{ color: 'var(--primary-purple)' }} />
@@ -312,8 +329,8 @@ function Dashboard() {
               <label>Upload Skin Photo:</label>
               <div
                 style={{
-                  border: isDragging ? '2px dashed var(--primary-purple)' : '2px dashed var(--primary-purple)',
-                  backgroundColor: isDragging ? 'var(--soft-lavender)' : 'var(--soft-lavender)',
+                  border: isDragging ? '2px dashed var(--secondary-pink)' : '2px dashed var(--primary-purple)',
+                  backgroundColor: isDragging ? 'var(--light-purple)' : 'var(--soft-lavender)',
                   borderRadius: 'var(--radius-md)',
                   padding: '1.75rem',
                   textAlign: 'center',
@@ -379,13 +396,40 @@ function Dashboard() {
           )}
         </div>
 
-        {/* Right: Product Generator & Routine Widgets */}
+        {/* Right: Routine Builder & Product Recommender */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Routine Checklist Box */}
+          <div className="card">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <CheckIcon size={20} style={{ color: 'var(--primary-purple)' }} />
+                <h3 style={{ margin: 0 }}>My Skincare Routine</h3>
+              </div>
+              <span className="status-badge pink">Daily Steps</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {routineChecklist.map((item, index) => (
+                <label key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.875rem', cursor: 'pointer', margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={item.done}
+                    onChange={() => toggleChecklist(index)}
+                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary-purple)' }}
+                  />
+                  <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? 'var(--muted-text)' : 'var(--dark-text)' }}>
+                    {item.step}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           {/* Product Matcher Widget */}
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
               <SparklesIcon size={20} style={{ color: 'var(--secondary-pink)' }} />
-              <h3 style={{ margin: 0 }}>Product Recommendation Engine</h3>
+              <h3 style={{ margin: 0 }}>Smart Product Recommender</h3>
             </div>
 
             <form onSubmit={handleProductSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -425,38 +469,18 @@ function Dashboard() {
                 <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)', display: 'block', marginBottom: '0.35rem' }}>
                   Product Match: {productRecommendation.product_name}
                 </strong>
-                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginBottom: '0.5rem' }}>
                   <strong>Ingredients:</strong> {productRecommendation.ingredients}
                 </p>
-                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
-                  <strong>Usage:</strong> {productRecommendation.how_to_use}
-                </p>
+                <button
+                  className="btn btn-primary"
+                  style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem' }}
+                  onClick={() => addRecommendedToRoutine(productRecommendation.product_name)}
+                >
+                  + Add to Routine
+                </button>
               </div>
             )}
-          </div>
-
-          {/* Daily Routine Checklist */}
-          <div className="card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <CheckIcon size={20} style={{ color: 'var(--primary-purple)' }} />
-              <h3 style={{ margin: 0 }}>Daily Routine Checklist</h3>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-              {routineChecklist.map((item, index) => (
-                <label key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', cursor: 'pointer', margin: 0 }}>
-                  <input
-                    type="checkbox"
-                    checked={item.done}
-                    onChange={() => toggleChecklist(index)}
-                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary-purple)' }}
-                  />
-                  <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? 'var(--muted-text)' : 'var(--dark-text)' }}>
-                    {item.step}
-                  </span>
-                </label>
-              ))}
-            </div>
           </div>
 
           {/* Climate Guidance */}

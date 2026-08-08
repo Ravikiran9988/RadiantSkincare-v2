@@ -4,10 +4,12 @@ import HeroSection from '../components/Herosection.jsx';
 import {
   ScanIcon,
   ShieldIcon,
-  StethoscopeIcon,
   SparklesIcon,
   CheckIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  CalendarIcon,
+  InfoIcon,
+  DropletIcon
 } from '../components/Icons.jsx';
 import { getRecommendationOptions, getProductRecommendation } from '../services/api';
 import { toast } from 'react-toastify';
@@ -57,6 +59,14 @@ const Home = () => {
     }
   };
 
+  const ingredientsList = [
+    { name: 'Niacinamide (Vitamin B3)', concern: 'Redness & Pores', description: 'Supports skin barrier function, regulates sebum production, and calms surface redness.' },
+    { name: 'Salicylic Acid (BHA)', concern: 'Acne & Congestion', description: 'Lipid-soluble beta hydroxy acid that exfoliates inside pore linings to clear breakouts.' },
+    { name: 'Hyaluronic Acid', concern: 'Dehydration', description: 'Powerful humectant capable of holding up to 1000x its weight in moisture for plumpness.' },
+    { name: 'Ceramides NP/AP', concern: 'Barrier Repair', description: 'Essential lipids that replenish inter-cellular cement and seal in long-lasting moisture.' },
+    { name: 'L-Ascorbic Acid (Vitamin C)', concern: 'Hyperpigmentation', description: 'Potent antioxidant that neutralizes free radicals and brightens uneven skin tone.' },
+  ];
+
   return (
     <div>
       {/* 1. Hero Section */}
@@ -64,8 +74,8 @@ const Home = () => {
         <HeroSection />
       </div>
 
-      {/* 2. Compact Trust Section (Purple/Pink Icons, Accurate Claims) */}
-      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '2rem 0' }}>
+      {/* 2. Trust Indicators Bar */}
+      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '1.75rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
           <div className="grid-4" style={{ alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -80,7 +90,7 @@ const Home = () => {
               <ShieldIcon size={22} style={{ color: 'var(--secondary-pink)' }} />
               <div>
                 <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>Secure Data</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Encrypted session handling</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Isolated user history</span>
               </div>
             </div>
 
@@ -88,80 +98,83 @@ const Home = () => {
               <SparklesIcon size={22} style={{ color: 'var(--primary-purple)' }} />
               <div>
                 <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>Personalized Recommendations</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Targeted active ingredients</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Active ingredient matching</span>
               </div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <StethoscopeIcon size={22} style={{ color: 'var(--secondary-pink)' }} />
+              <CalendarIcon size={22} style={{ color: 'var(--secondary-pink)' }} />
               <div>
-                <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>Dermatologist Consultation</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Real-time telehealth rooms</span>
+                <strong style={{ fontSize: '0.9rem', display: 'block', color: 'var(--dark-text)' }}>Skin Insights</strong>
+                <span style={{ fontSize: '0.8rem', color: 'var(--secondary-text)' }}>Routine & trend tracking</span>
               </div>
             </div>
           </div>
 
-          <div className="medical-disclaimer-box" style={{ marginTop: '1.5rem' }}>
+          <div className="medical-disclaimer-box" style={{ marginTop: '1.25rem' }}>
             <ShieldIcon size={18} />
-            <span>AI results are for informational screening purposes and are not a medical diagnosis. Consult a dermatologist for clinical evaluation.</span>
+            <span>AI-generated screening information is for informational purposes only and is not a medical diagnosis. Consult a healthcare professional for clinical evaluation.</span>
           </div>
         </div>
       </section>
 
       {/* 3. Feature Section: Everything you need for better skincare */}
-      <section className="page-container" style={{ padding: '4.5rem 1.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <span className="eyebrow">Comprehensive Platform</span>
+      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span className="eyebrow">Personalized AI Skincare MVP</span>
           <h2>Everything you need for better skincare.</h2>
-          <p className="subheading" style={{ margin: '0.75rem auto 0' }}>
-            From AI-assisted screening to personalized recommendations and professional consultation.
+          <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
+            From AI-assisted screening to personalized recommendations, routine building, and progress tracking over time.
           </p>
         </div>
 
-        <div className="grid-3">
-          {/* Card 01: Purple */}
+        <div className="grid-4">
+          {/* 01 */}
           <div className="card card-hover">
-            <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)', marginBottom: '1.25rem' }}>
-              <ScanIcon size={22} />
-            </div>
+            <span className="step-number step-1">01</span>
             <h3>AI Skin Screening</h3>
-            <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-              Analyze your skin with our ResNet50-based computer vision model for preliminary feature evaluations.
+            <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              Analyze your skin using our ResNet50-based computer vision model for automated pattern evaluation.
             </p>
           </div>
 
-          {/* Card 02: Pink */}
+          {/* 02 */}
           <div className="card card-hover">
-            <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--light-pink)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary-pink)', marginBottom: '1.25rem' }}>
-              <SparklesIcon size={22} />
-            </div>
+            <span className="step-number step-2">02</span>
             <h3>Personalized Recommendations</h3>
-            <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-              Discover formulations and active ingredients optimized for your exact skin type and concerns.
+            <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              Discover products and active formulations matched directly to your skin type and specific concerns.
             </p>
           </div>
 
-          {/* Card 03: Purple */}
+          {/* 03 */}
           <div className="card card-hover">
-            <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)', marginBottom: '1.25rem' }}>
-              <StethoscopeIcon size={22} />
-            </div>
-            <h3>Dermatologist Consultation</h3>
-            <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-              Connect with a dermatologist through confidential, encrypted real-time consultation rooms.
+            <span className="step-number step-1">03</span>
+            <h3>Personalized Routine</h3>
+            <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              Build a simple morning and evening skincare routine tailored around your skin profile.
+            </p>
+          </div>
+
+          {/* 04 */}
+          <div className="card card-hover">
+            <span className="step-number step-3">04</span>
+            <h3>Skin Progress Tracking</h3>
+            <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              Save previous AI screening results and track your screening trends and skincare journey over time.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 4. How Radiant Works (3-Step Section) */}
-      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4.5rem 0' }}>
+      {/* 4. How Radiant Works (3-Step Timeline) */}
+      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span className="eyebrow">Simple Workflow</span>
-            <h2>How Radiant works</h2>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span className="eyebrow">Product Workflow</span>
+            <h2>How Radiant Works</h2>
             <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
-              Three straightforward steps to understanding and supporting your skin health.
+              Three simple steps to understand your skin, build a routine, and track progress.
             </p>
           </div>
 
@@ -169,15 +182,15 @@ const Home = () => {
             <div className="step-card">
               <span className="step-number step-1">01</span>
               <h3>Analyze</h3>
-              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                Upload a clear image of your skin and describe any symptoms or specific areas of concern.
+              <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                Upload a clear image of your skin and describe any noticeable symptoms or areas of concern.
               </p>
             </div>
 
             <div className="step-card">
               <span className="step-number step-2">02</span>
               <h3>Understand</h3>
-              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
                 AI-assisted screening evaluates image patterns and identifies potential skin concern categories.
               </p>
             </div>
@@ -185,60 +198,60 @@ const Home = () => {
             <div className="step-card">
               <span className="step-number step-3">03</span>
               <h3>Improve</h3>
-              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                Explore personalized product recommendations or schedule a direct consultation with a doctor.
+              <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                Explore personalized products, build your daily routine, and track your skin insights over time.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. AI Technology Section (Dark #1E1633 Container) */}
-      <section className="dark-section" style={{ padding: '5rem 0' }}>
+      {/* 5. Dark AI Technology Section (#1E1633) */}
+      <section className="dark-section" style={{ padding: '4.5rem 0' }}>
         <div className="page-container" style={{ padding: '0 1.5rem' }}>
-          <div className="grid-2" style={{ alignItems: 'center', gap: '3.5rem' }}>
+          <div className="grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
             <div>
               <span className="eyebrow" style={{ backgroundColor: 'rgba(236, 72, 153, 0.15)', color: 'var(--secondary-pink)' }}>
-                Rigorous Neural Network
+                Computer Vision Architecture
               </span>
-              <h2 style={{ marginBottom: '1.25rem', color: '#ffffff' }}>AI that helps you understand your skin.</h2>
-              <p style={{ color: '#C4B5FD', marginBottom: '1.75rem', fontSize: '1rem', lineHeight: 1.65 }}>
-                Our deep learning architecture combines ResNet50 computer vision feature extraction with machine learning recommendation models. AI-assisted screening evaluates image patterns to output confidence metrics and guide your skincare journey.
+              <h2 style={{ marginBottom: '1.15rem', color: '#ffffff' }}>AI that helps you understand your skin.</h2>
+              <p style={{ color: '#C4B5FD', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: 1.65 }}>
+                RadiantSkincare uses a ResNet50 convolutional neural network to evaluate visual features across 23 dermatological categories. Machine learning algorithms pair detected concerns with optimal active formulation recommendations.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Pattern Recognition:</strong> Evaluates visual features across 23 dermatological categories.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>ResNet50 Vision Engine:</strong> Automated pattern recognition for visual skin features.</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--primary-purple)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Evaluation:</strong> Computes probability distribution percentages.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Confidence Metrics:</strong> Calculates probability distributions without absolute claims.</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <CheckIcon size={18} style={{ color: 'var(--secondary-pink)', flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ color: '#E9E4F0' }}><strong>Targeted Formulations:</strong> Matches skin concerns with optimal active ingredients.</span>
+                  <span style={{ color: '#E9E4F0' }}><strong>Ingredient Intelligence:</strong> Pairs concerns with evidence-based active ingredients.</span>
                 </div>
               </div>
             </div>
 
             <div className="dark-card">
-              <h3 style={{ color: '#ffffff', marginBottom: '1.25rem' }}>Screening Model Capabilities</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.875rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.65rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+              <h3 style={{ color: '#ffffff', marginBottom: '1.15rem' }}>Screening Capabilities</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.6rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                   <span style={{ color: '#E9E4F0' }}>Acne & Rosacea Features</span>
                   <span className="status-badge">ResNet50 Vision</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.65rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <span style={{ color: '#E9E4F0' }}>Eczema & Dermatitis Screening</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.6rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <span style={{ color: '#E9E4F0' }}>Eczema & Dermatitis Features</span>
                   <span className="status-badge">ResNet50 Vision</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.65rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <span style={{ color: '#E9E4F0' }}>Pigmentation & Texture Disorders</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.6rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <span style={{ color: '#E9E4F0' }}>Pigmentation & Texture Screening</span>
                   <span className="status-badge">ResNet50 Vision</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: '#E9E4F0' }}>Scikit-learn Product Matcher</span>
-                  <span className="status-badge pink">ML Recommender</span>
+                  <span style={{ color: '#E9E4F0' }}>Scikit-learn Product Recommender</span>
+                  <span className="status-badge pink">ML Engine</span>
                 </div>
               </div>
             </div>
@@ -246,91 +259,213 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. Product Recommendation Section */}
-      <section className="page-container" style={{ padding: '4.5rem 1.5rem' }}>
-        <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
-          <div>
-            <span className="eyebrow">Smart Product Engine</span>
-            <h2 style={{ marginBottom: '1rem' }}>Recommendations built around your skin.</h2>
-            <p className="subheading" style={{ fontSize: '1rem', marginBottom: '1.5rem' }}>
-              Our recommendation engine matches skin type and concerns with relevant skincare formulations, active ingredient breakdowns, and application tips.
-            </p>
-            <Link to="/products" className="btn btn-primary">
-              View Recommendations <ArrowRightIcon size={16} />
-            </Link>
+      {/* 6. Personalized Skincare Routine Showcase */}
+      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span className="eyebrow">Structured Protocol</span>
+          <h2>Your Personalized Skincare Routine</h2>
+          <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
+            Build and maintain a daily morning and evening skincare routine tailored to your skin profile.
+          </p>
+        </div>
+
+        <div className="grid-2" style={{ gap: '2rem' }}>
+          {/* Morning Routine Box */}
+          <div className="card" style={{ borderTop: '4px solid var(--primary-purple)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+              <h3 style={{ margin: 0 }}>Morning Routine</h3>
+              <span className="status-badge">AM Protocol</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-lavender)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>01</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Gentle Hydrating Cleanser</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Removes overnight oil without stripping moisture</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-lavender)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>02</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Antioxidant Serum (Vitamin C / Niacinamide)</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Neutralizes environmental stressors and brightens tone</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-lavender)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>03</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Lightweight Barrier Moisturizer</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Seals in hydration and strengthens skin barrier</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-lavender)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-1" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>04</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Broad-Spectrum SPF 50+ Sunscreen</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Essential UV protection against sun damage</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Evening Routine Box */}
+          <div className="card" style={{ borderTop: '4px solid var(--secondary-pink)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+              <h3 style={{ margin: 0 }}>Evening Routine</h3>
+              <span className="status-badge pink">PM Protocol</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>01</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Double Cleanser / Salicylic Cleanser</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Clears sunscreen, makeup, and daily environmental debris</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>02</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Targeted Treatment (BHA / Retinoid / Centella)</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Addresses specific concerns like acne congestion or texture</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.65rem 0.85rem', backgroundColor: 'var(--soft-rose)', borderRadius: 'var(--radius-md)' }}>
+                <span className="step-number step-3" style={{ margin: 0, width: '26px', height: '26px', fontSize: '0.75rem' }}>03</span>
+                <div>
+                  <strong style={{ color: 'var(--dark-text)' }}>Rich Ceramide Barrier Cream</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--secondary-text)', display: 'block' }}>Deep overnight nourishment and hydration lock</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Smart Product Matching Section */}
+      <section style={{ backgroundColor: 'var(--soft-lavender)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
+        <div className="page-container" style={{ padding: '0 1.5rem' }}>
+          <div className="grid-2" style={{ gap: '3rem', alignItems: 'center' }}>
+            <div>
+              <span className="eyebrow">Smart Product Engine</span>
+              <h2 style={{ marginBottom: '1rem' }}>Smart Product Matching</h2>
+              <p className="subheading" style={{ fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                Find products based on your skin type and specific concerns using our scikit-learn machine learning engine.
+              </p>
+              <Link to="/products" className="btn btn-primary">
+                Explore Product Catalog <ArrowRightIcon size={16} />
+              </Link>
+            </div>
+
+            <div className="card">
+              <h3 style={{ marginBottom: '1.15rem' }}>Quick Product Matcher</h3>
+              <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <label>Skin Concern:</label>
+                  <select value={selectedConcern} onChange={(e) => setSelectedConcern(e.target.value)} required>
+                    <option value="">-- Select Skin Concern --</option>
+                    {concerns.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label>Skin Type:</label>
+                  <select value={selectedSkinType} onChange={(e) => setSelectedSkinType(e.target.value)} required>
+                    <option value="">-- Select Skin Type --</option>
+                    {skinTypes.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <button type="submit" className="btn btn-secondary" disabled={loading}>
+                  {loading ? 'Processing...' : 'Generate Match'}
+                </button>
+              </form>
+
+              {recommendation && (
+                <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)' }}>Recommended: {recommendation.product_name}</strong>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
+                    <strong>Ingredients:</strong> {recommendation.ingredients}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Track Your Skin Journey Section */}
+      <section className="page-container" style={{ padding: '4rem 1.5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span className="eyebrow">Screening Trends</span>
+          <h2>Track Your Skin Journey</h2>
+          <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
+            Save previous AI screening results, monitor confidence trends, and re-analyze over time.
+          </p>
+        </div>
+
+        <div className="grid-3">
+          <div className="card">
+            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>July 10</span>
+            <h4>Initial Analysis</h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Skin Screening Features</p>
+            <strong style={{ fontSize: '1rem', color: 'var(--primary-purple)' }}>Confidence: 79.6%</strong>
           </div>
 
           <div className="card">
-            <h3 style={{ marginBottom: '1.25rem' }}>Recommendation Generator</h3>
-            <form onSubmit={handleRecommendPreview} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div>
-                <label>Skin Concern:</label>
-                <select value={selectedConcern} onChange={(e) => setSelectedConcern(e.target.value)} required>
-                  <option value="">-- Select Concern --</option>
-                  {concerns.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label>Skin Type:</label>
-                <select value={selectedSkinType} onChange={(e) => setSelectedSkinType(e.target.value)} required>
-                  <option value="">-- Select Skin Type --</option>
-                  {skinTypes.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
-
-              <button type="submit" className="btn btn-secondary" disabled={loading}>
-                {loading ? 'Processing...' : 'Generate Match'}
-              </button>
-            </form>
-
-            {recommendation && (
-              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                <strong style={{ fontSize: '0.95rem', color: 'var(--dark-text)' }}>Recommended: {recommendation.product_name}</strong>
-                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginTop: '0.25rem' }}>
-                  <strong>Ingredients:</strong> {recommendation.ingredients}
-                </p>
-              </div>
-            )}
+            <span className="status-badge pink" style={{ marginBottom: '0.75rem' }}>July 25</span>
+            <h4>Second Analysis</h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Acne Features</p>
+            <strong style={{ fontSize: '1rem', color: 'var(--secondary-pink)' }}>Confidence: 82.1%</strong>
           </div>
+
+          <div className="card" style={{ border: '2px solid var(--primary-purple)' }}>
+            <span className="status-badge" style={{ marginBottom: '0.75rem' }}>August 08</span>
+            <h4>Latest Analysis</h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', margin: '0.35rem 0' }}>Acne & Rosacea Features</p>
+            <strong style={{ fontSize: '1rem', color: 'var(--primary-purple)' }}>Confidence: 88.4%</strong>
+          </div>
+        </div>
+
+        {/* Re-analysis CTA Box */}
+        <div className="card" style={{ marginTop: '2rem', textAlign: 'center', padding: '2.5rem 2rem', background: 'var(--soft-lavender)' }}>
+          <h3 style={{ marginBottom: '0.5rem' }}>Ready for another check?</h3>
+          <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '1.25rem' }}>
+            Upload a new skin photo to add another screening entry to your progress history.
+          </p>
+          <button className="btn btn-primary" onClick={() => navigate('/ai-consultation')}>
+            <ScanIcon size={18} /> Analyze My Skin
+          </button>
         </div>
       </section>
 
-      {/* 7. Dermatologist Section */}
-      <section className="page-container" style={{ padding: '0 1.5rem 4.5rem' }}>
-        <div className="card" style={{ padding: '3.5rem 2.5rem', background: 'linear-gradient(135deg, #ffffff 0%, var(--soft-lavender) 100%)', border: '1px solid var(--light-purple)' }}>
-          <div className="grid-2" style={{ alignItems: 'center', gap: '2.5rem' }}>
-            <div>
-              <span className="eyebrow">Expert Healthcare Access</span>
-              <h2 style={{ marginBottom: '1rem' }}>Professional guidance when you need it.</h2>
-              <p className="subheading" style={{ fontSize: '1rem', marginBottom: '1.5rem' }}>
-                Schedule confidential appointments and communicate through encrypted real-time chat rooms with assigned dermatologists.
-              </p>
-              <button className="btn btn-primary" onClick={() => navigate('/consultation')}>
-                <StethoscopeIcon size={18} /> Talk to a Dermatologist
-              </button>
-            </div>
+      {/* 9. Ingredient Insights Section */}
+      <section style={{ backgroundColor: 'var(--soft-rose)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '4rem 0' }}>
+        <div className="page-container" style={{ padding: '0 1.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span className="eyebrow">Formulation Science</span>
+            <h2>Ingredient Insights</h2>
+            <p className="subheading" style={{ margin: '0.5rem auto 0' }}>
+              Common active ingredients used in modern personalized skincare formulations.
+            </p>
+          </div>
 
-            <div>
-              <div className="card" style={{ background: '#ffffff' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                  <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'var(--light-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-purple)' }}>
-                    <StethoscopeIcon size={24} />
-                  </div>
-                  <div>
-                    <h4 style={{ margin: 0 }}>Clinical Consultations</h4>
-                    <span className="status-badge pink">Available Specialist</span>
-                  </div>
-                </div>
-                <p style={{ fontSize: '0.875rem', color: 'var(--secondary-text)' }}>
-                  Discuss persistent skin concerns, receive medical feedback, and follow personalized treatment protocols.
-                </p>
+          <div className="grid-3">
+            {ingredientsList.map((ing, i) => (
+              <div key={i} className="card card-hover">
+                <span className="status-badge pink" style={{ fontSize: '0.75rem', marginBottom: '0.5rem' }}>{ing.concern}</span>
+                <h4 style={{ fontSize: '1.05rem', marginBottom: '0.5rem', color: 'var(--dark-text)' }}>{ing.name}</h4>
+                <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)' }}>{ing.description}</p>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

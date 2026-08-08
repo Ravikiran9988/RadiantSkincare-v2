@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getRecommendationOptions, getProductRecommendation } from '../services/api';
+import { getRecommendationOptions, getProductRecommendation, updateChecklist, fetchDashboardData } from '../services/api';
 import { toast } from 'react-toastify';
-import { SearchIcon, FilterIcon, SparklesIcon, ArrowRightIcon } from '../components/Icons';
+import { SearchIcon, FilterIcon, SparklesIcon, CheckIcon } from '../components/Icons';
 
 function Products() {
   const [concerns, setConcerns] = useState([]);
@@ -48,6 +48,29 @@ function Products() {
     }
   };
 
+  const handleAddToRoutine = async (productName) => {
+    try {
+      let routineChecklist = [];
+      try {
+        const res = await fetchDashboardData();
+        routineChecklist = res.data?.routineChecklist || [];
+      } catch (e) {
+        routineChecklist = [
+          { step: 'AM: Gentle Hydrating Cleanser', done: false },
+          { step: 'AM: Broad-Spectrum SPF 50+ Sunscreen', done: false },
+        ];
+      }
+
+      const newStep = { step: `Custom: ${productName}`, done: false };
+      const updated = [...routineChecklist, newStep];
+      await updateChecklist(updated);
+      toast.success(`Added "${productName}" to your daily routine!`);
+    } catch (err) {
+      console.error('Error adding to routine:', err);
+      toast.info(`Product "${productName}" selected for routine.`);
+    }
+  };
+
   const sampleProducts = [
     { name: 'Hydrating Hyaluronic Serum', concern: 'Dryness', skinType: 'Dry', ingredients: 'Hyaluronic Acid, Vitamin B5, Glycerin', usage: 'Apply 3-4 drops onto clean damp skin morning & night.' },
     { name: 'Niacinamide 10% Blemish Treatment', concern: 'Acne', skinType: 'Oily', ingredients: 'Niacinamide, Zinc PCA, Salicylic Acid', usage: 'Apply thin layer to affected zones morning & evening.' },
@@ -72,7 +95,7 @@ function Products() {
       <div style={{ marginBottom: '2.5rem' }}>
         <span className="eyebrow">
           <SparklesIcon size={14} style={{ color: 'var(--primary-purple)' }} />
-          Formulation Catalog
+          Formulation Discovery
         </span>
         <h1>Discover skincare for your skin.</h1>
         <p className="subheading" style={{ margin: '0.5rem 0 0' }}>
@@ -119,12 +142,19 @@ function Products() {
               <h4 style={{ color: 'var(--dark-text)' }}>Match: {recommendation.product_name}</h4>
               <span className="status-badge pink">AI Recommendation Match</span>
             </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '0.35rem' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-text)', marginBottom: '0.5rem' }}>
               <strong>Key Active Ingredients:</strong> {recommendation.ingredients}
             </p>
-            <p style={{ fontSize: '0.875rem', color: 'var(--secondary-text)' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--secondary-text)', marginBottom: '0.75rem' }}>
               <strong>Application Protocol:</strong> {recommendation.how_to_use}
             </p>
+            <button
+              className="btn btn-secondary"
+              style={{ fontSize: '0.85rem', padding: '0.4rem 0.9rem' }}
+              onClick={() => handleAddToRoutine(recommendation.product_name)}
+            >
+              + Add to Routine
+            </button>
           </div>
         )}
       </div>
@@ -166,7 +196,7 @@ function Products() {
         </div>
       </div>
 
-      {/* Product Cards Grid */}
+      {/* Product Cards Grid with Add to Routine CTA */}
       <div className="grid-3">
         {filteredProducts.map((prod, idx) => (
           <div key={idx} className="card card-hover" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -180,8 +210,15 @@ function Products() {
                 <strong>Ingredients:</strong> {prod.ingredients}
               </p>
             </div>
-            <div style={{ paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--muted-text)' }}>
-              <strong>Usage:</strong> {prod.usage}
+            <div style={{ paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--muted-text)' }}>{prod.usage.slice(0, 35)}...</span>
+              <button
+                className="btn btn-secondary"
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
+                onClick={() => handleAddToRoutine(prod.name)}
+              >
+                + Add to Routine
+              </button>
             </div>
           </div>
         ))}

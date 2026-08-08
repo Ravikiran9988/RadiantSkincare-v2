@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { getCurrentUser, getDoctorProfile } from '../services/api';
+import { getCurrentUser } from '../services/api';
 import { SparklesIcon, MenuIcon, CloseIcon, UserIcon, LogoutIcon } from './Icons';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [doctor, setDoctor] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,32 +13,17 @@ const Navbar = () => {
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
-    const doctorToken = localStorage.getItem('doctorToken');
-
     try {
       if (token) {
         const res = await getCurrentUser();
         if (res.data && res.data.username) {
           setUser(res.data);
-          setDoctor(null);
           return;
         }
       }
-
-      if (doctorToken) {
-        const res = await getDoctorProfile();
-        if (res.data && res.data.name) {
-          setDoctor(res.data);
-          setUser(null);
-          return;
-        }
-      }
-
       setUser(null);
-      setDoctor(null);
     } catch (err) {
       setUser(null);
-      setDoctor(null);
     }
   };
 
@@ -63,7 +47,6 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     setUser(null);
-    setDoctor(null);
     window.dispatchEvent(new Event('storage'));
     navigate('/');
   };
@@ -77,12 +60,12 @@ const Navbar = () => {
           Radiant<span style={{ color: 'var(--primary-purple)' }}>Skincare</span>
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Public Navigation Links */}
         <nav className={`nav-links ${mobileOpen ? 'mobile-open' : ''}`}>
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
           <Link to="/ai-consultation" className={location.pathname === '/ai-consultation' ? 'active' : ''}>AI Analysis</Link>
-          <Link to="/consultation" className={location.pathname === '/consultation' ? 'active' : ''}>Doctors</Link>
           <Link to="/products" className={location.pathname === '/products' ? 'active' : ''}>Products</Link>
+          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Skin Insights</Link>
           <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>
 
           {/* Mobile Actions */}
@@ -92,15 +75,6 @@ const Navbar = () => {
                 <>
                   <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
                     <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Dashboard ({user.username})
-                  </button>
-                  <button className="btn btn-secondary" onClick={handleLogout}>
-                    <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Logout
-                  </button>
-                </>
-              ) : doctor ? (
-                <>
-                  <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
-                    <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Portal (Dr. {doctor.name})
                   </button>
                   <button className="btn btn-secondary" onClick={handleLogout}>
                     <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Logout
@@ -122,15 +96,6 @@ const Navbar = () => {
             <>
               <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
                 <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> {user.username}
-              </button>
-              <button className="btn btn-secondary" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
-                <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} />
-              </button>
-            </>
-          ) : doctor ? (
-            <>
-              <button className="btn btn-secondary" onClick={() => navigate('/doctor/dashboard')}>
-                <UserIcon size={16} style={{ color: 'var(--primary-purple)' }} /> Dr. {doctor.name}
               </button>
               <button className="btn btn-secondary" onClick={handleLogout} title="Logout" style={{ padding: '0 0.85rem' }}>
                 <LogoutIcon size={16} style={{ color: 'var(--primary-purple)' }} />
